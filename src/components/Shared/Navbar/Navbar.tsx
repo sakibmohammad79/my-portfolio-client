@@ -20,20 +20,23 @@ const Navbar = () => {
           PORTFOLIO
         </Typography>
         <Stack direction="row" justifyContent="space-between" gap={4}>
-          <Typography component={Link} href="about-me">
-            About Me
+          <Typography component={Link} href="home">
+            HOME
           </Typography>
-          <Typography component={Link} href="about-me">
-            Project
+          <Typography component={Link} href="about">
+            ABOUT
           </Typography>
-          <Typography component={Link} href="contact-me">
-            Contact Me
+          <Typography component={Link} href="project">
+            PROJECT
+          </Typography>
+          <Typography component={Link} href="contact">
+            CONTACTS
           </Typography>
           <Typography component={Link} href="blog">
-            Blog
+            BLOG
           </Typography>
           <Typography component={Link} href="dashboard">
-            Dashboard
+            DASHBOARD
           </Typography>
         </Stack>
         <Button>Resume</Button>
