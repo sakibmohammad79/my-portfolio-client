@@ -1,6 +1,7 @@
 import Banner from "@/lib/HomePage/Banner/Banner";
 import Contact from "@/lib/HomePage/Contact/Contact";
 import Education from "@/lib/HomePage/Education/Education";
+import Skills from "@/lib/HomePage/Skills/Skills";
 import { Button } from "@mui/material";
 
 const HomePage = () => {
@@ -9,6 +10,7 @@ const HomePage = () => {
       <Banner></Banner>
       <Education></Education>
       <Contact></Contact>
+      <Skills></Skills>
     </div>
   );
 };

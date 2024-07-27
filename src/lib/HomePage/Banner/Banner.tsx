@@ -10,7 +10,13 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 const Banner = () => {
   return (
     <Container>
-      <Stack py={12} direction="row" alignItems="center" gap={4}>
+      <Stack
+        py={12}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        gap={6}
+      >
         <Box>
           <Typography>WELCOME TO MY WORLD</Typography>
           <Typography
@@ -55,7 +61,7 @@ const Banner = () => {
             </Link>
           </Stack>
         </Box>
-        <Box height={400} width={750} sx={{ boxShadow: 1 }}>
+        <Box height={550} width={750} sx={{ boxShadow: 1 }}>
           <Image height={500} width={700} src={profile} alt="profile" />
         </Box>
       </Stack>
