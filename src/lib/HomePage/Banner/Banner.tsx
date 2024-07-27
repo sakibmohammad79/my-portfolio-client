@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import profile from "./../../../../public/profile.png";
+import profile from "./../../../../public/image/profile-image.png";
 import Link from "next/link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -9,13 +9,13 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 
 const Banner = () => {
   return (
-    <Container>
+    <Container sx={{ pb: 12 }}>
       <Stack
         py={12}
         direction="row"
         justifyContent="center"
         alignItems="center"
-        gap={6}
+        gap={4}
       >
         <Box>
           <Typography>WELCOME TO MY WORLD</Typography>
