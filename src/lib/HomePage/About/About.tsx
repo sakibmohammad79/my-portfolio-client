@@ -26,7 +26,7 @@ const About = () => {
         gap={8}
       >
         <Image
-          style={{ borderRadius: "10px" }}
+          style={{ borderRadius: "10px", boxShadow: "24px" }}
           height={400}
           width={500}
           src={aboutImage}

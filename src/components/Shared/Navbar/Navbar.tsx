@@ -1,3 +1,4 @@
+import DownloadResume from "@/components/UI/ResumeDownload/ResumeDownload";
 import { Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -39,7 +40,7 @@ const Navbar = () => {
             DASHBOARD
           </Typography>
         </Stack>
-        <Button>Resume</Button>
+        <DownloadResume></DownloadResume>
       </Stack>
     </Container>
   );

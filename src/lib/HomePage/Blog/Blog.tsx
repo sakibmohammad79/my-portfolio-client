@@ -31,18 +31,19 @@ const Blog = async () => {
         {blogs.map((blog: any) => (
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.key}>
             <Link href="">
-              <Card sx={{ p: 3, height: 600, borderRadius: 4 }}>
+              <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
                 <Image
+                  style={{ borderRadius: 4 }}
                   src={blog?.image}
-                  height={300}
-                  width={300}
+                  height={500}
+                  width={500}
                   alt="blog-image"
                 />
                 <CardContent>
                   <Typography py={2} color="primary.main">
                     {blog.name}
                   </Typography>
-                  <Typography variant="h4" component="h1" fontWeight={500}>
+                  <Typography variant="h4" component="h1" fontWeight={520}>
                     {blog?.title}
                   </Typography>
                 </CardContent>

@@ -34,7 +34,14 @@ const Skills = async () => {
       >
         {skills?.map((skill: any) => (
           <Box key={skill.id}>
-            <Box sx={{ backgroundColor: "lightgray", boxShadow: 1, p: 2 }}>
+            <Box
+              sx={{
+                backgroundColor: "white",
+                borderRadius: 2,
+                boxShadow: 1,
+                p: 3,
+              }}
+            >
               <Image
                 height={100}
                 width={100}
