@@ -62,7 +62,13 @@ const Banner = () => {
           </Stack>
         </Box>
         <Box height={550} width={750} sx={{ boxShadow: 1 }}>
-          <Image height={500} width={700} src={profile} alt="profile" />
+          <Image
+            style={{ borderRadius: "6px" }}
+            height={500}
+            width={700}
+            src={profile}
+            alt="profile"
+          />
         </Box>
       </Stack>
     </Container>

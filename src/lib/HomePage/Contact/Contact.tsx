@@ -32,8 +32,9 @@ const Contact = () => {
         <Grid container spacing={1} alignItems="center" justifyContent="center">
           <Grid item xs={12} sm={6} md={6}>
             {" "}
-            <Card sx={{ maxWidth: 445 }}>
+            <Card sx={{ maxWidth: 445, borderRadius: 3 }}>
               <CardMedia
+                style={{ borderRadius: 3 }}
                 sx={{ height: 240, p: 2 }}
                 image="https://i.postimg.cc/ZRJstF54/handshake.jpg"
                 title="Hand Shake"
@@ -87,7 +88,7 @@ const Contact = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={6}>
-            <Box p={4} boxShadow={1} width="100%">
+            <Box borderRadius={3} p={4} boxShadow={1} width="100%">
               <Grid container spacing={4}>
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                   <TextField

@@ -16,7 +16,7 @@ const Education = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6}>
-          <Card sx={{ p: 3, height: 350 }}>
+          <Card sx={{ p: 3, height: 350, borderRadius: 2 }}>
             <CardContent>
               <Stack
                 direction="row"
