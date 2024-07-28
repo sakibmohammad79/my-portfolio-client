@@ -16,7 +16,7 @@ const Project = async () => {
     },
   });
   const { data: projects } = await res.json();
-  console.log(projects);
+
   return (
     <Container sx={{ pb: 12 }}>
       <Box textAlign="center">
@@ -30,12 +30,12 @@ const Project = async () => {
       <Grid container spacing={3}>
         {projects.map((project: any) => (
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={project.key}>
-            <Link href="">
+            <Link href={`/project/${project.id}`}>
               <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
                 <Image
                   style={{ borderRadius: 4 }}
                   src={project?.image}
-                  height={500}
+                  height={400}
                   width={500}
                   alt="project-image"
                 />

@@ -30,7 +30,7 @@ const Blog = async () => {
       <Grid container spacing={3}>
         {blogs.map((blog: any) => (
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.key}>
-            <Link href="">
+            <Link href={`/blog/${blog.id}`}>
               <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
                 <Image
                   style={{ borderRadius: 4 }}
