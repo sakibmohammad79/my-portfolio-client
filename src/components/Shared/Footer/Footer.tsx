@@ -10,16 +10,22 @@ const Footer = () => {
     <Box bgcolor="rgb(17, 26, 34)" py={5}>
       <Container>
         <Stack direction="row" justifyContent="center" gap={4}>
-          <Typography color="white" component={Link} href="about-me">
-            ABOUT ME
+          <Typography color="white" component={Link} href="#skill">
+            SKILL
           </Typography>
-          <Typography color="white" component={Link} href="about-me">
+          <Typography color="white" component={Link} href="#about">
+            ABOUT
+          </Typography>
+          <Typography color="white" component={Link} href="#project">
             PROJECT
           </Typography>
-          <Typography color="white" component={Link} href="contact-me">
-            CONTACT ME
+          <Typography color="white" component={Link} href="#education">
+            EDUCATION
           </Typography>
-          <Typography color="white" component={Link} href="blog">
+          <Typography color="white" component={Link} href="#contact">
+            CONTACTS
+          </Typography>
+          <Typography color="white" component={Link} href="#blog">
             BLOG
           </Typography>
           <Typography color="white" component={Link} href="dashboard">

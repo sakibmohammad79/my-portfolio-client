@@ -10,12 +10,25 @@ const HomePage = () => {
   return (
     <div>
       <Banner></Banner>
-      <About></About>
-      <Education></Education>
-      <Contact></Contact>
-      <Skills></Skills>
-      <Project></Project>
-      <Blog></Blog>
+      <div id="about">
+        <About></About>
+      </div>
+      <div id="education">
+        <Education></Education>
+      </div>
+      <div id="contact">
+        <Contact></Contact>
+      </div>
+      <div id="skill">
+        {" "}
+        <Skills></Skills>
+      </div>
+      <div id="project">
+        <Project></Project>
+      </div>
+      <div id="blog">
+        <Blog></Blog>
+      </div>
     </div>
   );
 };
