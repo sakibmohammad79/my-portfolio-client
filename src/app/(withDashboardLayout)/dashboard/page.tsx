@@ -1,3 +1,8 @@
+"use client";
+import { getUserInfo } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 const Dashboard = () => {
   return (
     <div>

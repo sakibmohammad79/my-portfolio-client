@@ -17,7 +17,7 @@ const Blog = async () => {
     },
   });
   const { data: blogs } = await res.json();
-  console.log(blogs);
+
   return (
     <Container sx={{ pb: 12 }}>
       <Box textAlign="center">
@@ -30,7 +30,7 @@ const Blog = async () => {
       </Box>
       <Grid container spacing={3}>
         {blogs.map((blog: any) => (
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.key}>
+          <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.id}>
             <Link href={`/blog/${blog.id}`}>
               <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
                 <Image

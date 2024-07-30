@@ -1,8 +1,16 @@
-import DownloadResume from "@/components/UI/ResumeDownload/ResumeDownload";
-import { Button, Container, Stack, Typography } from "@mui/material";
+import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
+import { getUserInfo } from "@/services/auth.services";
+
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const Navbar = () => {
+  const AuthButton = dynamic(() => import("@/lib/UI/AuthButton/AuthButton"), {
+    ssr: false,
+  });
+  const userInfo = getUserInfo();
+  console.log("userInfo", userInfo);
   return (
     <Container>
       <Stack
@@ -99,7 +107,15 @@ const Navbar = () => {
             DASHBOARD
           </Typography>
         </Stack>
-        <DownloadResume></DownloadResume>
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+        >
+          <AuthButton></AuthButton>
+          <DownloadResume></DownloadResume>
+        </Stack>
       </Stack>
     </Container>
   );

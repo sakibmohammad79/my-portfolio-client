@@ -13,6 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { adminLogin } from "@/services/actions/adminLogin";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { storeUserInfo } from "@/services/auth.services";
 
 type Inputs = {
   email: string;
@@ -27,6 +28,7 @@ const LoginPage = () => {
 
       if (res?.success == true) {
         toast.success(res?.message);
+        storeUserInfo({ accessToken: res?.data?.accessToken });
         router.push("/");
       } else {
         toast.error(res?.message);

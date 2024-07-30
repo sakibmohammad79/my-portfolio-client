@@ -29,7 +29,7 @@ const Project = async () => {
       </Box>
       <Grid container spacing={3}>
         {projects.map((project: any) => (
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={project.key}>
+          <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={project.id}>
             <Link href={`/project/${project.id}`}>
               <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
                 <Image
