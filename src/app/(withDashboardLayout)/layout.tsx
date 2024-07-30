@@ -1,4 +1,4 @@
-import DashboardDrawer from "@/components/dashboard/dashboardDrawer/dashboardDrawer";
+import DashboardDrawer from "@/components/dashboard/dashboardDrawer/DashboardDrawer";
 import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
