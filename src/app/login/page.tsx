@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Button,
@@ -8,8 +9,32 @@ import {
   Typography,
 } from "@mui/material";
 import KeyIcon from "@mui/icons-material/Key";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { adminLogin } from "@/services/actions/adminLogin";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
+type Inputs = {
+  email: string;
+  password: string;
+};
 const LoginPage = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const res = await adminLogin(data);
+
+      if (res?.success == true) {
+        toast.success(res?.message);
+        router.push("/");
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <Stack height="100vh" alignItems="center" justifyContent="center">
@@ -29,22 +54,22 @@ const LoginPage = () => {
               ADMIN LOGIN
             </Typography>
           </Stack>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
-                  name="email"
                   label="Email"
                   variant="outlined"
                   fullWidth={true}
+                  {...register("email")}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <TextField
-                  name="password"
                   label="Password"
                   variant="outlined"
                   fullWidth={true}
+                  {...register("password")}
                 />
               </Grid>
             </Grid>
