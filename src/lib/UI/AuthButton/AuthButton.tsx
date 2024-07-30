@@ -1,10 +1,12 @@
 "use client";
-import { getUserInfo } from "@/services/auth.services";
+import { getUserInfo, removeUser } from "@/services/auth.services";
 import { Box, Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
 const AuthButton = () => {
+  const router = useRouter();
   const [adminId, setAdminId] = useState("");
 
   useEffect(() => {
@@ -14,11 +16,17 @@ const AuthButton = () => {
       setAdminId(userInfo?.adminId);
     }
   }, []);
+
+  const handleRemoveUser = () => {
+    removeUser();
+    router.push("/");
+    router.refresh();
+  };
   return (
     <div>
       {adminId && (
         <Box>
-          <Button>Logout</Button>
+          <Button onClick={handleRemoveUser}>Logout</Button>
         </Box>
       )}
     </div>
