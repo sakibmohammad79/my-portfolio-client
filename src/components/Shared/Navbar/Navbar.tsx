@@ -4,13 +4,17 @@ import { getUserInfo } from "@/services/auth.services";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const AuthButton = dynamic(() => import("@/lib/UI/AuthButton/AuthButton"), {
     ssr: false,
   });
-  const userInfo = getUserInfo();
-  console.log("userInfo", userInfo);
+  const [userRole, setUserRole] = useState("");
+  useEffect(() => {
+    const { role } = getUserInfo();
+    setUserRole(role);
+  }, []);
   return (
     <Container>
       <Stack

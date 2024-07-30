@@ -16,7 +16,6 @@ export const getUserInfo = () => {
     const decodedData: any = userInfoDecode(authToken);
 
     return {
-      authToken,
       ...decodedData,
       role: decodedData?.role.toLowerCase(),
     };
