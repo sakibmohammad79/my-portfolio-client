@@ -64,22 +64,50 @@ const Contact = () => {
                 <Stack direction="row" gap={2} py={2}>
                   <Link href="https://www.linkedin.com/in/md-sakib79/">
                     <Box sx={{ boxShadow: 1, p: 1 }}>
-                      <LinkedInIcon fontSize="large"></LinkedInIcon>
+                      <LinkedInIcon
+                        sx={{
+                          "&:hover": {
+                            color: "primary.main",
+                          },
+                        }}
+                        fontSize="large"
+                      ></LinkedInIcon>
                     </Box>
                   </Link>
                   <Link href="">
                     <Box sx={{ boxShadow: 1, p: 1 }}>
-                      <FacebookIcon fontSize="large"></FacebookIcon>
+                      <FacebookIcon
+                        sx={{
+                          "&:hover": {
+                            color: "primary.main",
+                          },
+                        }}
+                        fontSize="large"
+                      ></FacebookIcon>
                     </Box>
                   </Link>
                   <Link href="">
                     <Box sx={{ boxShadow: 1, p: 1 }}>
-                      <InstagramIcon fontSize="large"></InstagramIcon>
+                      <InstagramIcon
+                        sx={{
+                          "&:hover": {
+                            color: "primary.main",
+                          },
+                        }}
+                        fontSize="large"
+                      ></InstagramIcon>
                     </Box>
                   </Link>
                   <Link href="https://github.com/sakibmohammad79">
                     <Box sx={{ boxShadow: 1, p: 1 }}>
-                      <GitHubIcon fontSize="large"></GitHubIcon>
+                      <GitHubIcon
+                        sx={{
+                          "&:hover": {
+                            color: "primary.main",
+                          },
+                        }}
+                        fontSize="large"
+                      ></GitHubIcon>
                     </Box>
                   </Link>
                 </Stack>

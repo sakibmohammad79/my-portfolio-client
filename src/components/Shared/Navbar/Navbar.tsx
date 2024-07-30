@@ -21,25 +21,81 @@ const Navbar = () => {
           PORTFOLIO
         </Typography>
         <Stack direction="row" justifyContent="space-between" gap={4}>
-          <Typography component={Link} href="#skill">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#skill"
+          >
             SKILL
           </Typography>
-          <Typography component={Link} href="#about">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#about"
+          >
             ABOUT
           </Typography>
-          <Typography component={Link} href="#project">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#project"
+          >
             PROJECT
           </Typography>
-          <Typography component={Link} href="#education">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#education"
+          >
             EDUCATION
           </Typography>
-          <Typography component={Link} href="#contact">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#contact"
+          >
             CONTACTS
           </Typography>
-          <Typography component={Link} href="#blog">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="#blog"
+          >
             BLOG
           </Typography>
-          <Typography component={Link} href="dashboard">
+          <Typography
+            sx={{
+              "&:hover": {
+                color: "primary.main",
+              },
+            }}
+            component={Link}
+            href="dashboard"
+          >
             DASHBOARD
           </Typography>
         </Stack>

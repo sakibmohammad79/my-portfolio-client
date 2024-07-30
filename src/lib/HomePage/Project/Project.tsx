@@ -42,7 +42,16 @@ const Project = async () => {
                 <CardContent>
                   <Typography color="primary.main">WEBSITE</Typography>
 
-                  <Typography variant="h4" component="h1" fontWeight={520}>
+                  <Typography
+                    sx={{
+                      "&:hover": {
+                        color: "primary.main",
+                      },
+                    }}
+                    variant="h4"
+                    component="h1"
+                    fontWeight={520}
+                  >
                     {project?.title}
                   </Typography>
                 </CardContent>

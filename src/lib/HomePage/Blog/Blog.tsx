@@ -2,6 +2,7 @@ import {
   Box,
   Card,
   CardContent,
+  colors,
   Container,
   Grid,
   Typography,
@@ -43,7 +44,16 @@ const Blog = async () => {
                   <Typography py={2} color="primary.main">
                     {blog.name}
                   </Typography>
-                  <Typography variant="h4" component="h1" fontWeight={520}>
+                  <Typography
+                    sx={{
+                      "&:hover": {
+                        color: "primary.main",
+                      },
+                    }}
+                    variant="h4"
+                    component="h1"
+                    fontWeight={520}
+                  >
                     {blog?.title}
                   </Typography>
                 </CardContent>

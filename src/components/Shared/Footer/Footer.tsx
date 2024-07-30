@@ -36,24 +36,47 @@ const Footer = () => {
         <Stack direction="row" justifyContent="center" gap={4} py={3}>
           <Link href="https://www.linkedin.com/in/md-sakib79/">
             <LinkedInIcon
-              sx={{ color: "white" }}
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
               fontSize="large"
             ></LinkedInIcon>
           </Link>
           <Link href="">
             <FacebookIcon
-              sx={{ color: "white" }}
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
               fontSize="large"
             ></FacebookIcon>
           </Link>
           <Link href="">
             <InstagramIcon
-              sx={{ color: "white" }}
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
               fontSize="large"
             ></InstagramIcon>
           </Link>
           <Link href="https://github.com/sakibmohammad79">
-            <GitHubIcon sx={{ color: "white" }} fontSize="large"></GitHubIcon>
+            <GitHubIcon
+              sx={{
+                color: "white",
+                "&:hover": {
+                  color: "primary.main",
+                },
+              }}
+              fontSize="large"
+            ></GitHubIcon>
           </Link>
         </Stack>
         <Box
