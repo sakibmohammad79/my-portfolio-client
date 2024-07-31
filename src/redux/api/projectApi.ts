@@ -3,15 +3,15 @@ import { baseApi } from "./baseApi";
 
 const projectApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // addSkill: build.mutation({
-    //   query: (data) => ({
-    //     url: "/skill",
-    //     method: "POST",
-    //     contentType: "application/json",
-    //     data,
-    //   }),
-    //   invalidatesTags: [tagTypes.skill],
-    // }),
+    addProject: build.mutation({
+      query: (data) => ({
+        url: "/project",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: [tagTypes.project],
+    }),
     getAllProject: build.query({
       query: () => ({
         url: "/project",
@@ -29,4 +29,8 @@ const projectApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllProjectQuery, useDeleteProjectMutation } = projectApi;
+export const {
+  useAddProjectMutation,
+  useGetAllProjectQuery,
+  useDeleteProjectMutation,
+} = projectApi;

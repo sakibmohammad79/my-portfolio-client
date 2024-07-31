@@ -11,68 +11,68 @@ import BlogModal from "./components/BlogModal";
 import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetAllBlogQuery } from "@/redux/api/blogApi";
+import { useDeleteBlogMutation, useGetAllBlogQuery } from "@/redux/api/blogApi";
+import Image from "next/image";
 
 const Blog = () => {
   const { data, isLoading } = useGetAllBlogQuery({});
+  const [deleteBlog] = useDeleteBlogMutation();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const columns: GridColDef[] = [
-    { field: "title", headerName: "Title", flex: 1 },
-    // {
-    //   field: "image",
-    //   headerName: "Image",
-    //   width: 200,
+  const handleBlogDelete = async (id: string) => {
+    try {
+      if (id) {
+        await deleteBlog(id);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    //   renderCell: ({ row }) => {
-    //     return (
-    //       <Box>
-    //         <Image
-    //           src={row?.image}
-    //           alt="skill image"
-    //           height={100}
-    //           width={100}
-    //         />
-    //       </Box>
-    //     );
-    //   },
-    // },
-    // {
-    //   field: "startDate",
-    //   headerName: "Start Date",
-    //   align: "center",
-    //   headerAlign: "center",
-    //   flex: 1,
-    // },
-    // {
-    //   field: "endDate",
-    //   headerName: "End Date",
-    //   align: "center",
-    //   headerAlign: "center",
-    //   flex: 1,
-    // },
-    // {
-    //   field: "Action",
-    //   headerName: "Action",
-    //   flex: 1,
-    //   headerAlign: "center",
-    //   align: "center",
-    //   renderCell: ({ row }) => {
-    //     return (
-    //       <Box>
-    //         <IconButton
-    //           sx={{
-    //             color: "red",
-    //           }}
-    //           onClick={() => handleProjectDelete(row?.id)}
-    //           aria-label="delete"
-    //         >
-    //           <DeleteIcon />
-    //         </IconButton>
-    //       </Box>
-    //     );
-    //   },
-    // },
+  const columns: GridColDef[] = [
+    { field: "name", headerName: "Name", flex: 1 },
+
+    {
+      field: "image",
+      headerName: "Image",
+      width: 300,
+
+      renderCell: ({ row }) => {
+        return (
+          <Box>
+            <Image
+              src={row?.image}
+              alt="skill image"
+              height={100}
+              width={100}
+            />
+          </Box>
+        );
+      },
+    },
+    { field: "title", headerName: "Title", flex: 1 },
+    {
+      field: "Action",
+      headerName: "Action",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: ({ row }) => {
+        return (
+          <Box>
+            <IconButton
+              sx={{
+                color: "red",
+              }}
+              onClick={() => handleBlogDelete(row?.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        );
+      },
+    },
   ];
   return (
     <Box>

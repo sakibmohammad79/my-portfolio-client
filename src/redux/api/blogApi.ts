@@ -3,15 +3,15 @@ import { baseApi } from "./baseApi";
 
 const blogApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // addSkill: build.mutation({
-    //   query: (data) => ({
-    //     url: "/skill",
-    //     method: "POST",
-    //     contentType: "application/json",
-    //     data,
-    //   }),
-    //   invalidatesTags: [tagTypes.skill],
-    // }),
+    addBlog: build.mutation({
+      query: (data) => ({
+        url: "/blog",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: [tagTypes.blog],
+    }),
     getAllBlog: build.query({
       query: () => ({
         url: "/blog",
@@ -29,4 +29,5 @@ const blogApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllBlogQuery, useDeleteBlogMutation } = blogApi;
+export const { useAddBlogMutation, useGetAllBlogQuery, useDeleteBlogMutation } =
+  blogApi;
