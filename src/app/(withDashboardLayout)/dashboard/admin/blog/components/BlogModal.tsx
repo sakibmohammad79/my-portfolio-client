@@ -10,7 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import JoditEditor from "jodit-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -22,10 +23,14 @@ type TProps = {
 interface blogFormData {
   name: string;
   title: string;
-  content: string;
+
   userId: string;
 }
 const BlogModal = ({ open, setOpen }: TProps) => {
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+
+  console.log(content);
   const [addBlog] = useAddBlogMutation();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
@@ -66,6 +71,7 @@ const BlogModal = ({ open, setOpen }: TProps) => {
 
       const BlogData = {
         ...data,
+        content,
         image: imageUrl,
       };
       console.log(BlogData);
@@ -95,13 +101,14 @@ const BlogModal = ({ open, setOpen }: TProps) => {
       setSelectedImage(selectedImage);
     }
   };
+
   return (
     <Modal open={open} setOpen={setOpen} title="Add New Blog">
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h6" component="h2">
           Add Skill
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={6} lg={6}>
             <TextField
               fullWidth
@@ -121,7 +128,7 @@ const BlogModal = ({ open, setOpen }: TProps) => {
               helperText={errors.name?.message}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
+          {/* <Grid item xs={12} sm={12} md={12} lg={12}>
             <TextField
               label="Content"
               multiline
@@ -130,6 +137,13 @@ const BlogModal = ({ open, setOpen }: TProps) => {
               error={!!errors.content}
               helperText={errors.name?.message}
               fullWidth={true}
+            />
+          </Grid> */}
+          <Grid item xs={12}>
+            <JoditEditor
+              ref={editor}
+              value={content}
+              onChange={(newContnt) => setContent(newContnt)}
             />
           </Grid>
 
