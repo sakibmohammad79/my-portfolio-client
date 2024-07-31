@@ -1,5 +1,5 @@
 import Modal from "@/components/Shared/Modal/Modal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   TextField,
@@ -8,15 +8,17 @@ import {
   Box,
   Typography,
   Grid,
-  InputLabel,
   FormControl,
   Input,
 } from "@mui/material";
+import { getUserInfo } from "@/services/auth.services";
+import { useAddSkillMutation } from "@/redux/api/skillApi";
+import { toast } from "sonner";
 
 interface SkillFormData {
   name: string;
   parcentage: number;
-  image: File | null;
+  userId: string;
 }
 
 type TProps = {
@@ -24,6 +26,16 @@ type TProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SkillModal = ({ open, setOpen }: TProps) => {
+  const [addSkill] = useAddSkillMutation();
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    const userInfo = getUserInfo();
+    if (userInfo) {
+      setUserId(userInfo?.adminId);
+    }
+  }, []);
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const {
     register,
@@ -32,6 +44,9 @@ const SkillModal = ({ open, setOpen }: TProps) => {
   } = useForm<SkillFormData>();
 
   const onSubmit = async (data: SkillFormData) => {
+    const parcentageValue = Number(data.parcentage);
+    data.parcentage = parcentageValue;
+    data.userId = userId;
     const formData = new FormData();
     const file: any = selectedImage;
     formData.append("image", file);
@@ -49,20 +64,26 @@ const SkillModal = ({ open, setOpen }: TProps) => {
       }
       const result = await response.json();
       const imageUrl: string = result?.data?.url;
-      console.log(imageUrl);
+
       const skillData = {
         ...data,
         image: imageUrl,
       };
-      console.log(skillData);
-      //   if (imageUrl) {
-      //     const res = await donorUpdate({
-      //       id: data?.id,
-      //       data: { photo: imageUrl },
-      //     });
-      //   }
+      //add skill using redux hooks
+      try {
+        if (imageUrl) {
+          const res = await addSkill(skillData).unwrap();
+          if (res?.id) {
+            toast.success("Added skill successfully!");
+            setOpen(false);
+          }
+        }
+      } catch (err: any) {
+        console.log(err.message);
+      }
     } catch (error) {
       console.log(error);
+      throw new Error("image upload failed!");
     }
   };
 
@@ -90,22 +111,7 @@ const SkillModal = ({ open, setOpen }: TProps) => {
               helperText={errors.name?.message}
             />
           </Grid>
-          {/* <Grid item xs={12}>
-            <Slider
-              {...register("skillPercentage", {
-                required: true,
-                min: 0,
-                max: 100,
-              })}
-              aria-labelledby="skill-percentage-slider"
-              valueLabelDisplay="auto"
-              marks
-              min={0}
-              max={100}
-              error={!!errors.skillPercentage}
-              helperText={errors.skillPercentage?.message}
-            />
-          </Grid> */}
+
           <Grid item xs={12}>
             <Slider
               {...register("parcentage", {
@@ -124,7 +130,6 @@ const SkillModal = ({ open, setOpen }: TProps) => {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
-              {/* <InputLabel htmlFor="skill-image">Skill Image</InputLabel> */}
               <Input
                 type="file"
                 id="skill-image"
