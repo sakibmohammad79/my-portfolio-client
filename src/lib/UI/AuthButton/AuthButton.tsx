@@ -1,6 +1,7 @@
 "use client";
 import { getUserInfo, removeUser } from "@/services/auth.services";
 import { Box, Button } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ const AuthButton = () => {
     router.push("/");
     router.refresh();
   };
+
   return (
     <div>
       {adminId && (

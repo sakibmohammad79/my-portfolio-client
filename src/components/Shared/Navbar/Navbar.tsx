@@ -1,7 +1,7 @@
 import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
 import { getUserInfo } from "@/services/auth.services";
 
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,10 +11,13 @@ const Navbar = () => {
     ssr: false,
   });
   const [userRole, setUserRole] = useState("");
+
   useEffect(() => {
-    const { role } = getUserInfo();
-    setUserRole(role);
-  }, []);
+    const userInfo = getUserInfo();
+    if (userInfo) {
+      setUserRole(userInfo?.role);
+    }
+  }, [userRole]);
   return (
     <Container>
       <Stack
@@ -99,6 +102,7 @@ const Navbar = () => {
           >
             BLOG
           </Typography>
+
           <Typography
             sx={{
               "&:hover": {
