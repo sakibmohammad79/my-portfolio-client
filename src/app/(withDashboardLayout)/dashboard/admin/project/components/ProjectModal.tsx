@@ -1,0 +1,18 @@
+import Modal from "@/components/Shared/Modal/Modal";
+import { TextField } from "@mui/material";
+
+type TProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const ProjectModal = ({ open, setOpen }: TProps) => {
+  return (
+    <Modal open={open} setOpen={setOpen} title="Add Project">
+      <form>
+        <TextField />
+      </form>
+    </Modal>
+  );
+};
+
+export default ProjectModal;
