@@ -3,6 +3,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CodeIcon from "@mui/icons-material/Code";
 import BoltIcon from "@mui/icons-material/Bolt";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export const drawerItems = (role: string): drawerItem[] => {
   const roleMenus: drawerItem[] = [];
   switch (role) {
@@ -27,6 +28,11 @@ export const drawerItems = (role: string): drawerItem[] => {
           title: "Blog",
           path: `${role}/blog`,
           icon: EditNoteIcon,
+        },
+        {
+          title: "Profile",
+          path: `${role}/profile`,
+          icon: AccountCircleIcon,
         }
       );
       break;
