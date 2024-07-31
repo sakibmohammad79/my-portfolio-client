@@ -1,3 +1,4 @@
+import { tagTypes } from "../tagTypes";
 import { baseApi } from "./baseApi";
 
 const skillApi = baseApi.injectEndpoints({
@@ -9,8 +10,16 @@ const skillApi = baseApi.injectEndpoints({
         contentType: "application/json",
         data,
       }),
+      invalidatesTags: [tagTypes.skill],
+    }),
+    getAllSkill: build.query({
+      query: () => ({
+        url: "/skill",
+        method: "GET",
+      }),
+      providesTags: [tagTypes.skill],
     }),
   }),
 });
 
-export const { useAddSkillMutation } = skillApi;
+export const { useAddSkillMutation, useGetAllSkillQuery } = skillApi;
