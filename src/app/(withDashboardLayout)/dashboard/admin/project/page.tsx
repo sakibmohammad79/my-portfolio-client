@@ -10,12 +10,14 @@ import {
 import ProjectModal from "./components/ProjectModal";
 import { useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DescriptionIcon from "@mui/icons-material/Description";
 import {
   useDeleteProjectMutation,
   useGetAllProjectQuery,
 } from "@/redux/api/projectApi";
 import Image from "next/image";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Link from "next/link";
 
 const Project = () => {
   const [deleteProject] = useDeleteProjectMutation();
@@ -65,6 +67,28 @@ const Project = () => {
       align: "center",
       headerAlign: "center",
       flex: 1,
+    },
+    {
+      field: "Details",
+      headerName: "Details",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: ({ row }) => {
+        return (
+          <Box>
+            <Link href={`/project/${row?.id}`}>
+              <IconButton
+                sx={{
+                  color: "primary.main",
+                }}
+              >
+                <DescriptionIcon></DescriptionIcon>
+              </IconButton>
+            </Link>
+          </Box>
+        );
+      },
     },
     {
       field: "Action",

@@ -13,6 +13,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useDeleteBlogMutation, useGetAllBlogQuery } from "@/redux/api/blogApi";
 import Image from "next/image";
+import Link from "next/link";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 const Blog = () => {
   const { data, isLoading } = useGetAllBlogQuery({});
@@ -31,15 +33,7 @@ const Blog = () => {
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", flex: 1 },
-    //{ field: "content", headerName: "Content", flex: 1 },
-    // {
-    //   field: "content",
-    //   headerName: "Content",
-    //   flex: 1,
-    //   renderCell: ({ row }) => {
-    //     return <div dangerouslySetInnerHTML={{ __html: row.content }} />;
-    //   },
-    // },
+
     {
       field: "image",
       headerName: "Image",
@@ -59,6 +53,28 @@ const Blog = () => {
       },
     },
     { field: "title", headerName: "Title", flex: 1 },
+    {
+      field: "Details",
+      headerName: "Details",
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: ({ row }) => {
+        return (
+          <Box>
+            <Link href={`/blog/${row?.id}`}>
+              <IconButton
+                sx={{
+                  color: "primary.main",
+                }}
+              >
+                <DescriptionIcon></DescriptionIcon>
+              </IconButton>
+            </Link>
+          </Box>
+        );
+      },
+    },
     {
       field: "Action",
       headerName: "Action",
