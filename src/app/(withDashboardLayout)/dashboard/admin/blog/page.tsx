@@ -1,4 +1,5 @@
 "use client";
+import { useDeleteBlogMutation, useGetAllBlogQuery } from "@/redux/api/blogApi";
 import {
   Box,
   Button,
@@ -7,17 +8,16 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import BlogModal from "./components/BlogModal";
-import { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useDeleteBlogMutation, useGetAllBlogQuery } from "@/redux/api/blogApi";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BlogModal from "./components/BlogModal";
 
 const Blog = () => {
-  const { data, isLoading } = useGetAllBlogQuery({});
+  const { data, isLoading, error } = useGetAllBlogQuery({});
   const [deleteBlog] = useDeleteBlogMutation();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -33,24 +33,15 @@ const Blog = () => {
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", flex: 1 },
-
     {
       field: "image",
       headerName: "Image",
       width: 300,
-
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <Image
-              src={row?.image}
-              alt="skill image"
-              height={100}
-              width={100}
-            />
-          </Box>
-        );
-      },
+      renderCell: ({ row }) => (
+        <Box>
+          <Image src={row?.image} alt="blog image" height={100} width={100} />
+        </Box>
+      ),
     },
     { field: "title", headerName: "Title", flex: 1 },
     {
@@ -59,21 +50,19 @@ const Blog = () => {
       flex: 1,
       headerAlign: "center",
       align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <Link href={`/blog/${row?.id}`}>
-              <IconButton
-                sx={{
-                  color: "primary.main",
-                }}
-              >
-                <DescriptionIcon></DescriptionIcon>
-              </IconButton>
-            </Link>
-          </Box>
-        );
-      },
+      renderCell: ({ row }) => (
+        <Box>
+          <Link href={`/blog/${row?.id}`}>
+            <IconButton
+              sx={{
+                color: "primary.main",
+              }}
+            >
+              <DescriptionIcon />
+            </IconButton>
+          </Link>
+        </Box>
+      ),
     },
     {
       field: "Action",
@@ -81,23 +70,24 @@ const Blog = () => {
       flex: 1,
       headerAlign: "center",
       align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <IconButton
-              sx={{
-                color: "red",
-              }}
-              onClick={() => handleBlogDelete(row?.id)}
-              aria-label="delete"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        );
-      },
+      renderCell: ({ row }) => (
+        <Box>
+          <IconButton
+            sx={{
+              color: "red",
+            }}
+            onClick={() => handleBlogDelete(row?.id)}
+            aria-label="delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      ),
     },
   ];
+
+  const rows = data || [];
+
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between">
@@ -116,9 +106,11 @@ const Blog = () => {
           >
             <CircularProgress />
           </Box>
+        ) : error ? (
+          <Box>Error loading blogs. Please try again later.</Box>
         ) : (
           <Box style={{ width: "100%" }}>
-            <DataGrid rows={data} columns={columns} hideFooter />
+            <DataGrid rows={rows} columns={columns} hideFooter />
           </Box>
         )}
       </Box>

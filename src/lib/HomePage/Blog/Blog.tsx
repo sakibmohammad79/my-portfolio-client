@@ -1,8 +1,9 @@
+"use client";
+import { useGetAllBlogQuery } from "@/redux/api/blogApi";
 import {
   Box,
   Card,
   CardContent,
-  colors,
   Container,
   Grid,
   Typography,
@@ -10,13 +11,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const Blog = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/blog", {
-    next: {
-      revalidate: 10,
-    },
-  });
-  const { data: blogs } = await res.json();
+const Blog = () => {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/blog`, {
+  //   next: {
+  //     revalidate: 10,
+  //   },
+  // });
+  // const { data: blogs } = await res.json();
+  const { data } = useGetAllBlogQuery({});
 
   return (
     <Container sx={{ pb: 12 }}>
@@ -29,7 +31,7 @@ const Blog = async () => {
         </Typography>
       </Box>
       <Grid container spacing={3}>
-        {blogs.map((blog: any) => (
+        {data?.map((blog: any) => (
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.id}>
             <Link href={`/blog/${blog.id}`}>
               <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>

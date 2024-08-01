@@ -1,3 +1,4 @@
+"use client";
 import Modal from "@/components/Shared/Modal/Modal";
 import { useAddBlogMutation } from "@/redux/api/blogApi";
 import { getUserInfo } from "@/services/auth.services";
@@ -10,8 +11,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import JoditEditor from "jodit-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+// import JoditEditor from "jodit-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -23,14 +24,13 @@ type TProps = {
 interface blogFormData {
   name: string;
   title: string;
-
+  content: string;
   userId: string;
 }
 const BlogModal = ({ open, setOpen }: TProps) => {
-  const editor = useRef(null);
-  const [content, setContent] = useState("");
+  // const editor = useRef(null);
+  // const [content, setContent] = useState("");
 
-  console.log(content);
   const [addBlog] = useAddBlogMutation();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
@@ -71,11 +71,11 @@ const BlogModal = ({ open, setOpen }: TProps) => {
 
       const BlogData = {
         ...data,
-        content,
+        // content,
         image: imageUrl,
       };
       console.log(BlogData);
-      //add skill using redux hooks
+
       try {
         if (imageUrl) {
           const res = await addBlog(BlogData).unwrap();
@@ -97,7 +97,6 @@ const BlogModal = ({ open, setOpen }: TProps) => {
   const handleProjectImageChange = (event: any) => {
     const selectedImage = event.target.files[0];
     if (selectedImage) {
-      // Check if a file is actually selected
       setSelectedImage(selectedImage);
     }
   };
@@ -128,22 +127,24 @@ const BlogModal = ({ open, setOpen }: TProps) => {
               helperText={errors.name?.message}
             />
           </Grid>
-          {/* <Grid item xs={12} sm={12} md={12} lg={12}>
-            <TextField
-              label="Content"
-              multiline
-              rows={5}
-              {...register("content", { required: true })}
-              error={!!errors.content}
-              helperText={errors.name?.message}
-              fullWidth={true}
-            />
-          </Grid> */}
-          <Grid item xs={12}>
+
+          {/* <Grid item xs={12}>
             <JoditEditor
               ref={editor}
               value={content}
               onChange={(newContnt) => setContent(newContnt)}
+            />
+          </Grid> */}
+
+          <Grid item xs={12}>
+            <TextField
+              {...register("content", { required: true })}
+              label="Content"
+              placeholder="Content"
+              multiline
+              rows={4}
+              variant="outlined"
+              fullWidth
             />
           </Grid>
 

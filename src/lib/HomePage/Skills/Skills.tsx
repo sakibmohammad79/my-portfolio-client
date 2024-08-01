@@ -1,13 +1,16 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+"use client";
+import { useGetAllSkillQuery } from "@/redux/api/skillApi";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 
-const Skills = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/skill", {
-    next: {
-      revalidate: 10,
-    },
-  });
-  const { data: skills } = await res.json();
+const Skills = () => {
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/skillm`, {
+  //   next: {
+  //     revalidate: 10,
+  //   },
+  // });
+  // const { data: skills } = await res.json();
+  const { data } = useGetAllSkillQuery({});
 
   return (
     <Container>
@@ -32,7 +35,7 @@ const Skills = async () => {
         alignItems="center"
         py={12}
       >
-        {skills?.map((skill: any) => (
+        {data?.map((skill: any) => (
           <Grid item xs={6} sm={6} md={4} lg={2} xl={2} key={skill.id}>
             <Box
               sx={{

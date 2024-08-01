@@ -97,13 +97,13 @@ const Navbar = () => {
                 <Typography
                   sx={{
                     "&:hover": {
-                      color: "primary.white",
+                      color: "primary.main",
                     },
                   }}
                   component={Link}
-                  href="#skill"
+                  href="#about"
                 >
-                  SKILL
+                  ABOUT
                 </Typography>
                 <Typography
                   sx={{
@@ -112,9 +112,9 @@ const Navbar = () => {
                     },
                   }}
                   component={Link}
-                  href="#about"
+                  href="#skill"
                 >
-                  ABOUT
+                  SKILL
                 </Typography>
                 <Typography
                   sx={{
@@ -145,22 +145,10 @@ const Navbar = () => {
                     },
                   }}
                   component={Link}
-                  href="#contact"
-                >
-                  CONTACTS
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
                   href="#blog"
                 >
                   BLOG
                 </Typography>
-
                 <Typography
                   sx={{
                     "&:hover": {
@@ -168,10 +156,24 @@ const Navbar = () => {
                     },
                   }}
                   component={Link}
-                  href="dashboard"
+                  href="#contact"
                 >
-                  DASHBOARD
+                  CONTACTS
                 </Typography>
+
+                {userRole && (
+                  <Typography
+                    sx={{
+                      "&:hover": {
+                        color: "primary.main",
+                      },
+                    }}
+                    component={Link}
+                    href="dashboard"
+                  >
+                    DASHBOARD
+                  </Typography>
+                )}
               </Stack>
             </Menu>
           </Box>
@@ -203,23 +205,24 @@ const Navbar = () => {
             }}
           >
             <Stack pl={1} direction="row" alignItems="center" gap={3}>
-              <Typography color="white" component={Link} href="#skill">
-                SKILL
-              </Typography>
               <Typography color="white" component={Link} href="#about">
                 ABOUT
               </Typography>
+              <Typography color="white" component={Link} href="#skill">
+                SKILL
+              </Typography>
+
               <Typography color="white" component={Link} href="#project">
                 PROJECT
               </Typography>
               <Typography color="white" component={Link} href="#education">
                 EDUCATION
               </Typography>
-              <Typography color="white" component={Link} href="#contact">
-                CONTACTS
-              </Typography>
               <Typography color="white" component={Link} href="#blog">
                 BLOG
+              </Typography>
+              <Typography color="white" component={Link} href="#contact">
+                CONTACTS
               </Typography>
 
               {userRole && (

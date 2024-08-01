@@ -13,12 +13,7 @@ const HomePage = () => {
       <div id="about">
         <About></About>
       </div>
-      <div id="education">
-        <Education></Education>
-      </div>
-      <div id="contact">
-        <Contact></Contact>
-      </div>
+
       <div id="skill">
         {" "}
         <Skills></Skills>
@@ -26,8 +21,14 @@ const HomePage = () => {
       <div id="project">
         <Project></Project>
       </div>
+      <div id="education">
+        <Education></Education>
+      </div>
       <div id="blog">
         <Blog></Blog>
+      </div>
+      <div id="contact">
+        <Contact></Contact>
       </div>
     </div>
   );
