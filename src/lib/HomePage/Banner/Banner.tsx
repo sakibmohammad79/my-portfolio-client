@@ -19,9 +19,18 @@ import { useTheme } from "@mui/material/styles";
 
 const Banner = () => {
   return (
-    <Container sx={{ py: 8 }}>
-      <Grid container spacing={4} py={16}>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+    <Container>
+      <Grid container spacing={4} pt={20} pb={12}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={7}
+          xl={7}
+          justifyContent="center"
+          alignItems="center"
+        >
           <Typography>WELCOME TO MY WORLD</Typography>
           <Typography
             py={3}
@@ -96,7 +105,7 @@ const Banner = () => {
             <DownloadResume />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+        <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
           <Image
             style={{ borderRadius: "6px" }}
             height={400}

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import aboutImage from "../../../../public/image/profile.png";
 
@@ -19,21 +19,18 @@ const About = () => {
           Who I Am?
         </Typography>
       </Box>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        gap={8}
-      >
-        <Image
-          style={{ borderRadius: "10px", boxShadow: "24px" }}
-          height={400}
-          width={500}
-          src={aboutImage}
-          alt="Image"
-        />
+      <Grid container spacing={4} justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
+          <Image
+            style={{ borderRadius: "10px", boxShadow: "24px" }}
+            height={400}
+            width={450}
+            src={aboutImage}
+            alt="Image"
+          />
+        </Grid>
 
-        <Box>
+        <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
           <Button>ABOUT ME</Button>
           <Typography py={2} variant="h3" component="h1" fontWeight={600}>
             I AM AVAILABLE FOR<br></br>{" "}
@@ -51,8 +48,8 @@ const About = () => {
             Stack development. Now I am seeking an opportunity to start my
             professional development career.
           </Typography>
-        </Box>
-      </Stack>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

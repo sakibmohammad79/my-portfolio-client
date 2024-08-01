@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 const Skills = async () => {
@@ -10,7 +10,7 @@ const Skills = async () => {
   const { data: skills } = await res.json();
 
   return (
-    <Container sx={{ pb: 8 }}>
+    <Container>
       <Box textAlign="center">
         <Typography
           variant="h3"
@@ -25,39 +25,46 @@ const Skills = async () => {
           project that inspires you and you customers.
         </Typography>
       </Box>
-      <Stack
-        direction="row"
-        gap={6}
-        py={5}
+      <Grid
+        spacing={4}
+        container
         justifyContent="center"
         alignItems="center"
+        py={12}
       >
         {skills?.map((skill: any) => (
-          <Box key={skill.id}>
+          <Grid item xs={6} sm={6} md={4} lg={2} xl={2} key={skill.id}>
             <Box
               sx={{
                 backgroundColor: "white",
                 borderRadius: 2,
                 boxShadow: 1,
                 p: 3,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Image
-                height={100}
-                width={100}
+                height={130}
+                width={130}
                 src={skill?.image}
                 alt="skill image"
               />
-              <Typography textAlign="center" pt={2} fontWeight={600}>
+              <Typography
+                color="primary.main"
+                textAlign="center"
+                pt={2}
+                fontWeight={600}
+              >
                 {skill?.parcentage}%
               </Typography>
             </Box>
             <Typography textAlign="center" fontWeight={600} pt={2}>
               {skill.name}
             </Typography>
-          </Box>
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
     </Container>
   );
 };
