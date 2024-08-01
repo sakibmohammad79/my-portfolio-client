@@ -28,7 +28,17 @@ const AuthButton = () => {
     <div>
       {adminId ? (
         <Box>
-          <Button onClick={handleRemoveUser}>Logout</Button>
+          <Button
+            sx={{
+              bgcolor: "white",
+              color: "primary.main",
+              fontWeight: 600,
+              fontSize: "14px",
+            }}
+            onClick={handleRemoveUser}
+          >
+            Logout
+          </Button>
         </Box>
       ) : (
         <Box>

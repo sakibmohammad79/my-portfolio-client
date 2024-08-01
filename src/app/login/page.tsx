@@ -14,6 +14,7 @@ import { adminLogin } from "@/services/actions/adminLogin";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.services";
+import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -79,6 +80,14 @@ const LoginPage = () => {
               Submit
             </Button>
           </form>
+          <Typography>
+            You are not a admin?{" "}
+            <Link href="/">
+              <Box component="span" fontWeight={600} color="primary.main">
+                Home
+              </Box>
+            </Link>
+          </Typography>
         </Box>
       </Stack>
     </Container>

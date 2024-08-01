@@ -16,14 +16,21 @@ const Education = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6}>
-          <Card sx={{ p: 3, height: 350, borderRadius: 2 }}>
+          <Card
+            sx={{
+              p: 3,
+              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+              borderRadius: 2,
+            }}
+          >
             <CardContent>
-              <Stack
-                direction="row"
+              <Grid
+                container
+                spacing={2}
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Box>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Typography
                     variant="h4"
                     fontWeight={500}
@@ -33,11 +40,26 @@ const Education = () => {
                     BSc in Computer Science
                   </Typography>
                   <Typography>BGC Trust University (2021-present)</Typography>
-                </Box>
-                <Typography color="primary.main" fontWeight={600}>
-                  present
-                </Typography>
-              </Stack>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  {" "}
+                  <Typography
+                    sx={{
+                      textAlign: {
+                        xs: "left",
+                        sm: "left",
+                        md: "left",
+                        lg: "right",
+                        xl: "right",
+                      },
+                    }}
+                    color="primary.main"
+                    fontWeight={600}
+                  >
+                    present
+                  </Typography>
+                </Grid>
+              </Grid>
               <Box
                 my={3}
                 sx={{
@@ -52,14 +74,21 @@ const Education = () => {
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Card sx={{ p: 3, height: 350 }}>
+          <Card
+            sx={{
+              p: 3,
+              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+            }}
+          >
             <CardContent>
-              <Stack
+              <Grid
+                container
+                spacing={2}
                 direction="row"
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Box>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Typography
                     variant="h4"
                     fontWeight={500}
@@ -71,11 +100,25 @@ const Education = () => {
                   <Typography>
                     Sir. Ashotush Govt. College (2018-2020)
                   </Typography>
-                </Box>
-                <Typography color="primary.main" fontWeight={600}>
-                  4.17/5
-                </Typography>
-              </Stack>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Typography
+                    sx={{
+                      textAlign: {
+                        xs: "left",
+                        sm: "left",
+                        md: "left",
+                        lg: "right",
+                        xl: "right",
+                      },
+                    }}
+                    color="primary.main"
+                    fontWeight={600}
+                  >
+                    4.17/5
+                  </Typography>
+                </Grid>
+              </Grid>
               <Box
                 my={3}
                 sx={{
@@ -90,14 +133,20 @@ const Education = () => {
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Card sx={{ p: 3, height: 350 }}>
+          <Card
+            sx={{
+              p: 3,
+              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+            }}
+          >
             <CardContent>
-              <Stack
-                direction="row"
+              <Grid
+                container
+                spacing={2}
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Box>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Typography
                     variant="h4"
                     fontWeight={500}
@@ -109,11 +158,25 @@ const Education = () => {
                   <Typography>
                     Jaisthapura Ramani Mohan High School (2016-2018)
                   </Typography>
-                </Box>
-                <Typography color="primary.main" fontWeight={600}>
-                  4.28/5
-                </Typography>
-              </Stack>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Typography
+                    sx={{
+                      textAlign: {
+                        xs: "left",
+                        sm: "left",
+                        md: "left",
+                        lg: "right",
+                        xl: "right",
+                      },
+                    }}
+                    color="primary.main"
+                    fontWeight={600}
+                  >
+                    4.28/5
+                  </Typography>
+                </Grid>
+              </Grid>
               <Box
                 my={3}
                 sx={{
@@ -128,14 +191,20 @@ const Education = () => {
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Card sx={{ p: 3, height: 350 }}>
+          <Card
+            sx={{
+              p: 3,
+              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+            }}
+          >
             <CardContent>
-              <Stack
-                direction="row"
+              <Grid
+                container
+                spacing={2}
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Box>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Typography
                     variant="h4"
                     fontWeight={500}
@@ -147,11 +216,25 @@ const Education = () => {
                   <Typography>
                     Jaisthapura Ramani Mohan High School (2013-2015)
                   </Typography>
-                </Box>
-                <Typography color="primary.main" fontWeight={600}>
-                  3.90/4
-                </Typography>
-              </Stack>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Typography
+                    sx={{
+                      textAlign: {
+                        xs: "left",
+                        sm: "left",
+                        md: "left",
+                        lg: "right",
+                        xl: "right",
+                      },
+                    }}
+                    color="primary.main"
+                    fontWeight={600}
+                  >
+                    4.35/4
+                  </Typography>
+                </Grid>
+              </Grid>
               <Box
                 my={3}
                 sx={{
