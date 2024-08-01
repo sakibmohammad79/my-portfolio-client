@@ -4,7 +4,7 @@ import Image from "next/image";
 const Skills = async () => {
   const res = await fetch("http://localhost:5000/api/v1/skill", {
     next: {
-      revalidate: 30,
+      revalidate: 10,
     },
   });
   const { data: skills } = await res.json();

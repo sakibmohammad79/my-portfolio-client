@@ -32,14 +32,14 @@ const Blog = () => {
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", flex: 1 },
     //{ field: "content", headerName: "Content", flex: 1 },
-    {
-      field: "content",
-      headerName: "Content",
-      flex: 1,
-      renderCell: ({ row }) => {
-        return <div dangerouslySetInnerHTML={{ __html: row.content }} />;
-      },
-    },
+    // {
+    //   field: "content",
+    //   headerName: "Content",
+    //   flex: 1,
+    //   renderCell: ({ row }) => {
+    //     return <div dangerouslySetInnerHTML={{ __html: row.content }} />;
+    //   },
+    // },
     {
       field: "image",
       headerName: "Image",

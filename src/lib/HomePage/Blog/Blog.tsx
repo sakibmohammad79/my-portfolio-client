@@ -13,7 +13,7 @@ import Link from "next/link";
 const Blog = async () => {
   const res = await fetch("http://localhost:5000/api/v1/blog", {
     next: {
-      revalidate: 30,
+      revalidate: 10,
     },
   });
   const { data: blogs } = await res.json();

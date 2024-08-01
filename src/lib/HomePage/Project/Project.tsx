@@ -12,7 +12,7 @@ import Link from "next/link";
 const Project = async () => {
   const res = await fetch("http://localhost:5000/api/v1/project", {
     next: {
-      revalidate: 30,
+      revalidate: 10,
     },
   });
   const { data: projects } = await res.json();

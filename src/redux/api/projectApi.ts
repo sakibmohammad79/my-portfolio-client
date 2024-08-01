@@ -19,6 +19,13 @@ const projectApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.project],
     }),
+    getSingleProject: build.query({
+      query: (id: string) => ({
+        url: `/project/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.project],
+    }),
     deleteProject: build.mutation({
       query: (id: string) => ({
         url: `/project/${id}`,
@@ -31,6 +38,7 @@ const projectApi = baseApi.injectEndpoints({
 
 export const {
   useAddProjectMutation,
+  useGetSingleProjectQuery,
   useGetAllProjectQuery,
   useDeleteProjectMutation,
 } = projectApi;
