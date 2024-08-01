@@ -26,9 +26,24 @@ const AuthButton = () => {
 
   return (
     <div>
-      {adminId && (
+      {adminId ? (
         <Box>
           <Button onClick={handleRemoveUser}>Logout</Button>
+        </Box>
+      ) : (
+        <Box>
+          <Button
+            sx={{
+              bgcolor: "white",
+              color: "primary.main",
+              fontWeight: 600,
+              fontSize: "14px",
+            }}
+            LinkComponent={Link}
+            href="/login"
+          >
+            Admin Login
+          </Button>
         </Box>
       )}
     </div>

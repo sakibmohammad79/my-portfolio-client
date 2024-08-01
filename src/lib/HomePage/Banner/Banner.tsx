@@ -1,4 +1,12 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+"use client";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Image from "next/image";
 import profile from "./../../../../public/image/profile-image.png";
 import Link from "next/link";
@@ -6,19 +14,14 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { getUserInfo } from "@/services/auth.services";
+import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
+import { useTheme } from "@mui/material/styles";
 
 const Banner = () => {
   return (
-    <Container sx={{ pb: 12 }}>
-      <Stack
-        py={12}
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        gap={4}
-      >
-        <Box>
+    <Container sx={{ py: 8 }}>
+      <Grid container spacing={4} py={16}>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <Typography>WELCOME TO MY WORLD</Typography>
           <Typography
             py={3}
@@ -89,17 +92,20 @@ const Banner = () => {
               </Box>
             </Link>
           </Stack>
-        </Box>
-        <Box height={550} width={750} sx={{ boxShadow: 1 }}>
+          <Box mt={2}>
+            <DownloadResume />
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <Image
             style={{ borderRadius: "6px" }}
-            height={500}
-            width={700}
+            height={400}
+            width={500}
             src={profile}
             alt="profile"
           />
-        </Box>
-      </Stack>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
