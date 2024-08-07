@@ -15,7 +15,6 @@ const HomePage = () => {
       </div>
 
       <div id="skill">
-        {" "}
         <Skills></Skills>
       </div>
       <div id="project">

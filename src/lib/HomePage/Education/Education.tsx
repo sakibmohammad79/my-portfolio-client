@@ -11,15 +11,21 @@ import {
 const Education = () => {
   return (
     <Container sx={{ pb: 12 }}>
-      <Typography pb={6} variant="h3" component="h1" fontWeight={600}>
-        Education Quality
+      <Typography
+        pb={6}
+        sx={{ fontSize: { xs: 30, md: 30, lg: 45 } }}
+        textAlign="center"
+        color="primary.main"
+        fontWeight={600}
+      >
+        EDUCATION QUALITY
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6}>
           <Card
             sx={{
               p: 3,
-              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
               borderRadius: 2,
             }}
           >
@@ -77,7 +83,7 @@ const Education = () => {
           <Card
             sx={{
               p: 3,
-              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
             }}
           >
             <CardContent>
@@ -136,7 +142,7 @@ const Education = () => {
           <Card
             sx={{
               p: 3,
-              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
             }}
           >
             <CardContent>
@@ -194,7 +200,7 @@ const Education = () => {
           <Card
             sx={{
               p: 3,
-              height: { xs: 400, sm: 400, md: 400, lg: 350, xl: 350 },
+              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
             }}
           >
             <CardContent>

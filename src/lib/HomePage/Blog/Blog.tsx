@@ -34,11 +34,11 @@ const Blog = () => {
         {data?.map((blog: any) => (
           <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={blog.id}>
             <Link href={`/blog/${blog.id}`}>
-              <Card sx={{ p: 3, height: 470, borderRadius: 4 }}>
+              <Card sx={{ p: 3, height: 480, borderRadius: 4 }}>
                 <Image
                   style={{ borderRadius: 4 }}
                   src={blog?.image}
-                  height={500}
+                  height={400}
                   width={500}
                   alt="blog-image"
                 />
@@ -51,10 +51,10 @@ const Blog = () => {
                       "&:hover": {
                         color: "primary.main",
                       },
+                      fontSize: { xs: 20, md: 20, sm: 20, lg: 30 },
                     }}
-                    variant="h4"
-                    component="h1"
                     fontWeight={520}
+                    component="h1"
                   >
                     {blog?.title}
                   </Typography>

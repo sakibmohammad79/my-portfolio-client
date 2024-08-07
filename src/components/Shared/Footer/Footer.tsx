@@ -55,7 +55,7 @@ const Footer = () => {
               fontSize="large"
             ></LinkedInIcon>
           </Link>
-          <Link href="">
+          <Link href="https://www.facebook.com/profile.php?id=100011373134077">
             <FacebookIcon
               sx={{
                 color: "white",
@@ -66,7 +66,7 @@ const Footer = () => {
               fontSize="large"
             ></FacebookIcon>
           </Link>
-          <Link href="">
+          <Link href="https://www.instagram.com/md_sakib75/">
             <InstagramIcon
               sx={{
                 color: "white",

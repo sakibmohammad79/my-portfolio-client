@@ -25,11 +25,15 @@ const Contact = () => {
           <Typography pb={2} color="primary.main">
             CONTACT
           </Typography>
-          <Typography variant="h3" component="h1" fontWeight={600} pb={4}>
-            Contact With Me
+          <Typography
+            sx={{ fontSize: { xs: 30, md: 30, sm: 30, lg: 45 } }}
+            fontWeight={600}
+            pb={4}
+          >
+            CONTACT WITH ME
           </Typography>
         </Box>
-        <Grid container spacing={1} alignItems="center" justifyContent="center">
+        <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={12} sm={6} md={6}>
             {" "}
             <Card sx={{ maxWidth: 445, borderRadius: 3 }}>

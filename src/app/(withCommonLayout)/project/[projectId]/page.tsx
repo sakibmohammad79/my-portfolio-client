@@ -111,7 +111,7 @@ const Page = ({ params }: any) => {
                   variant="outlined"
                 />
               </Link>
-              <Link href={data?.url || ""}>
+              <Link href={data?.repoClientUrl || ""}>
                 <Chip
                   sx={{
                     p: 2,
@@ -125,7 +125,7 @@ const Page = ({ params }: any) => {
                   variant="outlined"
                 />
               </Link>
-              <Link href={data?.url || ""}>
+              <Link href={data?.repoServerUrl || ""}>
                 <Chip
                   sx={{
                     p: 2,

@@ -30,6 +30,8 @@ interface ProjectFormData {
   startDate: string;
   endDate: string;
   userId: string;
+  repoClientUrl: string;
+  repoServerUrl: string;
 }
 const ProjectModal = ({ open, setOpen }: TProps) => {
   const [addProject, { data }] = useAddProjectMutation();
@@ -115,7 +117,7 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
               label="Title"
               {...register("title", { required: true })}
               error={!!errors.title}
-              helperText={errors.name?.message}
+              helperText={errors.title?.message}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -124,7 +126,7 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
               label="Project URL"
               {...register("url", { required: true })}
               error={!!errors.url}
-              helperText={errors.name?.message}
+              helperText={errors.url?.message}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -133,7 +135,7 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
               label="technology"
               {...register("technology", { required: true })}
               error={!!errors.technology}
-              helperText={errors.name?.message}
+              helperText={errors.technology?.message}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -142,7 +144,7 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
               label="Start Date"
               {...register("startDate", { required: true })}
               error={!!errors.startDate}
-              helperText={errors.name?.message}
+              helperText={errors.startDate?.message}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -151,7 +153,7 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
               label="End Date"
               {...register("endDate", { required: true })}
               error={!!errors.endDate}
-              helperText={errors.name?.message}
+              helperText={errors.endDate?.message}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -163,6 +165,24 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
                 onChange={handleProjectImageChange}
               />
             </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              fullWidth
+              label="Client Repo"
+              {...register("repoClientUrl", { required: true })}
+              error={!!errors.repoClientUrl}
+              helperText={errors.repoClientUrl?.message}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={6}>
+            <TextField
+              fullWidth
+              label="Server Repo"
+              {...register("repoServerUrl", { required: true })}
+              error={!!errors.repoServerUrl}
+              helperText={errors.repoServerUrl?.message}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <TextField

@@ -14,7 +14,6 @@ import Link from "next/link";
 import { useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteIcon from "@mui/icons-material/Delete";
-import BlogModal from "./components/BlogModal";
 
 const Blog = () => {
   const { data, isLoading, error } = useGetAllBlogQuery({});
@@ -91,8 +90,6 @@ const Blog = () => {
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between">
-        <Button onClick={() => setIsModalOpen(true)}>Add New Blog</Button>
-        <BlogModal open={isModalOpen} setOpen={setIsModalOpen}></BlogModal>
         <TextField placeholder="Search Blog" />
       </Stack>
       <Box mt={5}>

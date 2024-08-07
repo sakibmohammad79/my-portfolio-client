@@ -16,12 +16,13 @@ const Skills = () => {
     <Container>
       <Box textAlign="center">
         <Typography
-          variant="h3"
-          component="h1"
+          sx={{
+            fontSize: { xs: 35, md: 35, lg: 40 },
+          }}
           color="primary.main"
           fontWeight={600}
         >
-          My Skills
+          MY SKILLS
         </Typography>
         <Typography>
           We put your ideas and thus your wishes in the form of a unique web

@@ -1,40 +1,52 @@
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
-import aboutImage from "../../../../public/image/profile.png";
+import aboutImage from "../../../../public/image/aboutPic.png";
 
 const About = () => {
   return (
     <Container sx={{ pb: 12 }}>
       <Box>
         <Typography textAlign="center" color="primary.main" pb={2}>
-          About Me
+          ABOUT ME
         </Typography>
         <Typography
           textAlign="center"
-          variant="h3"
-          component="h1"
           fontWeight={600}
-          pb={8}
+          sx={{
+            pb: { xs: 4, sm: 4, md: 4, lg: 8 },
+            fontSize: { xs: 35, sm: 35, md: 35, lg: 45 },
+          }}
         >
-          Who I Am?
+          WHO I AM?
         </Typography>
       </Box>
       <Grid container spacing={4} justifyContent="center" alignItems="center">
-        <Grid item xs={12} sm={12} md={6} lg={5} xl={5}>
-          <Image
-            style={{ borderRadius: "10px", boxShadow: "24px" }}
-            height={400}
-            width={450}
-            src={aboutImage}
-            alt="Image"
-          />
+        <Grid
+          sx={{ display: { xs: "none", md: "block" } }}
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={5}
+          xl={5}
+        >
+          <Image height={500} width={550} src={aboutImage} alt="profile" />
         </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
           <Button>ABOUT ME</Button>
-          <Typography py={2} variant="h3" component="h1" fontWeight={600}>
+          <Typography
+            py={2}
+            sx={{
+              fontSize: { xs: 25, sm: 25, md: 25, lg: 50 },
+            }}
+            fontWeight={600}
+          >
             I AM AVAILABLE FOR<br></br>{" "}
-            <Box color="primary.main">WEB DEVELOPMENT</Box> PROJECTS
+            <Box component="span" color="primary.main">
+              WEB DEVELOPMENT
+            </Box>{" "}
+            PROJECTS
           </Typography>
           <Typography>
             My name is Md. Sakib, I am 21 years old. I am a dedicated and
