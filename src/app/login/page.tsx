@@ -32,7 +32,7 @@ const LoginPage = () => {
         storeUserInfo({ accessToken: res?.data?.accessToken });
         router.push("/dashboard/admin");
       } else {
-        toast.error(res?.message);
+        toast.error("User not found!");
       }
     } catch (err) {
       console.log(err);
@@ -63,6 +63,7 @@ const LoginPage = () => {
                 <TextField
                   label="Email"
                   variant="outlined"
+                  required={true}
                   fullWidth={true}
                   {...register("email")}
                 />
@@ -72,6 +73,7 @@ const LoginPage = () => {
                   label="Password"
                   variant="outlined"
                   fullWidth={true}
+                  required={true}
                   {...register("password")}
                 />
               </Grid>

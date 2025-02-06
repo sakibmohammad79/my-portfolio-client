@@ -4,12 +4,6 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 
 const Skills = () => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/skillm`, {
-  //   next: {
-  //     revalidate: 10,
-  //   },
-  // });
-  // const { data: skills } = await res.json();
   const { data } = useGetAllSkillQuery({});
 
   return (
@@ -26,12 +20,12 @@ const Skills = () => {
         </Typography>
         <Typography>
           We put your ideas and thus your wishes in the form of a unique web
-          project that inspires you and you customers.
+          project that inspires you and your customers.
         </Typography>
       </Box>
       <Grid
-        spacing={4}
         container
+        spacing={4}
         justifyContent="center"
         alignItems="center"
         py={12}
@@ -43,17 +37,32 @@ const Skills = () => {
                 backgroundColor: "white",
                 borderRadius: 2,
                 boxShadow: 1,
-                p: 3,
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
+                height: 180,
               }}
             >
-              <Image
-                height={130}
-                width={130}
-                src={skill?.image}
-                alt="skill image"
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: 120,
+                  height: 120,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  height={120}
+                  width={120}
+                  src={skill?.image}
+                  alt="skill image"
+                  style={{ objectFit: "contain" }}
+                />
+              </Box>
               <Typography
                 color="primary.main"
                 textAlign="center"
