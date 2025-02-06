@@ -1,7 +1,6 @@
 "use client";
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import profile from "./../../../../public/image/profile-image.png";
 import Link from "next/link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -119,11 +118,11 @@ const Banner = () => {
             transition={{ duration: 0.8 }}
           >
             <Image
-              style={{ borderRadius: "50%", objectFit: "cover" }}
-              height={400}
-              width={500}
-              src={profile}
-              alt="profile"
+              style={{ borderRadius: "20px", objectFit: "cover" }}
+              height={500}
+              width={600}
+              src="https://i.postimg.cc/3xB8zkfr/coding.webp"
+              alt="Coding Representation"
             />
           </motion.div>
         </Grid>
