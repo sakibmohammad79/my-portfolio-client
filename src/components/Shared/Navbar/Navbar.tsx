@@ -105,6 +105,7 @@ const Navbar = () => {
                 >
                   ABOUT
                 </Typography>
+
                 <Typography
                   sx={{
                     "&:hover": {
@@ -115,6 +116,17 @@ const Navbar = () => {
                   href="#skill"
                 >
                   SKILL
+                </Typography>
+                <Typography
+                  sx={{
+                    "&:hover": {
+                      color: "primary.main",
+                    },
+                  }}
+                  component={Link}
+                  href="#experience"
+                >
+                  EXPERIENCE
                 </Typography>
                 <Typography
                   sx={{
@@ -211,7 +223,9 @@ const Navbar = () => {
               <Typography color="white" component={Link} href="#skill">
                 SKILL
               </Typography>
-
+              <Typography color="white" component={Link} href="#experience">
+                EXPERIENCE
+              </Typography>
               <Typography color="white" component={Link} href="#project">
                 PROJECT
               </Typography>
