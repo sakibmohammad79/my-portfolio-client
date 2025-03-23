@@ -1,5 +1,7 @@
+"use client";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import aboutImage from "../../../../public/image/aboutPic.png";
 
 const About = () => {
@@ -30,11 +32,19 @@ const About = () => {
           lg={5}
           xl={5}
         >
-          <Image height={500} width={550} src={aboutImage} alt="profile" />
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Image height={500} width={550} src={aboutImage} alt="profile" />
+          </motion.div>
         </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
-          <Button>ABOUT ME</Button>
+          <Button variant="contained" color="primary">
+            ABOUT ME
+          </Button>
           <Typography
             py={2}
             sx={{
@@ -42,22 +52,21 @@ const About = () => {
             }}
             fontWeight={600}
           >
-            I AM AVAILABLE FOR<br></br>{" "}
+            I AM AVAILABLE FOR <br />
             <Box component="span" color="primary.main">
               WEB DEVELOPMENT
             </Box>{" "}
             PROJECTS
           </Typography>
           <Typography>
-            My name is Md. Sakib, I am 21 years old. I am a dedicated and
-            passionate Full Stack Web Developer. I am from Bangladesh.
-            Currently, I am studying for a bachelors degree in computer science.
-            I am always try to explore new technologies. I believe in working
-            hard and never giving up. Challenges motivate me, and I approach
-            each project with determination. I always strive to provide the best
-            solutions possible. My goal is to become a senior developer and
-            achieve success in my life. Last one year I consistently lear Full
-            Stack development. Now I am seeking an opportunity to start my
+            My name is Md. Sakib, and I am 23 years old. I am a dedicated and
+            passionate Full Stack Web Developer from Bangladesh. Currently, I am
+            pursuing a bachelor&apos;s degree in Computer Science. I always try
+            to explore new technologies, and I believe in working hard and never
+            giving up. Challenges motivate me, and I approach each project with
+            determination. I always strive to provide the best solutions
+            possible. For the past year, I have been consistently learning Full
+            Stack development. Now, I am seeking an opportunity to start my
             professional development career.
           </Typography>
         </Grid>
