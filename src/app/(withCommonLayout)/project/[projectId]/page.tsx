@@ -1,5 +1,4 @@
 "use client";
-
 import { useGetSingleProjectQuery } from "@/redux/api/projectApi";
 import {
   Box,
@@ -10,23 +9,20 @@ import {
   Container,
   Stack,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 
 const Page = ({ params }: any) => {
   const { projectId } = params;
   const { data } = useGetSingleProjectQuery(projectId);
-  //console.log(data);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Container sx={{ py: 12 }}>
-      <Box
-        maxWidth={700}
-        width="100%"
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-        mx="auto"
-      >
+      <Box maxWidth={700} width="100%" mx="auto">
         <Card
           sx={{
             p: 3,
@@ -38,7 +34,7 @@ const Page = ({ params }: any) => {
             alt="Project Image"
             height={500}
             image={data?.image}
-            sx={{ borderRadius: 3 }}
+            sx={{ borderRadius: 3, width: "100%", objectFit: "cover" }}
           />
           <CardContent>
             <Typography
@@ -76,7 +72,7 @@ const Page = ({ params }: any) => {
               </Box>{" "}
               {data?.technology}
             </Typography>
-            <Stack direction="row" gap={2}>
+            <Stack direction="row" gap={2} flexWrap="wrap">
               <Typography py={1} variant="body1" color="text.secondary">
                 <Box color="primary.main" component="span" fontSize={20}>
                   Start Date:{" "}
@@ -90,49 +86,75 @@ const Page = ({ params }: any) => {
                 {data?.endDate}
               </Typography>
             </Stack>
+
+            {/* Responsive Buttons Section */}
             <Stack
               gap={2}
-              pt={2}
+              pt={3}
               direction="row"
               justifyContent="center"
               alignItems="center"
+              flexWrap="wrap"
             >
-              <Link href={data?.url || ""}>
+              <Link href={data?.url || ""} style={{ textDecoration: "none" }}>
                 <Chip
                   sx={{
                     p: 2,
-
                     fontSize: 16,
                     color: "white",
                     bgcolor: "primary.main",
+                    width: isSmallScreen ? "100%" : "auto", // Full width on small screens
+                    textAlign: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      bgcolor: "primary.dark",
+                    },
                   }}
                   size="medium"
                   label="Live Link"
                   variant="outlined"
                 />
               </Link>
-              <Link href={data?.repoClientUrl || ""}>
+
+              <Link
+                href={data?.repoClientUrl || ""}
+                style={{ textDecoration: "none" }}
+              >
                 <Chip
                   sx={{
                     p: 2,
-
                     fontSize: 16,
                     color: "white",
-                    bgcolor: "primary.main",
+                    bgcolor: "secondary.main",
+                    width: isSmallScreen ? "100%" : "auto",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      bgcolor: "secondary.dark",
+                    },
                   }}
                   size="medium"
                   label="Repo Client"
                   variant="outlined"
                 />
               </Link>
-              <Link href={data?.repoServerUrl || ""}>
+
+              <Link
+                href={data?.repoServerUrl || ""}
+                style={{ textDecoration: "none" }}
+              >
                 <Chip
                   sx={{
                     p: 2,
-
                     fontSize: 16,
                     color: "white",
-                    bgcolor: "primary.main",
+                    bgcolor: "success.main",
+                    width: isSmallScreen ? "100%" : "auto",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      bgcolor: "success.dark",
+                    },
                   }}
                   size="medium"
                   label="Repo Server"

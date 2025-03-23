@@ -132,3 +132,4 @@ const Banner = () => {
 };
 
 export default Banner;
+// NEXT_PUBLIC_BACKEND_API_URL=https://portfolio-server-six-smoky.vercel.app/api/v1

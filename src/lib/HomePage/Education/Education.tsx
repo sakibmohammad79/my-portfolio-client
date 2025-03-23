@@ -1,259 +1,114 @@
+"use client";
 import {
   Box,
   Card,
   CardContent,
   Container,
   Grid,
-  Stack,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 const Education = () => {
   return (
     <Container sx={{ pb: 12 }}>
       <Typography
         pb={6}
-        sx={{ fontSize: { xs: 30, md: 30, lg: 45 } }}
+        sx={{ fontSize: { xs: 30, lg: 45 } }}
         textAlign="center"
         color="primary.main"
         fontWeight={600}
+        component={motion.div}
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
       >
         EDUCATION QUALITY
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              p: 3,
-              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
-              borderRadius: 2,
-            }}
-          >
-            <CardContent>
-              <Grid
-                container
-                spacing={2}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    variant="h4"
-                    fontWeight={500}
-                    component="div"
-                    pb={2}
-                  >
-                    BSc in Computer Science
-                  </Typography>
-                  <Typography>BGC Trust University (2021-present)</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  {" "}
-                  <Typography
-                    sx={{
-                      textAlign: {
-                        xs: "left",
-                        sm: "left",
-                        md: "left",
-                        lg: "right",
-                        xl: "right",
-                      },
-                    }}
-                    color="primary.main"
-                    fontWeight={600}
-                  >
-                    present
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Box
-                my={3}
+        {[
+          {
+            title: "BSc in Computer Science",
+            institute: "BGC Trust University (2021-present)",
+            score: "present",
+          },
+          {
+            title: "Higher Secondary Certificate",
+            institute: "Sir. Ashotush Govt. College (2018-2020)",
+            score: "4.17/5",
+          },
+          {
+            title: "Secondary School Certificate",
+            institute: "Jaisthapura Ramani Mohan High School (2016-2018)",
+            score: "4.28/5",
+          },
+          {
+            title: "Junior School Certificate",
+            institute: "Jaisthapura Ramani Mohan High School (2013-2015)",
+            score: "4.35/5",
+          },
+        ].map((edu, index) => (
+          <Grid item xs={12} sm={6} md={6} key={index}>
+            <motion.div initial="hidden" animate="visible" variants={fadeIn}>
+              <Card
                 sx={{
-                  border: "1px dashed black",
+                  p: 3,
+                  height: { xs: 350, lg: 300 },
+                  borderRadius: 2,
+                  boxShadow: 3,
                 }}
-              ></Box>
-              <Typography variant="body2" fontSize={20} color="text.secondary">
-                The training provided by universities in order to prepare people
-                to work in various sectors of the economy or areas of culture.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              p: 3,
-              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
-            }}
-          >
-            <CardContent>
-              <Grid
-                container
-                spacing={2}
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
               >
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    variant="h4"
-                    fontWeight={500}
-                    component="div"
-                    pb={2}
+                <CardContent>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent="space-between"
                   >
-                    Higher Secondary Certificate
-                  </Typography>
-                  <Typography>
-                    Sir. Ashotush Govt. College (2018-2020)
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
+                    <Grid item xs={8}>
+                      <Typography variant="h5" fontWeight={500} pb={1}>
+                        {edu.title}
+                      </Typography>
+                      <Typography color="text.secondary">
+                        {edu.institute}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} textAlign="right">
+                      <Typography color="primary.main" fontWeight={600}>
+                        {edu.score}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Box
+                    my={3}
                     sx={{
-                      textAlign: {
-                        xs: "left",
-                        sm: "left",
-                        md: "left",
-                        lg: "right",
-                        xl: "right",
-                      },
+                      borderBottom: "2px solid",
+                      borderColor: "primary.main",
+                      width: "100%",
                     }}
-                    color="primary.main"
-                    fontWeight={600}
-                  >
-                    4.17/5
+                  ></Box>
+
+                  {/* Add some text below the underline */}
+                  <Typography color="text.secondary" textAlign="left">
+                    {index === 0
+                      ? "Currently pursuing my Bachelor's degree in Computer Science, gaining knowledge in programming, databases, and software development."
+                      : index === 1
+                      ? "Completed my HSC with a strong focus on Mathematics, Physics, and Computer Science."
+                      : index === 2
+                      ? "Completed my SSC with a keen interest in science and problem-solving."
+                      : "Developed a strong academic foundation and an early interest in technology."}
                   </Typography>
-                </Grid>
-              </Grid>
-              <Box
-                my={3}
-                sx={{
-                  border: "1px dashed black",
-                }}
-              ></Box>
-              <Typography variant="body2" fontSize={20} color="text.secondary">
-                The training provided by universities in order to prepare people
-                to work in various sectors of the economy or areas of culture.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              p: 3,
-              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
-            }}
-          >
-            <CardContent>
-              <Grid
-                container
-                spacing={2}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    variant="h4"
-                    fontWeight={500}
-                    component="div"
-                    pb={2}
-                  >
-                    Secondary School Certificate
-                  </Typography>
-                  <Typography>
-                    Jaisthapura Ramani Mohan High School (2016-2018)
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    sx={{
-                      textAlign: {
-                        xs: "left",
-                        sm: "left",
-                        md: "left",
-                        lg: "right",
-                        xl: "right",
-                      },
-                    }}
-                    color="primary.main"
-                    fontWeight={600}
-                  >
-                    4.28/5
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Box
-                my={3}
-                sx={{
-                  border: "1px dashed black",
-                }}
-              ></Box>
-              <Typography variant="body2" fontSize={20} color="text.secondary">
-                The training provided by universities in order to prepare people
-                to work in various sectors of the economy or areas of culture.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card
-            sx={{
-              p: 3,
-              height: { xs: 420, sm: 420, md: 400, lg: 350, xl: 350 },
-            }}
-          >
-            <CardContent>
-              <Grid
-                container
-                spacing={2}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    variant="h4"
-                    fontWeight={500}
-                    component="div"
-                    pb={2}
-                  >
-                    Junior School Certificate
-                  </Typography>
-                  <Typography>
-                    Jaisthapura Ramani Mohan High School (2013-2015)
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Typography
-                    sx={{
-                      textAlign: {
-                        xs: "left",
-                        sm: "left",
-                        md: "left",
-                        lg: "right",
-                        xl: "right",
-                      },
-                    }}
-                    color="primary.main"
-                    fontWeight={600}
-                  >
-                    4.35/4
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Box
-                my={3}
-                sx={{
-                  border: "1px dashed black",
-                }}
-              ></Box>
-              <Typography variant="body2" fontSize={20} color="text.secondary">
-                The training provided by universities in order to prepare people
-                to work in various sectors of the economy or areas of culture.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );
