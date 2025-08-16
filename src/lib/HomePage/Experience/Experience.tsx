@@ -21,7 +21,7 @@ const experiences = [
     duration: "October 2024 - February 2025",
     description:
       "Worked as a Full Stack Software Engineer, developing scalable web applications using Next.js, TypeScript, PostgreSQL, and Prisma. Built modern, responsive user interfaces and implemented robust backend solutions.",
-    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
+    technologies: ["Next.js", "TypeScript", "Express.js", "PostgreSQL", "Prisma", "Storybook.js", ],
     current: true,
   },
   // Add more experiences here in the future

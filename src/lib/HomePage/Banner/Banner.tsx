@@ -8,8 +8,77 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
 import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+
+// Color scheme constants
+const COLORS = {
+  primary: '#60a5fa',
+  secondary: '#a78bfa', 
+  tertiary: '#f472b6',
+  background: {
+    dark: 'rgba(15, 23, 42, 0.6)',
+    light: 'rgba(15, 23, 42, 0.4)',
+  },
+  text: {
+    primary: 'rgba(248, 250, 252, 0.95)',
+    secondary: 'rgba(203, 213, 225, 0.9)',
+    accent: 'rgba(99, 102, 241, 0.9)',
+  },
+  border: 'rgba(148, 163, 184, 0.2)',
+} as const;
+
+// Typing Effect Hook
+const useTypingEffect = (texts: string[], speed: number = 150) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    
+    const currentText = texts[currentIndex];
+    
+    if (isTyping) {
+      if (displayText.length < currentText.length) {
+        timeout = setTimeout(() => {
+          setDisplayText(currentText.slice(0, displayText.length + 1));
+        }, speed);
+      } else {
+        // Pause before deleting
+        timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 2000);
+      }
+    } else {
+      if (displayText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, speed / 2);
+      } else {
+        // Move to next text
+        setCurrentIndex((prev) => (prev + 1) % texts.length);
+        setIsTyping(true);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayText, currentIndex, isTyping, texts, speed]);
+
+  return displayText;
+};
 
 const Banner = () => {
+  // Dynamic designations focusing on backend
+  const designations = [
+    "Backend Developer",
+    "Full Stack Developer", 
+    "Node.js Expert",
+    "API Architect",
+    "Database Designer"
+  ];
+  
+  const typedText = useTypingEffect(designations, 120);
+
   return (
     <Box
       sx={{
@@ -25,9 +94,9 @@ const Banner = () => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, rgba(244, 114, 182, 0.06) 0%, transparent 50%)
+            radial-gradient(circle at 20% 30%, ${COLORS.primary}1A 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, ${COLORS.secondary}14 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, ${COLORS.tertiary}0F 0%, transparent 50%)
           `,
           pointerEvents: 'none',
         },
@@ -72,7 +141,7 @@ const Banner = () => {
               <Typography 
                 variant="body1"
                 sx={{
-                  color: 'rgba(99, 102, 241, 0.9)',
+                  color: COLORS.text.accent,
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: 500,
                   letterSpacing: '0.15em',
@@ -88,7 +157,7 @@ const Banner = () => {
                     transform: 'translateY(-50%)',
                     width: '30px',
                     height: '2px',
-                    background: 'linear-gradient(90deg, #60a5fa, #a78bfa)',
+                    background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary})`,
                     borderRadius: '1px',
                   }
                 }}
@@ -105,7 +174,7 @@ const Banner = () => {
                   fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
                   fontWeight: 800,
                   lineHeight: 1.1,
-                  color: 'rgba(248, 250, 252, 0.95)',
+                  color: COLORS.text.primary,
                   letterSpacing: '-0.02em',
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 }}
@@ -114,7 +183,7 @@ const Banner = () => {
                 <Box 
                   component="span" 
                   sx={{
-                    background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)',
+                    background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 50%, ${COLORS.tertiary} 100%)`,
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -126,7 +195,7 @@ const Banner = () => {
                       left: 0,
                       right: 0,
                       height: '4px',
-                      background: 'linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)',
+                      background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary}, ${COLORS.tertiary})`,
                       borderRadius: '2px',
                       opacity: 0.6,
                     }
@@ -135,41 +204,64 @@ const Banner = () => {
                   Md. Sakib
                 </Box>{" "}
                 <br />
-                <motion.span
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                  style={{
+                
+                {/* Dynamic Typing Effect */}
+                <Box
+                  sx={{
                     background: 'linear-gradient(135deg, #e2e8f0, #cbd5e1)',
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    minHeight: { xs: '3rem', md: '4rem' },
                   }}
                 >
-                  A Full Stack Developer
-                </motion.span>
+                  <motion.span
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                  >
+                    A {typedText}
+                    <Box
+                      component="span"
+                      sx={{
+                        display: 'inline-block',
+                        width: '3px',
+                        height: { xs: '2rem', md: '3rem' },
+                        backgroundColor: COLORS.primary,
+                        marginLeft: '4px',
+                        animation: 'blink 1s infinite',
+                        '@keyframes blink': {
+                          '0%, 50%': { opacity: 1 },
+                          '51%, 100%': { opacity: 0 },
+                        },
+                      }}
+                    />
+                  </motion.span>
+                </Box>
               </Typography>
               
               <Typography
                 sx={{
-                  color: 'rgba(203, 213, 225, 0.9)',
+                  color: COLORS.text.secondary,
                   fontSize: '1.1rem',
                   lineHeight: 1.7,
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: 400,
                   maxWidth: '600px',
-                  background: 'rgba(15, 23, 42, 0.4)',
+                  background: COLORS.background.light,
                   backdropFilter: 'blur(10px)',
                   padding: '24px',
                   borderRadius: '16px',
-                  border: '1px solid rgba(148, 163, 184, 0.1)',
+                  border: `1px solid ${COLORS.border}`,
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                 }}
               >
-                I am a dedicated and passionate full stack web developer. I
-                believe in working hard and never giving up. Challenges motivate
-                me, and I approach each project with determination. I always
-                strive to provide the best solutions possible.
+                I am a dedicated and passionate backend-focused developer specializing in 
+                server-side architecture, API development, and database optimization. I 
+                believe in building robust, scalable systems and never giving up on complex 
+                challenges. I always strive to provide the most efficient solutions possible.
               </Typography>
             </motion.div>
 
@@ -200,25 +292,21 @@ const Banner = () => {
                     href: "https://www.linkedin.com/in/md-sakib79/",
                     icon: <LinkedInIcon fontSize="large" />,
                     color: '#0077b5',
-                    hoverColor: '#005582'
                   },
                   {
                     href: "https://www.facebook.com/profile.php?id=100011373134077",
                     icon: <FacebookIcon fontSize="large" />,
                     color: '#1877f2',
-                    hoverColor: '#145dbf'
                   },
                   {
                     href: "https://www.instagram.com/md_sakib75/",
                     icon: <InstagramIcon fontSize="large" />,
                     color: '#e4405f',
-                    hoverColor: '#c13048'
                   },
                   {
                     href: "https://github.com/sakibmohammad79",
                     icon: <GitHubIcon fontSize="large" />,
                     color: '#f8f9fa',
-                    hoverColor: '#e9ecef'
                   },
                 ].map((item, index) => (
                   <Link key={index} href={item.href} target="_blank">
@@ -232,9 +320,9 @@ const Banner = () => {
                     >
                       <Box
                         sx={{
-                          background: 'rgba(15, 23, 42, 0.6)',
+                          background: COLORS.background.dark,
                           backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(148, 163, 184, 0.2)',
+                          border: `1px solid ${COLORS.border}`,
                           borderRadius: '16px',
                           p: 2,
                           display: 'flex',
@@ -275,7 +363,7 @@ const Banner = () => {
               </Stack>
             </motion.div>
 
-            {/* Resume Download Button */}
+            {/* Enhanced Resume Download Button */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -284,11 +372,56 @@ const Banner = () => {
               <Box 
                 mt={4}
                 sx={{
+                  // Style the DownloadResume button to match color scheme
                   '& > *': {
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  },
+                  '& button, & a': {
+                    background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
+                    border: 'none',
+                    borderRadius: '16px',
+                    padding: { xs: '12px 24px', sm: '16px 32px' },
+                    fontSize: { xs: '0.9rem', sm: '1rem' },
+                    fontWeight: 600,
+                    color: 'white !important',
+                    fontFamily: '"Inter", sans-serif',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    textDecoration: 'none',
+                    boxShadow: `0 8px 24px ${COLORS.primary}40`,
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    minWidth: '180px',
+                    justifyContent: 'center',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: '-100%',
+                      width: '100%',
+                      height: '100%',
+                      background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)`,
+                      transition: 'left 0.6s ease',
+                    },
                     '&:hover': {
-                      transform: 'translateY(-2px)',
-                      filter: 'brightness(1.1)',
+                      background: `linear-gradient(135deg, ${COLORS.secondary} 0%, ${COLORS.tertiary} 100%)`,
+                      boxShadow: `0 12px 32px ${COLORS.secondary}50`,
+                      transform: 'translateY(-3px) scale(1.02)',
+                    },
+                    '&:hover::before': {
+                      left: '100%',
+                    },
+                    '&:active': {
+                      transform: 'translateY(-1px) scale(1.01)',
+                    },
+                    // Ensure SVG icons inside maintain good color
+                    '& svg': {
+                      color: 'white',
+                      fontSize: '1.2rem',
                     }
                   }
                 }}
@@ -315,7 +448,7 @@ const Banner = () => {
                     left: '-20px',
                     right: '-20px',
                     bottom: '-20px',
-                    background: 'linear-gradient(135deg, #60a5fa20, #a78bfa20, #f472b620)',
+                    background: `linear-gradient(135deg, ${COLORS.primary}20, ${COLORS.secondary}20, ${COLORS.tertiary}20)`,
                     borderRadius: '32px',
                     filter: 'blur(20px)',
                     zIndex: -1,
@@ -327,9 +460,9 @@ const Banner = () => {
                     position: 'relative',
                     borderRadius: '24px',
                     overflow: 'hidden',
-                    background: 'rgba(15, 23, 42, 0.6)',
+                    background: COLORS.background.dark,
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(148, 163, 184, 0.2)',
+                    border: `1px solid ${COLORS.border}`,
                     boxShadow: '0 25px 50px rgba(0, 0, 0, 0.2)',
                     '&::after': {
                       content: '""',
@@ -338,7 +471,7 @@ const Banner = () => {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 50%, rgba(168, 85, 247, 0.1) 100%)',
+                      background: `linear-gradient(135deg, ${COLORS.primary}1A 0%, transparent 50%, ${COLORS.secondary}1A 100%)`,
                       pointerEvents: 'none',
                     }
                   }}
@@ -356,7 +489,7 @@ const Banner = () => {
                       height={500}
                       width={600}
                       src="https://i.postimg.cc/3xB8zkfr/coding.webp"
-                      alt="Coding Representation"
+                      alt="Backend Developer Coding"
                     />
                   </motion.div>
                 </Box>
