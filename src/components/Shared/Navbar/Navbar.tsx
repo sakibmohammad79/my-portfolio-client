@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import { Stack } from "@mui/material";
+import { Stack, useScrollTrigger } from "@mui/material";
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -30,14 +30,44 @@ const Navbar = () => {
   });
   const [userRole, setUserRole] = React.useState("");
 
+  // Scroll trigger for glassmorphism effect
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 100,
+  });
+
   React.useEffect(() => {
     const userInfo = getUserInfo();
     if (userInfo) {
       setUserRole(userInfo?.role);
     }
   }, [userRole]);
+
   return (
-    <AppBar sx={{ py: 1 }}>
+    <AppBar 
+      elevation={0}
+      sx={{ 
+        py: 1,
+        background: trigger 
+          ? 'rgba(15, 23, 42, 0.95)' 
+          : 'rgba(15, 23, 42, 0.8)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: trigger 
+          ? '1px solid rgba(148, 163, 184, 0.1)' 
+          : 'none',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%)',
+          pointerEvents: 'none',
+        }
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -48,12 +78,34 @@ const Navbar = () => {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               textDecoration: "none",
               flexGrow: 1,
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+                filter: 'brightness(1.1)',
+              },
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -4,
+                left: 0,
+                width: '0%',
+                height: '2px',
+                background: 'linear-gradient(90deg, #60a5fa, #a78bfa)',
+                transition: 'width 0.3s ease',
+              },
+              '&:hover::after': {
+                width: '100%',
+              }
             }}
           >
             PORTFOLIO
@@ -66,7 +118,14 @@ const Navbar = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{
+                color: 'rgba(248, 250, 252, 0.9)',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                  transform: 'scale(1.05)',
+                }
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -86,106 +145,60 @@ const Navbar = () => {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
+                '& .MuiPaper-root': {
+                  background: 'rgba(15, 23, 42, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(148, 163, 184, 0.1)',
+                  borderRadius: '12px',
+                  marginTop: '8px',
+                  minWidth: '200px',
+                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                }
               }}
             >
               <Stack
-                px={1}
+                px={3}
+                py={2}
                 direction="column"
                 justifyContent="space-between"
-                gap={4}
+                gap={2}
               >
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#about"
-                >
-                  ABOUT
-                </Typography>
-
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#skill"
-                >
-                  SKILL
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#experience"
-                >
-                  EXPERIENCE
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#project"
-                >
-                  PROJECT
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#education"
-                >
-                  EDUCATION
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#blog"
-                >
-                  BLOG
-                </Typography>
-                <Typography
-                  sx={{
-                    "&:hover": {
-                      color: "primary.main",
-                    },
-                  }}
-                  component={Link}
-                  href="#contact"
-                >
-                  CONTACTS
-                </Typography>
-
-                {userRole && (
+                {[
+                  { label: 'ABOUT', href: '#about' },
+                  { label: 'SKILL', href: '#skill' },
+                  { label: 'EXPERIENCE', href: '#experience' },
+                  { label: 'PROJECT', href: '#project' },
+                  { label: 'EDUCATION', href: '#education' },
+                  { label: 'BLOG', href: '#blog' },
+                  { label: 'CONTACTS', href: '#contact' },
+                  ...(userRole ? [{ label: 'DASHBOARD', href: 'dashboard' }] : [])
+                ].map((item, index) => (
                   <Typography
-                    sx={{
-                      "&:hover": {
-                        color: "primary.main",
-                      },
-                    }}
+                    key={index}
                     component={Link}
-                    href="dashboard"
+                    href={item.href}
+                    sx={{
+                      color: 'rgba(248, 250, 252, 0.9)',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 500,
+                      fontSize: '0.95rem',
+                      letterSpacing: '0.025em',
+                      textDecoration: 'none',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease',
+                      position: 'relative',
+                      '&:hover': {
+                        color: '#60a5fa',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        transform: 'translateX(4px)',
+                      }
+                    }}
+                    onClick={handleCloseNavMenu}
                   >
-                    DASHBOARD
+                    {item.label}
                   </Typography>
-                )}
+                ))}
               </Stack>
             </Menu>
           </Box>
@@ -196,17 +209,21 @@ const Navbar = () => {
             component="h1"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "none" },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               textDecoration: "none",
             }}
           >
             PORTFOLIO
           </Typography>
+
           <Box
             sx={{
               flexGrow: 1,
@@ -216,34 +233,65 @@ const Navbar = () => {
               },
             }}
           >
-            <Stack pl={1} direction="row" alignItems="center" gap={3}>
-              <Typography color="white" component={Link} href="#about">
-                ABOUT
-              </Typography>
-              <Typography color="white" component={Link} href="#skill">
-                SKILL
-              </Typography>
-              <Typography color="white" component={Link} href="#experience">
-                EXPERIENCE
-              </Typography>
-              <Typography color="white" component={Link} href="#project">
-                PROJECT
-              </Typography>
-              <Typography color="white" component={Link} href="#education">
-                EDUCATION
-              </Typography>
-              <Typography color="white" component={Link} href="#blog">
-                BLOG
-              </Typography>
-              <Typography color="white" component={Link} href="#contact">
-                CONTACTS
-              </Typography>
-
-              {userRole && (
-                <Typography color="white" component={Link} href="dashboard">
-                  DASHBOARD
+            <Stack 
+              pl={1} 
+              direction="row" 
+              alignItems="center" 
+              gap={1}
+            >
+              {[
+                { label: 'ABOUT', href: '#about' },
+                { label: 'SKILL', href: '#skill' },
+                { label: 'EXPERIENCE', href: '#experience' },
+                { label: 'PROJECT', href: '#project' },
+                { label: 'EDUCATION', href: '#education' },
+                { label: 'BLOG', href: '#blog' },
+                { label: 'CONTACTS', href: '#contact' },
+                ...(userRole ? [{ label: 'DASHBOARD', href: 'dashboard' }] : [])
+              ].map((item, index) => (
+                <Typography
+                  key={index}
+                  component={Link}
+                  href={item.href}
+                  sx={{
+                    color: 'rgba(248, 250, 252, 0.9)',
+                    fontFamily: '"Inter", sans-serif',
+                    fontWeight: 500,
+                    fontSize: '0.9rem',
+                    letterSpacing: '0.025em',
+                    textDecoration: 'none',
+                    padding: '12px 16px',
+                    borderRadius: '10px',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: '-100%',
+                      width: '100%',
+                      height: '100%',
+                      background: 'linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent)',
+                      transition: 'left 0.5s ease',
+                    },
+                    '&:hover': {
+                      color: '#60a5fa',
+                      backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 8px rgba(99, 102, 241, 0.2)',
+                    },
+                    '&:hover::before': {
+                      left: '100%',
+                    },
+                    '&:active': {
+                      transform: 'translateY(0px)',
+                    }
+                  }}
+                >
+                  {item.label}
                 </Typography>
-              )}
+              ))}
             </Stack>
           </Box>
 
@@ -253,7 +301,16 @@ const Navbar = () => {
             alignItems="center"
             gap={2}
           >
-            <AuthButton></AuthButton>
+            <Box sx={{
+              '& > *': {
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                }
+              }
+            }}>
+              <AuthButton />
+            </Box>
           </Stack>
         </Toolbar>
       </Container>
