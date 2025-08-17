@@ -7,6 +7,7 @@ import Education from "@/lib/HomePage/Education/Education";
 import Experience from "@/lib/HomePage/Experience/Experience";
 import Project from "@/lib/HomePage/Project/Project";
 import Skills from "@/lib/HomePage/Skills/Skills";
+import Testimonials from "@/lib/HomePage/Testimonial/Testimonial";
 import FloatingWhatsApp from "@/lib/UI/WhatsAppIcon/WhatsAppIcon";
 
 import { useEffect } from "react";
@@ -73,6 +74,12 @@ const HomePage = () => {
         style={{ scrollMarginTop: '100px' }}
       >
         <Contact />
+      </div>
+      <div 
+        id="contact" 
+        style={{ scrollMarginTop: '100px' }}
+      >
+        <Testimonials/>
       </div>
 
       {/* Floating WhatsApp Button */}
