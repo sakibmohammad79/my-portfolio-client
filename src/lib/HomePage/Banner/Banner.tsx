@@ -258,10 +258,11 @@ const Banner = () => {
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                 }}
               >
-                I am a dedicated and passionate backend-focused developer specializing in 
-                server-side architecture, API development, and database optimization. I 
-                believe in building robust, scalable systems and never giving up on complex 
-                challenges. I always strive to provide the most efficient solutions possible.
+                I am a dedicated backend-focused developer with strong expertise in server-side architecture, 
+                RESTful API development, and database optimization. I specialize in building scalable, secure, 
+                and high-performance systems, ensuring seamless integration between services. Passionate 
+                about solving complex challenges, I continuously strive to deliver efficient, reliable, 
+                and maintainable solutions that drive real impact.
               </Typography>
             </motion.div>
 

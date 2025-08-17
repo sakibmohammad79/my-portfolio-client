@@ -231,7 +231,7 @@ const About = () => {
                     textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  I Am Available For <br />
+                  I am available for hire as a <br />
                   <Box 
                     component="span" 
                     sx={{
@@ -253,9 +253,9 @@ const About = () => {
                       }
                     }}
                   >
-                    Web Development
+                    Backend-Focused Developer
                   </Box>{" "}
-                  Projects
+              
                 </Typography>
               </motion.div>
 
@@ -306,15 +306,14 @@ const About = () => {
                       }
                     }}
                   >
-                    My name is <strong>Md. Sakib</strong>, and I am 23 years old. I am a dedicated and
-                    passionate <strong>Full Stack Web Developer</strong> from Bangladesh. Currently, I am
-                    pursuing a bachelor&apos;s degree in <strong>Computer Science</strong>. I always try
-                    to explore new technologies, and I believe in working hard and never
-                    giving up. Challenges motivate me, and I approach each project with
-                    determination. I always strive to provide the best solutions
-                    possible. For the past year, I have been consistently learning Full
-                    Stack development. Now, I am seeking an opportunity to start my
-                    professional development career.
+                    My name is Md. Sakib, and I am a dedicated and passionate Backend-Focused 
+                    Web Developer from Bangladesh, currently pursuing a bachelor’s degree in 
+                    Computer Science. I have been consistently learning and building expertise 
+                    in server-side architecture, API development, and database optimization.
+I enjoy exploring new technologies and believe in working hard, never giving up, and tackling 
+challenges with determination. My focus is on creating robust, scalable, and efficient 
+systems that deliver real impact. Now, I am seeking an opportunity to start my professional development 
+career and apply my backend expertise in a real-world environment.
                   </Typography>
                 </Box>
               </motion.div>
