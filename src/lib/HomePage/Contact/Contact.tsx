@@ -148,14 +148,24 @@ const Contact = () => {
             linear-gradient(45deg, rgba(148, 163, 184, 0.005) 25%, transparent 25%),
             linear-gradient(-45deg, rgba(148, 163, 184, 0.005) 25%, transparent 25%)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: { xs: '30px 30px', sm: '40px 40px', md: '60px 60px' },
           opacity: 0.4,
           pointerEvents: 'none',
         }
       }}
     >
-      <Container sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ pb: 12, pt: 12 }}>
+      <Container 
+        maxWidth="xl"
+        sx={{ 
+          position: 'relative', 
+          zIndex: 1,
+          px: { xs: 2, sm: 3, md: 4 }
+        }}
+      >
+        <Box sx={{ 
+          pb: { xs: 6, sm: 8, md: 10, lg: 12 }, 
+          pt: { xs: 6, sm: 8, md: 10, lg: 12 } 
+        }}>
           {/* Section Header */}
           <motion.div
             initial="hidden"
@@ -163,14 +173,14 @@ const Contact = () => {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <Box textAlign="center" pb={8}>
+            <Box textAlign="center" pb={{ xs: 4, sm: 6, md: 8 }}>
               <Typography
                 sx={{
                   color: 'rgba(99, 102, 241, 0.9)',
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: 600,
                   letterSpacing: '0.15em',
-                  fontSize: '0.9rem',
+                  fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.9rem' },
                   textTransform: 'uppercase',
                   position: 'relative',
                   display: 'inline-block',
@@ -181,7 +191,7 @@ const Contact = () => {
                     bottom: 0,
                     left: '50%',
                     transform: 'translateX(-50%)',
-                    width: '80px',
+                    width: { xs: '60px', sm: '70px', md: '80px' },
                     height: '2px',
                     background: 'linear-gradient(90deg, #60a5fa, #a78bfa)',
                     borderRadius: '1px',
@@ -193,7 +203,7 @@ const Contact = () => {
               
               <Typography
                 sx={{
-                  fontSize: { xs: '2.5rem', md: '3rem', lg: '3.5rem' },
+                  fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3.2rem', xl: '3.5rem' },
                   fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
                   fontWeight: 800,
                   background: 'linear-gradient(135deg, #e2e8f0, #cbd5e1, #94a3b8)',
@@ -201,8 +211,9 @@ const Contact = () => {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   letterSpacing: '-0.02em',
-                  mt: 3,
+                  mt: { xs: 2, sm: 2.5, md: 3 },
                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                  lineHeight: { xs: 1.2, sm: 1.1, md: 1 }
                 }}
               >
                 Get In Touch
@@ -211,12 +222,13 @@ const Contact = () => {
               <Typography
                 sx={{
                   color: 'rgba(203, 213, 225, 0.8)',
-                  fontSize: '1.1rem',
-                  mt: 3,
+                  fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' },
+                  mt: { xs: 2, sm: 2.5, md: 3 },
                   fontFamily: '"Inter", sans-serif',
-                  maxWidth: '600px',
+                  maxWidth: { xs: '100%', sm: '500px', md: '600px' },
                   mx: 'auto',
                   lineHeight: 1.6,
+                  px: { xs: 1, sm: 0 }
                 }}
               >
                 Ready to bring your ideas to life? Let&apos;s discuss your next project and create something amazing together.
@@ -225,9 +237,9 @@ const Contact = () => {
           </motion.div>
 
           {/* Contact Content */}
-          <Grid container spacing={6} alignItems="stretch">
+          <Grid container spacing={{ xs: 3, sm: 4, md: 5, lg: 6 }} alignItems="stretch">
             {/* Contact Information Card */}
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} lg={5}>
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -240,7 +252,7 @@ const Contact = () => {
                     background: 'rgba(15, 23, 42, 0.6)',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(148, 163, 184, 0.2)',
-                    borderRadius: '24px',
+                    borderRadius: { xs: '16px', sm: '20px', md: '24px' },
                     boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
                     position: 'relative',
                     overflow: 'hidden',
@@ -256,24 +268,45 @@ const Contact = () => {
                     },
                   }}
                 >
-                  <CardContent sx={{ p: 6, position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <CardContent sx={{ 
+                    p: { xs: 3, sm: 4, md: 5, lg: 6 }, 
+                    position: 'relative', 
+                    zIndex: 1, 
+                    height: '100%', 
+                    display: 'flex', 
+                    flexDirection: 'column' 
+                  }}>
                     {/* Profile Section */}
-                    <Box sx={{ textAlign: 'center', mb: 4 }}>
+                    <Box sx={{ textAlign: 'center', mb: { xs: 3, sm: 4 } }}>
                       <Box
                         sx={{
-                          width: 120,
-                          height: 120,
+                          width: { xs: 80, sm: 100, md: 120 },
+                          height: { xs: 80, sm: 100, md: 120 },
                           borderRadius: '50%',
                           background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           mx: 'auto',
-                          mb: 3,
+                          mb: { xs: 2, sm: 2.5, md: 3 },
                           boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
+                          p: '2px', // Border thickness
+                          overflow: 'hidden'
                         }}
                       >
-                        <PersonIcon sx={{ fontSize: '3rem', color: 'white' }} />
+                        <Box
+                          component="img"
+                          src="https://i.postimg.cc/rFgZTjJp/121812378.png"
+                          alt="Md. Sakib"
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                            background: '#f1f5f9' // Fallback background while loading
+                          }}
+                        />
                       </Box>
                       
                       <Typography
@@ -283,6 +316,7 @@ const Contact = () => {
                           fontWeight: 700,
                           color: 'rgba(248, 250, 252, 0.95)',
                           mb: 1,
+                          fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' }
                         }}
                       >
                         Md. Sakib
@@ -295,7 +329,7 @@ const Contact = () => {
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           fontWeight: 600,
-                          fontSize: '1.2rem',
+                          fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                           fontFamily: '"Inter", sans-serif',
                         }}
                       >
@@ -305,10 +339,11 @@ const Contact = () => {
                       <Typography
                         sx={{
                           color: 'rgba(203, 213, 225, 0.8)',
-                          fontSize: '1rem',
-                          mt: 2,
+                          fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1rem' },
+                          mt: { xs: 1.5, sm: 2 },
                           fontFamily: '"Inter", sans-serif',
                           lineHeight: 1.6,
+                          px: { xs: 1, sm: 0 }
                         }}
                       >
                         Available for freelance opportunities. Let&apos;s connect and discuss your next project!
@@ -317,7 +352,7 @@ const Contact = () => {
 
                     {/* Contact Information */}
                     <motion.div variants={stagger}>
-                      <Box sx={{ mb: 4, flexGrow: 1 }}>
+                      <Box sx={{ mb: { xs: 3, sm: 4 }, flexGrow: 1 }}>
                         {contactInfo.map((info, index) => (
                           <motion.div key={index} variants={fadeInUp}>
                             <Box
@@ -326,9 +361,9 @@ const Contact = () => {
                               sx={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                mb: 3,
-                                p: 2,
-                                borderRadius: '16px',
+                                mb: { xs: 2, sm: 2.5, md: 3 },
+                                p: { xs: 1.5, sm: 2 },
+                                borderRadius: { xs: '12px', sm: '14px', md: '16px' },
                                 background: 'rgba(99, 102, 241, 0.05)',
                                 border: '1px solid rgba(99, 102, 241, 0.1)',
                                 transition: 'all 0.3s ease',
@@ -344,23 +379,26 @@ const Contact = () => {
                               <Box
                                 sx={{
                                   background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                                  borderRadius: '12px',
-                                  p: 1.5,
-                                  mr: 3,
+                                  borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                  p: { xs: 1, sm: 1.25, md: 1.5 },
+                                  mr: { xs: 2, sm: 2.5, md: 3 },
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  minWidth: '48px',
-                                  minHeight: '48px',
+                                  minWidth: { xs: '36px', sm: '42px', md: '48px' },
+                                  minHeight: { xs: '36px', sm: '42px', md: '48px' },
                                 }}
                               >
-                                <info.icon sx={{ color: 'white', fontSize: '1.5rem' }} />
+                                <info.icon sx={{ 
+                                  color: 'white', 
+                                  fontSize: { xs: '1.2rem', sm: '1.35rem', md: '1.5rem' } 
+                                }} />
                               </Box>
-                              <Box>
+                              <Box sx={{ minWidth: 0, flex: 1 }}>
                                 <Typography
                                   sx={{
                                     color: 'rgba(148, 163, 184, 0.8)',
-                                    fontSize: '0.85rem',
+                                    fontSize: { xs: '0.75rem', sm: '0.8rem', md: '0.85rem' },
                                     fontWeight: 600,
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.05em',
@@ -372,9 +410,10 @@ const Contact = () => {
                                 <Typography
                                   sx={{
                                     color: 'rgba(248, 250, 252, 0.9)',
-                                    fontSize: '1rem',
+                                    fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1rem' },
                                     fontFamily: '"Inter", sans-serif',
                                     fontWeight: 500,
+                                    wordBreak: 'break-word',
                                   }}
                                 >
                                   {info.value}
@@ -391,16 +430,21 @@ const Contact = () => {
                       <Typography
                         sx={{
                           color: 'rgba(148, 163, 184, 0.8)',
-                          fontSize: '0.85rem',
+                          fontSize: { xs: '0.75rem', sm: '0.8rem', md: '0.85rem' },
                           fontWeight: 600,
-                          mb: 2,
+                          mb: { xs: 1.5, sm: 2 },
                           textTransform: 'uppercase',
                           letterSpacing: '0.05em',
                         }}
                       >
                         Find Me On
                       </Typography>
-                      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                      <Box sx={{ 
+                        display: 'flex', 
+                        gap: { xs: 1.5, sm: 2 }, 
+                        flexWrap: 'wrap',
+                        justifyContent: { xs: 'center', sm: 'flex-start' }
+                      }}>
                         {socialLinks.map((social, index) => (
                           <IconButton
                             key={index}
@@ -412,8 +456,8 @@ const Contact = () => {
                               background: 'rgba(15, 23, 42, 0.8)',
                               backdropFilter: 'blur(10px)',
                               border: '1px solid rgba(148, 163, 184, 0.2)',
-                              borderRadius: '12px',
-                              p: 1.5,
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              p: { xs: 1, sm: 1.25, md: 1.5 },
                               transition: 'all 0.3s ease',
                               '&:hover': {
                                 background: `${social.color}15`,
@@ -426,7 +470,7 @@ const Contact = () => {
                             <social.icon 
                               sx={{ 
                                 color: 'rgba(203, 213, 225, 0.8)',
-                                fontSize: '1.5rem',
+                                fontSize: { xs: '1.2rem', sm: '1.35rem', md: '1.5rem' },
                                 transition: 'all 0.3s ease',
                                 '&:hover': {
                                   color: social.color,
@@ -443,7 +487,7 @@ const Contact = () => {
             </Grid>
 
             {/* Contact Form */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} lg={7}>
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -456,7 +500,7 @@ const Contact = () => {
                     background: 'rgba(15, 23, 42, 0.6)',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(148, 163, 184, 0.2)',
-                    borderRadius: '24px',
+                    borderRadius: { xs: '16px', sm: '20px', md: '24px' },
                     boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
                     position: 'relative',
                     overflow: 'hidden',
@@ -472,14 +516,19 @@ const Contact = () => {
                     },
                   }}
                 >
-                  <CardContent sx={{ p: 6, position: 'relative', zIndex: 1 }}>
+                  <CardContent sx={{ 
+                    p: { xs: 3, sm: 4, md: 5, lg: 6 }, 
+                    position: 'relative', 
+                    zIndex: 1 
+                  }}>
                     <Typography
                       variant="h5"
                       sx={{
                         fontFamily: '"Inter", sans-serif',
                         fontWeight: 700,
                         color: 'rgba(248, 250, 252, 0.95)',
-                        mb: 2,
+                        mb: { xs: 1.5, sm: 2 },
+                        fontSize: { xs: '1.3rem', sm: '1.4rem', md: '1.5rem' }
                       }}
                     >
                       Send Me A Message
@@ -488,8 +537,8 @@ const Contact = () => {
                     <Typography
                       sx={{
                         color: 'rgba(203, 213, 225, 0.8)',
-                        fontSize: '1rem',
-                        mb: 4,
+                        fontSize: { xs: '0.9rem', sm: '0.95rem', md: '1rem' },
+                        mb: { xs: 3, sm: 4 },
                         fontFamily: '"Inter", sans-serif',
                         lineHeight: 1.6,
                       }}
@@ -497,7 +546,7 @@ const Contact = () => {
                       Have a project in mind? Fill out the form below and I&apos;ll get back to you as soon as possible.
                     </Typography>
 
-                    <Grid container spacing={3}>
+                    <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}>
                       <Grid item xs={12} sm={6}>
                         <TextField
                           fullWidth
@@ -507,7 +556,8 @@ const Contact = () => {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: '12px',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '& fieldset': {
                                 borderColor: 'rgba(148, 163, 184, 0.3)',
                               },
@@ -520,12 +570,14 @@ const Contact = () => {
                             },
                             '& .MuiInputLabel-root': {
                               color: 'rgba(203, 213, 225, 0.7)',
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '&.Mui-focused': {
                                 color: '#60a5fa',
                               },
                             },
                             '& .MuiOutlinedInput-input': {
                               color: 'rgba(248, 250, 252, 0.9)',
+                              py: { xs: 1.25, sm: 1.5 }
                             },
                           }}
                         />
@@ -539,7 +591,8 @@ const Contact = () => {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: '12px',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '& fieldset': {
                                 borderColor: 'rgba(148, 163, 184, 0.3)',
                               },
@@ -552,12 +605,14 @@ const Contact = () => {
                             },
                             '& .MuiInputLabel-root': {
                               color: 'rgba(203, 213, 225, 0.7)',
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '&.Mui-focused': {
                                 color: '#60a5fa',
                               },
                             },
                             '& .MuiOutlinedInput-input': {
                               color: 'rgba(248, 250, 252, 0.9)',
+                              py: { xs: 1.25, sm: 1.5 }
                             },
                           }}
                         />
@@ -572,7 +627,8 @@ const Contact = () => {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: '12px',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '& fieldset': {
                                 borderColor: 'rgba(148, 163, 184, 0.3)',
                               },
@@ -585,12 +641,14 @@ const Contact = () => {
                             },
                             '& .MuiInputLabel-root': {
                               color: 'rgba(203, 213, 225, 0.7)',
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '&.Mui-focused': {
                                 color: '#60a5fa',
                               },
                             },
                             '& .MuiOutlinedInput-input': {
                               color: 'rgba(248, 250, 252, 0.9)',
+                              py: { xs: 1.25, sm: 1.5 }
                             },
                           }}
                         />
@@ -604,7 +662,8 @@ const Contact = () => {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: '12px',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '& fieldset': {
                                 borderColor: 'rgba(148, 163, 184, 0.3)',
                               },
@@ -617,12 +676,14 @@ const Contact = () => {
                             },
                             '& .MuiInputLabel-root': {
                               color: 'rgba(203, 213, 225, 0.7)',
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '&.Mui-focused': {
                                 color: '#60a5fa',
                               },
                             },
                             '& .MuiOutlinedInput-input': {
                               color: 'rgba(248, 250, 252, 0.9)',
+                              py: { xs: 1.25, sm: 1.5 }
                             },
                           }}
                         />
@@ -638,7 +699,8 @@ const Contact = () => {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: '12px',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '& fieldset': {
                                 borderColor: 'rgba(148, 163, 184, 0.3)',
                               },
@@ -651,6 +713,7 @@ const Contact = () => {
                             },
                             '& .MuiInputLabel-root': {
                               color: 'rgba(203, 213, 225, 0.7)',
+                              fontSize: { xs: '0.9rem', sm: '1rem' },
                               '&.Mui-focused': {
                                 color: '#60a5fa',
                               },
@@ -673,9 +736,9 @@ const Contact = () => {
                             endIcon={<SendIcon />}
                             sx={{
                               background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                              borderRadius: '12px',
-                              py: 2,
-                              fontSize: '1.1rem',
+                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                              py: { xs: 1.5, sm: 1.75, md: 2 },
+                              fontSize: { xs: '1rem', sm: '1.05rem', md: '1.1rem' },
                               fontWeight: 600,
                               textTransform: 'none',
                               boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
