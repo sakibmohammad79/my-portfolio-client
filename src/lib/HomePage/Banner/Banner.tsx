@@ -74,7 +74,6 @@ const Banner = () => {
     "Full Stack Developer", 
     "Node.js Expert",
     "API Architect",
-    "Database Designer"
   ];
   
   const typedText = useTypingEffect(designations, 120);

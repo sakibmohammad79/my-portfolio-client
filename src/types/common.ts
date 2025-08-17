@@ -9,4 +9,3 @@ export interface drawerItem {
   child?: drawerItem[];
 }
 
-// https://portfolio-server-six-smoky.vercel.app/api/v1
