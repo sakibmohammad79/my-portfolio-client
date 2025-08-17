@@ -152,7 +152,7 @@ const Testimonials = () => {
                 lineHeight: 1.6,
               }}
             >
-              Real feedback from amazing clients I&apos;ve had the pleasure to work with
+              Real feedback from amazing clients I&ldquo;ve had the pleasure to work with
             </Typography>
           </Box>
         </motion.div>
@@ -272,7 +272,7 @@ const Testimonials = () => {
                     }
                   }}
                 >
-                  {testimonial.review}
+                  &ldquo;{testimonial.review}&ldquo;
                 </Typography>
 
                 {/* Client Info */}
@@ -287,19 +287,21 @@ const Testimonials = () => {
                 >
                   {/* Avatar */}
                   <Box sx={{ position: 'relative' }}>
-                    <Avatar
+                    <Box
+                      component="img"
+                      src="https://i.postimg.cc/bwDdxzmf/image.png"
+                      alt="Adam Blumenfeld"
                       sx={{
                         width: { xs: 70, sm: 80 },
                         height: { xs: 70, sm: 80 },
-                        background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                        fontSize: '2rem',
-                        fontWeight: 700,
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
                         border: '3px solid rgba(99, 102, 241, 0.2)',
                         boxShadow: '0 8px 25px rgba(99, 102, 241, 0.2)',
+                        background: '#f1f5f9', // Fallback background while loading
                       }}
-                    >
-                      AB
-                    </Avatar>
+                    />
                     
                     {/* LinkedIn Badge */}
                     <Box
@@ -419,7 +421,7 @@ const Testimonials = () => {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              Let&apos;s create something amazing together!
+              Let&ldquo;s create something amazing together!
             </Typography>
           </Box>
         </motion.div>

@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
   IconButton,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -20,7 +22,11 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SendIcon from "@mui/icons-material/Send";
-import PersonIcon from "@mui/icons-material/Person";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import { useState, useEffect } from "react";
+import { useAddContactMutation } from "@/redux/api/contact";
+
 
 // Animation Variants
 const fadeInUp = {
@@ -67,7 +73,137 @@ const stagger = {
   }
 };
 
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
 const Contact = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const [addContact, { isLoading, error, isSuccess }] = useAddContactMutation();
+
+  // Handle form input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear error for this field when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  // Validate form
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    } else if (formData.name.trim().length > 50) {
+      newErrors.name = 'Name must be less than 50 characters';
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = 'Please provide a valid email address';
+    }
+
+    // Subject validation
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    } else if (formData.subject.trim().length < 5) {
+      newErrors.subject = 'Subject must be at least 5 characters';
+    } else if (formData.subject.trim().length > 100) {
+      newErrors.subject = 'Subject must be less than 100 characters';
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    } else if (formData.message.trim().length > 1000) {
+      newErrors.message = 'Message must be less than 1000 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      await addContact({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      }).unwrap();
+
+      // Reset form on success
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      setSubmitStatus('success');
+      setSubmitMessage('Thank you for your message! I\'ll get back to you soon.');
+      
+    } catch (err: any) {
+      setSubmitStatus('error');
+      setSubmitMessage(err?.data?.message || 'Failed to send message. Please try again.');
+    }
+  };
+
+  // Clear status messages after 5 seconds
+  useEffect(() => {
+    if (submitStatus !== 'idle') {
+      const timer = setTimeout(() => {
+        setSubmitStatus('idle');
+        setSubmitMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
   const socialLinks = [
     {
       name: 'LinkedIn',
@@ -290,7 +426,7 @@ const Contact = () => {
                           mx: 'auto',
                           mb: { xs: 2, sm: 2.5, md: 3 },
                           boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
-                          p: '2px', // Border thickness
+                          p: '2px',
                           overflow: 'hidden'
                         }}
                       >
@@ -304,7 +440,7 @@ const Contact = () => {
                             borderRadius: '50%',
                             objectFit: 'cover',
                             objectPosition: 'center',
-                            background: '#f1f5f9' // Fallback background while loading
+                            background: '#f1f5f9'
                           }}
                         />
                       </Box>
@@ -546,215 +682,287 @@ const Contact = () => {
                       Have a project in mind? Fill out the form below and I&apos;ll get back to you as soon as possible.
                     </Typography>
 
-                    <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Full Name"
-                          variant="outlined"
-                          name="name"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '& fieldset': {
-                                borderColor: 'rgba(148, 163, 184, 0.3)',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: 'rgba(99, 102, 241, 0.5)',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#60a5fa',
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: 'rgba(203, 213, 225, 0.7)',
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '&.Mui-focused': {
-                                color: '#60a5fa',
-                              },
-                            },
-                            '& .MuiOutlinedInput-input': {
-                              color: 'rgba(248, 250, 252, 0.9)',
-                              py: { xs: 1.25, sm: 1.5 }
-                            },
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Phone Number"
-                          variant="outlined"
-                          name="phone"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '& fieldset': {
-                                borderColor: 'rgba(148, 163, 184, 0.3)',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: 'rgba(99, 102, 241, 0.5)',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#60a5fa',
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: 'rgba(203, 213, 225, 0.7)',
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '&.Mui-focused': {
-                                color: '#60a5fa',
-                              },
-                            },
-                            '& .MuiOutlinedInput-input': {
-                              color: 'rgba(248, 250, 252, 0.9)',
-                              py: { xs: 1.25, sm: 1.5 }
-                            },
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Email Address"
-                          variant="outlined"
-                          name="email"
-                          type="email"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '& fieldset': {
-                                borderColor: 'rgba(148, 163, 184, 0.3)',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: 'rgba(99, 102, 241, 0.5)',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#60a5fa',
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: 'rgba(203, 213, 225, 0.7)',
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '&.Mui-focused': {
-                                color: '#60a5fa',
-                              },
-                            },
-                            '& .MuiOutlinedInput-input': {
-                              color: 'rgba(248, 250, 252, 0.9)',
-                              py: { xs: 1.25, sm: 1.5 }
-                            },
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Subject"
-                          variant="outlined"
-                          name="subject"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '& fieldset': {
-                                borderColor: 'rgba(148, 163, 184, 0.3)',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: 'rgba(99, 102, 241, 0.5)',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#60a5fa',
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: 'rgba(203, 213, 225, 0.7)',
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '&.Mui-focused': {
-                                color: '#60a5fa',
-                              },
-                            },
-                            '& .MuiOutlinedInput-input': {
-                              color: 'rgba(248, 250, 252, 0.9)',
-                              py: { xs: 1.25, sm: 1.5 }
-                            },
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Your Message"
-                          variant="outlined"
-                          multiline
-                          rows={6}
-                          name="message"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              background: 'rgba(15, 23, 42, 0.6)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '& fieldset': {
-                                borderColor: 'rgba(148, 163, 184, 0.3)',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: 'rgba(99, 102, 241, 0.5)',
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#60a5fa',
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: 'rgba(203, 213, 225, 0.7)',
-                              fontSize: { xs: '0.9rem', sm: '1rem' },
-                              '&.Mui-focused': {
-                                color: '#60a5fa',
-                              },
-                            },
-                            '& .MuiOutlinedInput-input': {
-                              color: 'rgba(248, 250, 252, 0.9)',
-                            },
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Button
+                    {/* Status Messages */}
+                    {submitStatus === 'success' && (
+                      <Alert 
+                        icon={<CheckCircleIcon />} 
+                        severity="success" 
+                        sx={{ 
+                          mb: 3,
+                          background: 'rgba(34, 197, 94, 0.1)',
+                          border: '1px solid rgba(34, 197, 94, 0.3)',
+                          '& .MuiAlert-message': {
+                            color: 'rgba(34, 197, 94, 0.9)'
+                          }
+                        }}
+                      >
+                        {submitMessage}
+                      </Alert>
+                    )}
+
+                    {submitStatus === 'error' && (
+                      <Alert 
+                        icon={<ErrorIcon />} 
+                        severity="error" 
+                        sx={{ 
+                          mb: 3,
+                          background: 'rgba(239, 68, 68, 0.1)',
+                          border: '1px solid rgba(239, 68, 68, 0.3)',
+                          '& .MuiAlert-message': {
+                            color: 'rgba(239, 68, 68, 0.9)'
+                          }
+                        }}
+                      >
+                        {submitMessage}
+                      </Alert>
+                    )}
+
+                    <Box component="form" onSubmit={handleSubmit}>
+                      <Grid container spacing={{ xs: 2, sm: 2.5, md: 3 }}>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
                             fullWidth
-                            type="submit"
-                            variant="contained"
-                            endIcon={<SendIcon />}
+                            label="Full Name"
+                            variant="outlined"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            error={!!errors.name}
+                            helperText={errors.name}
+                            disabled={isLoading}
                             sx={{
-                              background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                              borderRadius: { xs: '8px', sm: '10px', md: '12px' },
-                              py: { xs: 1.5, sm: 1.75, md: 2 },
-                              fontSize: { xs: '1rem', sm: '1.05rem', md: '1.1rem' },
-                              fontWeight: 600,
-                              textTransform: 'none',
-                              boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
-                              transition: 'all 0.3s ease',
-                              '&:hover': {
-                                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                                boxShadow: '0 12px 35px rgba(99, 102, 241, 0.4)',
-                                transform: 'translateY(-2px)',
+                              '& .MuiOutlinedInput-root': {
+                                background: 'rgba(15, 23, 42, 0.6)',
+                                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '& fieldset': {
+                                  borderColor: errors.name ? 'rgba(239, 68, 68, 0.5)' : 'rgba(148, 163, 184, 0.3)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: errors.name ? 'rgba(239, 68, 68, 0.7)' : 'rgba(99, 102, 241, 0.5)',
+                                },
+                                '&.Mui-focused fieldset': {
+                                  borderColor: errors.name ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
                               },
+                              '& .MuiInputLabel-root': {
+                                color: 'rgba(203, 213, 225, 0.7)',
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '&.Mui-focused': {
+                                  color: errors.name ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                                '&.Mui-error': {
+                                  color: 'rgba(239, 68, 68, 0.8)',
+                                },
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'rgba(248, 250, 252, 0.9)',
+                                py: { xs: 1.25, sm: 1.5 }
+                              },
+                              '& .MuiFormHelperText-root': {
+                                color: 'rgba(239, 68, 68, 0.8)',
+                                fontSize: '0.75rem',
+                                mt: 1,
+                              }
                             }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
+                            fullWidth
+                            label="Email Address"
+                            variant="outlined"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            error={!!errors.email}
+                            helperText={errors.email}
+                            disabled={isLoading}
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                background: 'rgba(15, 23, 42, 0.6)',
+                                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '& fieldset': {
+                                  borderColor: errors.email ? 'rgba(239, 68, 68, 0.5)' : 'rgba(148, 163, 184, 0.3)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: errors.email ? 'rgba(239, 68, 68, 0.7)' : 'rgba(99, 102, 241, 0.5)',
+                                },
+                                '&.Mui-focused fieldset': {
+                                  borderColor: errors.email ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'rgba(203, 213, 225, 0.7)',
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '&.Mui-focused': {
+                                  color: errors.email ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                                '&.Mui-error': {
+                                  color: 'rgba(239, 68, 68, 0.8)',
+                                },
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'rgba(248, 250, 252, 0.9)',
+                                py: { xs: 1.25, sm: 1.5 }
+                              },
+                              '& .MuiFormHelperText-root': {
+                                color: 'rgba(239, 68, 68, 0.8)',
+                                fontSize: '0.75rem',
+                                mt: 1,
+                              }
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Subject"
+                            variant="outlined"
+                            name="subject"
+                            value={formData.subject}
+                            onChange={handleChange}
+                            error={!!errors.subject}
+                            helperText={errors.subject}
+                            disabled={isLoading}
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                background: 'rgba(15, 23, 42, 0.6)',
+                                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '& fieldset': {
+                                  borderColor: errors.subject ? 'rgba(239, 68, 68, 0.5)' : 'rgba(148, 163, 184, 0.3)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: errors.subject ? 'rgba(239, 68, 68, 0.7)' : 'rgba(99, 102, 241, 0.5)',
+                                },
+                                '&.Mui-focused fieldset': {
+                                  borderColor: errors.subject ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'rgba(203, 213, 225, 0.7)',
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '&.Mui-focused': {
+                                  color: errors.subject ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                                '&.Mui-error': {
+                                  color: 'rgba(239, 68, 68, 0.8)',
+                                },
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'rgba(248, 250, 252, 0.9)',
+                                py: { xs: 1.25, sm: 1.5 }
+                              },
+                              '& .MuiFormHelperText-root': {
+                                color: 'rgba(239, 68, 68, 0.8)',
+                                fontSize: '0.75rem',
+                                mt: 1,
+                              }
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Your Message"
+                            variant="outlined"
+                            multiline
+                            rows={6}
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            error={!!errors.message}
+                            helperText={errors.message || `${formData.message.length}/1000 characters`}
+                            disabled={isLoading}
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                background: 'rgba(15, 23, 42, 0.6)',
+                                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '& fieldset': {
+                                  borderColor: errors.message ? 'rgba(239, 68, 68, 0.5)' : 'rgba(148, 163, 184, 0.3)',
+                                },
+                                '&:hover fieldset': {
+                                  borderColor: errors.message ? 'rgba(239, 68, 68, 0.7)' : 'rgba(99, 102, 241, 0.5)',
+                                },
+                                '&.Mui-focused fieldset': {
+                                  borderColor: errors.message ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'rgba(203, 213, 225, 0.7)',
+                                fontSize: { xs: '0.9rem', sm: '1rem' },
+                                '&.Mui-focused': {
+                                  color: errors.message ? 'rgba(239, 68, 68, 0.8)' : '#60a5fa',
+                                },
+                                '&.Mui-error': {
+                                  color: 'rgba(239, 68, 68, 0.8)',
+                                },
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'rgba(248, 250, 252, 0.9)',
+                              },
+                              '& .MuiFormHelperText-root': {
+                                color: errors.message ? 'rgba(239, 68, 68, 0.8)' : 'rgba(148, 163, 184, 0.6)',
+                                fontSize: '0.75rem',
+                                mt: 1,
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                              }
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <motion.div
+                            whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                            whileTap={{ scale: isLoading ? 1 : 0.98 }}
                           >
-                            Send Message
-                          </Button>
-                        </motion.div>
+                            <Button
+                              fullWidth
+                              type="submit"
+                              variant="contained"
+                              disabled={isLoading}
+                              endIcon={
+                                isLoading ? (
+                                  <CircularProgress size={20} color="inherit" />
+                                ) : (
+                                  <SendIcon />
+                                )
+                              }
+                              sx={{
+                                background: isLoading 
+                                  ? 'rgba(99, 102, 241, 0.3)' 
+                                  : 'linear-gradient(135deg, #60a5fa, #a78bfa)',
+                                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
+                                py: { xs: 1.5, sm: 1.75, md: 2 },
+                                fontSize: { xs: '1rem', sm: '1.05rem', md: '1.1rem' },
+                                fontWeight: 600,
+                                textTransform: 'none',
+                                boxShadow: isLoading 
+                                  ? 'none' 
+                                  : '0 8px 25px rgba(99, 102, 241, 0.3)',
+                                transition: 'all 0.3s ease',
+                                cursor: isLoading ? 'not-allowed' : 'pointer',
+                                '&:hover': isLoading ? {} : {
+                                  background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                                  boxShadow: '0 12px 35px rgba(99, 102, 241, 0.4)',
+                                  transform: 'translateY(-2px)',
+                                },
+                                '&:disabled': {
+                                  background: 'rgba(99, 102, 241, 0.3)',
+                                  color: 'rgba(255, 255, 255, 0.5)',
+                                }
+                              }}
+                            >
+                              {isLoading ? 'Sending...' : 'Send Message'}
+                            </Button>
+                          </motion.div>
+                        </Grid>
                       </Grid>
-                    </Grid>
+                    </Box>
                   </CardContent>
                 </Card>
               </motion.div>
