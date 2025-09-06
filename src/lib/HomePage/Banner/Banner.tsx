@@ -488,7 +488,7 @@ const Banner = () => {
                       }}
                       height={500}
                       width={600}
-                      src="https://i.postimg.cc/Nf7NP0y9/Gemini-Generated-Image-3uuyfs3uuyfs3uuy.png"
+                      src="https://i.postimg.cc/V6v625LY/sakib-s-image.png"
                       alt="Md. Sakib - Backend Developer"
                     />
                   </motion.div>
