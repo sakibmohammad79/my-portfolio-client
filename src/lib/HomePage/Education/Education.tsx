@@ -52,18 +52,6 @@ const educationData = [
     current: false,
     icon: "school"
   },
-  {
-    id: 4,
-    title: "Junior School Certificate",
-    institute: "Jaisthapura Ramani Mohan High School",
-    duration: "2013 - 2015",
-    score: "4.35/5",
-    level: "JSC",
-    description: "Developed a strong academic foundation and an early interest in technology, consistently achieving high performance in academic pursuits.",
-    subjects: ["Basic Science", "Mathematics", "English", "Social Studies"],
-    current: false,
-    icon: "junior"
-  },
 ];
 
 // Animation Variants
