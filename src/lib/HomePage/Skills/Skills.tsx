@@ -57,7 +57,7 @@ const Skills = () => {
     .filter((cat) => cat.skills.length > 0);
 
   return (
-    <Section id="skill" variant="center" className="py-16 sm:py-20 md:py-28">
+    <Section id="skill" variant="center" className="py-16 sm:py-20 md:py-28" background="subtle">
       <div className="container">
         <SectionHeader
           eyebrow="Skills"

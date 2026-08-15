@@ -95,7 +95,6 @@ function FeaturedProject({
   index,
   prefersReduced,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   project: any;
   index: number;
   prefersReduced: boolean;
@@ -290,7 +289,6 @@ function SecondaryProject({
   index,
   prefersReduced,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   project: any;
   index: number;
   prefersReduced: boolean;
@@ -339,7 +337,7 @@ const Project = () => {
   const secondary = projectList.slice(2);
 
   return (
-    <Section id="project" variant="top-left" className="py-16 sm:py-20 md:py-28">
+    <Section id="project" variant="top-left" className="py-16 sm:py-20 md:py-28" background="strong">
       <div className="container">
         <SectionHeader
           eyebrow="Projects"

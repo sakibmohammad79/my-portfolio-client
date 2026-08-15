@@ -61,7 +61,7 @@ const Experience = () => {
   const railScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <Section id="experience" variant="top-right" className="py-16 sm:py-20 md:py-28">
+    <Section id="experience" variant="top-right" className="py-16 sm:py-20 md:py-28" background="experience">
       <div className="container">
         <SectionHeader
           eyebrow="Experience"

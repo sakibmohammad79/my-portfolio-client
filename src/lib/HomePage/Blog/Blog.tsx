@@ -36,7 +36,7 @@ const Blog = () => {
   const blogList = data && data.length > 0 ? data : defaultBlogs;
 
   return (
-    <Section id="blog" variant="top-right" className="py-16 sm:py-20 md:py-28">
+    <Section id="blog" variant="top-right" className="py-16 sm:py-20 md:py-28" background="minimal">
       <div className="container">
         <SectionHeader
           eyebrow="Blog"

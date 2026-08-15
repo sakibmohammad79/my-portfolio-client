@@ -97,30 +97,16 @@ const Banner = () => {
   const typedText = useTypingEffect(designations, 120);
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-background">
+    <section className="relative flex min-h-screen items-center overflow-hidden">
       {/* Atmosphere */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 15% 30%, var(--primary-softer) 0%, transparent 45%), radial-gradient(circle at 85% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%), radial-gradient(circle at 60% 10%, oklch(76.8% 0.233 130.85 / 0.05) 0%, transparent 40%)",
+            "radial-gradient(circle at 15% 30%, oklch(76.8% 0.233 130.85 / 0.1) 0%, transparent 45%), radial-gradient(circle at 85% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%), radial-gradient(circle at 60% 10%, oklch(76.8% 0.233 130.85 / 0.07) 0%, transparent 40%)",
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-25"
-        style={{
-          backgroundImage:
-            "linear-gradient(45deg, var(--border) 1px, transparent 1px), linear-gradient(-45deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage:
-            "radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)",
-        }}
-      />
-
       <div className="container relative z-10 pt-24 pb-16 sm:pt-28 sm:pb-20 md:py-24 lg:py-0">
         <div className="grid grid-cols-1 items-center gap-12 pt-4 md:min-h-[calc(100vh-100px)] md:grid-cols-12 md:gap-8 md:pt-0 lg:gap-12">
           {/* Left: content */}

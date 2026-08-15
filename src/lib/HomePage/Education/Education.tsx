@@ -91,6 +91,7 @@ const Education = () => {
       id="education"
       variant="bottom-left"
       className="py-16 sm:py-20 md:py-28"
+      background="subtle"
     >
       <div className="container">
         <SectionHeader

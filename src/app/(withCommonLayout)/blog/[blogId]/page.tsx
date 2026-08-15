@@ -81,7 +81,7 @@ const Page = ({ params }: any) => {
     "inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-2 py-1.5 text-sm font-semibold text-muted-foreground backdrop-blur-md transition-all duration-300 hover:border-primary/45 hover:text-primary sm:px-3 sm:py-2 sm:text-[15px]";
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background">
+    <div className="relative min-h-screen w-full overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

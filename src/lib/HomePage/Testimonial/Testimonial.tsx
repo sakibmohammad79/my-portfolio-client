@@ -18,7 +18,7 @@ const testimonial = {
 
 const Testimonials = () => {
   return (
-    <Section id="testimonials" variant="bottom-right" className="py-16 sm:py-20 md:py-28">
+    <Section id="testimonials" variant="bottom-right" className="py-16 sm:py-20 md:py-28" background="subtle">
       <div className="container">
         <SectionHeader
           eyebrow="Testimonials"
