@@ -24,7 +24,7 @@ const AuthButton = () => {
   };
 
   const base =
-    "inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs sm:text-[13px] font-bold transition-all duration-300";
+    "inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs sm:text-[12px] font-bold transition-all duration-300";
 
   return (
     <div>
@@ -33,7 +33,7 @@ const AuthButton = () => {
           onClick={handleRemoveUser}
           className={cn(
             base,
-            "bg-primary text-primary-foreground shadow-[0_8px_22px_var(--primary-glow)] hover:-translate-y-0.5 hover:bg-primary-light"
+            "bg-primary text-primary-foreground shadow-[0_8px_22px_var(--primary-glow)] hover:-translate-y-0.5 hover:bg-primary-light",
           )}
         >
           Logout
@@ -43,10 +43,10 @@ const AuthButton = () => {
           href="/login"
           className={cn(
             base,
-            "border border-border bg-transparent text-foreground hover:border-primary/45 hover:bg-primary/10 hover:text-primary"
+            "border border-border bg-transparent text-foreground hover:border-primary/45 hover:bg-primary/10 hover:text-primary",
           )}
         >
-          Admin Login
+          ADMIN LOGIN
         </Link>
       )}
     </div>

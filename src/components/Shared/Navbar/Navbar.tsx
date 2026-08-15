@@ -57,7 +57,7 @@ const Navbar = () => {
           }
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-40% 0px -55% 0px" },
     );
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
@@ -67,15 +67,15 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skill" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#project" },
-    { label: "Education", href: "#education" },
-    { label: "Blog", href: "#blog" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Contact", href: "#contact" },
-    ...(userRole ? [{ label: "Dashboard", href: "/dashboard" }] : []),
+    { label: "ABOUT", href: "#about" },
+    { label: "SKILLS", href: "#skill" },
+    { label: "EXPERIENCE", href: "#experience" },
+    { label: "PROJECTS", href: "#project" },
+    { label: "EDUCATION", href: "#education" },
+    { label: "BLOG", href: "#blog" },
+    { label: "TESTIMONIALS", href: "#testimonials" },
+    { label: "CONTACT", href: "#contact" },
+    ...(userRole ? [{ label: "DASHBOARD", href: "/dashboard" }] : []),
   ];
 
   const isActive = (href: string) =>
@@ -89,7 +89,7 @@ const Navbar = () => {
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
           ? "border-b border-border bg-background/75 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
+          : "border-b border-transparent bg-transparent",
       )}
     >
       <div className="container flex h-16 items-center justify-between md:h-[72px]">
@@ -103,7 +103,10 @@ const Navbar = () => {
               <Menu className="h-5 w-5" />
             </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-72 border-l border-border bg-background/95 px-4 py-5 backdrop-blur-md">
+          <SheetContent
+            side="right"
+            className="w-72 border-l border-border bg-background/95 px-4 py-5 backdrop-blur-md"
+          >
             <SheetHeader className="mb-4 px-1 text-left">
               <SheetTitle className="text-xl">
                 sakib<span className="text-primary">.</span>dev
@@ -116,7 +119,9 @@ const Navbar = () => {
                     href={item.href}
                     className={cn(
                       "rounded-md px-4 py-2.5 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary",
-                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                      isActive(item.href)
+                        ? "text-primary"
+                        : "text-muted-foreground",
                     )}
                   >
                     {item.label}
@@ -146,14 +151,14 @@ const Navbar = () => {
               href={item.href}
               className={cn(
                 "relative whitespace-nowrap rounded-lg px-2.5 py-2 text-[13px] font-medium tracking-wide transition-colors hover:text-primary lg:px-3.5",
-                isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                isActive(item.href) ? "text-primary" : "text-muted-foreground",
               )}
             >
               {item.label}
               <span
                 className={cn(
                   "absolute bottom-1 left-1/2 h-0.5 w-3/5 -translate-x-1/2 rounded-full bg-primary transition-transform duration-300",
-                  isActive(item.href) ? "scale-x-100" : "scale-x-0"
+                  isActive(item.href) ? "scale-x-100" : "scale-x-0",
                 )}
               />
             </Link>

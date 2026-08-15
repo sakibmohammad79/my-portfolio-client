@@ -1,6 +1,12 @@
 "use client";
 import Link from "next/link";
-import { Linkedin, Facebook, Instagram, Github, ArrowRight } from "lucide-react";
+import {
+  Linkedin,
+  Facebook,
+  Instagram,
+  Github,
+  ArrowRight,
+} from "lucide-react";
 import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
 import DevWorkspace from "@/components/Shared/DevWorkspace/DevWorkspace";
 import { motion } from "framer-motion";
@@ -119,12 +125,19 @@ const Banner = () => {
         <div className="grid grid-cols-1 items-center gap-12 pt-4 md:min-h-[calc(100vh-100px)] md:grid-cols-12 md:gap-8 md:pt-0 lg:gap-12">
           {/* Left: content */}
           <div className="md:col-span-7 lg:col-span-6">
-            <motion.div variants={containerVariants} initial="hidden" animate="visible">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {/* Availability label */}
               <motion.div variants={itemVariants}>
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.04em] text-muted-foreground sm:px-4 sm:text-[13px]">
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" style={{ boxShadow: "0 0 0 4px var(--primary-soft)" }} />
+                    <span
+                      className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"
+                      style={{ boxShadow: "0 0 0 4px var(--primary-soft)" }}
+                    />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
                   </span>
                   Available for new opportunities
@@ -133,7 +146,7 @@ const Banner = () => {
 
               {/* Heading */}
               <motion.div variants={itemVariants}>
-                <h1 className="mt-6 text-3xl font-extrabold leading-[1.12] tracking-tight text-foreground sm:mt-8 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+                <h1 className="mt-6 font-extrabold leading-[1.12] tracking-tight text-foreground sm:mt-8 text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl">
                   Hi, I&apos;m <span className="text-primary">Md. Sakib</span>
                   <br />
                   <span className="inline-flex min-h-[1.2em] flex-wrap items-center text-muted-foreground">
@@ -148,9 +161,9 @@ const Banner = () => {
               <motion.div variants={itemVariants}>
                 <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base">
                   I design and build complete web applications — from polished,
-                  responsive frontends to scalable backend services, RESTful APIs,
-                  and database architecture. I combine clean UI with robust system
-                  design to ship products that drive real impact.
+                  responsive frontends to scalable backend services, RESTful
+                  APIs, and database architecture. I combine clean UI with
+                  robust system design to ship products that drive real impact.
                 </p>
               </motion.div>
 
@@ -184,7 +197,11 @@ const Banner = () => {
                       <motion.div
                         whileHover={{ y: -3 }}
                         whileTap={{ scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 18 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 18,
+                        }}
                       >
                         <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all duration-300 hover:border-primary/45 hover:bg-primary/10 hover:text-primary sm:h-11 sm:w-11 md:h-12 md:w-12">
                           <item.icon className="h-4 w-4 sm:h-5 sm:w-5" />

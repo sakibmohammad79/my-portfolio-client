@@ -12,10 +12,22 @@ const navigationLinks = [
 ];
 
 const socialLinks = [
-  { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/md-sakib79/" },
+  {
+    name: "LinkedIn",
+    icon: Linkedin,
+    url: "https://www.linkedin.com/in/md-sakib79/",
+  },
   { name: "GitHub", icon: Github, url: "https://github.com/sakibmohammad79" },
-  { name: "Facebook", icon: Facebook, url: "https://www.facebook.com/profile.php?id=100011373134077" },
-  { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/md_sakib75/" },
+  {
+    name: "Facebook",
+    icon: Facebook,
+    url: "https://www.facebook.com/profile.php?id=100011373134077",
+  },
+  {
+    name: "Instagram",
+    icon: Instagram,
+    url: "https://www.instagram.com/md_sakib75/",
+  },
 ];
 
 const Footer = () => {
@@ -70,9 +82,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Md. Sakib. All Rights Reserved.
           </p>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground sm:text-[13px]">
-            Made with
-            <Heart className="h-3.5 w-3.5 fill-primary text-primary" />
-            by Md. Sakib
+            Made by Md. Sakib
           </p>
         </div>
       </div>

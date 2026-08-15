@@ -7,13 +7,39 @@ import { Briefcase } from "lucide-react";
 const experiences = [
   {
     id: 1,
+    position: "Junior Software Engineer",
+    company: "Fytobyte Ltd.",
+    duration: "Feb 2026 - Present",
+    description:
+      "Working as a Full Stack Developer, building and maintaining scalable web applications using React, Next.js, TypeScript, Node.js, Express.js, PostgreSQL, and Prisma. Developing modern user interfaces, RESTful APIs, authentication systems, and business-focused features across multiple projects.",
+    technologies: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind CSS",
+    ],
+    current: true,
+  },
+  {
+    id: 2,
     position: "Software Engineer",
     company: "CSX Labs",
     duration: "October 2024 - February 2025",
     description:
       "Worked as a Full Stack Software Engineer, developing scalable web applications using Next.js, TypeScript, PostgreSQL, and Prisma. Built modern, responsive user interfaces and implemented robust backend solutions.",
-    technologies: ["Next.js", "TypeScript", "Express.js", "PostgreSQL", "Prisma", "Storybook.js"],
-    current: true,
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+      "Storybook.js",
+    ],
+    current: false,
   },
 ];
 
@@ -36,7 +62,8 @@ const Experience = () => {
             aria-hidden
             className="absolute left-[19px] sm:left-[21px] top-3 bottom-3 w-[2px] opacity-70"
             style={{
-              background: "linear-gradient(180deg, var(--primary), var(--border))",
+              background:
+                "linear-gradient(180deg, var(--primary), var(--border))",
             }}
           />
           <div className="flex flex-col gap-6 sm:gap-8">
@@ -46,13 +73,15 @@ const Experience = () => {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
+                transition={{
+                  duration: 0.55,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
               >
                 <div className="flex gap-3 sm:gap-4 md:gap-5">
                   {/* Node */}
-                  <div
-                    className="relative z-[1] mt-1 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-background shadow-[0_0_0_4px_var(--primary-soft)]"
-                  >
+                  <div className="relative z-[1] mt-1 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-background shadow-[0_0_0_4px_var(--primary-soft)]">
                     {exp.current ? (
                       <span
                         className="h-2.5 w-2.5 rounded-full bg-primary"
