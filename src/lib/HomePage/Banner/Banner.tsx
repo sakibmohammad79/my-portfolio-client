@@ -1,53 +1,34 @@
 "use client";
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import Image from "next/image";
+import { Box, Container, Grid, Stack, Typography, Button } from "@mui/material";
 import Link from "next/link";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DownloadResume from "@/lib/UI/ResumeDownload/ResumeDownload";
+import DevWorkspace from "@/components/Shared/DevWorkspace/DevWorkspace";
 import { motion } from "framer-motion";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { colors, radii } from "@/constant/design";
 
-// Color scheme constants
-const COLORS = {
-  primary: '#60a5fa',
-  secondary: '#a78bfa', 
-  tertiary: '#f472b6',
-  background: {
-    dark: 'rgba(15, 23, 42, 0.6)',
-    light: 'rgba(15, 23, 42, 0.4)',
-  },
-  text: {
-    primary: 'rgba(248, 250, 252, 0.95)',
-    secondary: 'rgba(203, 213, 225, 0.9)',
-    accent: 'rgba(99, 102, 241, 0.9)',
-  },
-  border: 'rgba(148, 163, 184, 0.2)',
-} as const;
-
-// Typing Effect Hook
-const useTypingEffect = (texts: string[], speed: number = 150) => {
-  const [displayText, setDisplayText] = useState('');
+const useTypingEffect = (texts: string[], speed: number = 120) => {
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    
+
     const currentText = texts[currentIndex];
-    
+
     if (isTyping) {
       if (displayText.length < currentText.length) {
         timeout = setTimeout(() => {
           setDisplayText(currentText.slice(0, displayText.length + 1));
         }, speed);
       } else {
-        // Pause before deleting
-        timeout = setTimeout(() => {
-          setIsTyping(false);
-        }, 2000);
+        timeout = setTimeout(() => setIsTyping(false), 2000);
       }
     } else {
       if (displayText.length > 0) {
@@ -55,7 +36,6 @@ const useTypingEffect = (texts: string[], speed: number = 150) => {
           setDisplayText(displayText.slice(0, -1));
         }, speed / 2);
       } else {
-        // Move to next text
         setCurrentIndex((prev) => (prev + 1) % texts.length);
         setIsTyping(true);
       }
@@ -67,434 +47,343 @@ const useTypingEffect = (texts: string[], speed: number = 150) => {
   return displayText;
 };
 
+const socialLinks = [
+  {
+    href: "https://www.linkedin.com/in/md-sakib79/",
+    icon: <LinkedInIcon fontSize="medium" />,
+    label: "LinkedIn",
+  },
+  {
+    href: "https://github.com/sakibmohammad79",
+    icon: <GitHubIcon fontSize="medium" />,
+    label: "GitHub",
+  },
+  {
+    href: "https://www.facebook.com/profile.php?id=100011373134077",
+    icon: <FacebookIcon fontSize="medium" />,
+    label: "Facebook",
+  },
+  {
+    href: "https://www.instagram.com/md_sakib75/",
+    icon: <InstagramIcon fontSize="medium" />,
+    label: "Instagram",
+  },
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.14, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
+};
+
 const Banner = () => {
-  // Dynamic designations focusing on backend
   const designations = [
+    "Full Stack Developer",
     "Backend Developer",
-    "Full Stack Developer", 
-    "Node.js Expert",
+    "Node.js Developer",
     "API Architect",
   ];
-  
+
   const typedText = useTypingEffect(designations, 120);
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `
-            radial-gradient(circle at 20% 30%, ${COLORS.primary}1A 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, ${COLORS.secondary}14 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, ${COLORS.tertiary}0F 0%, transparent 50%)
-          `,
-          pointerEvents: 'none',
-        },
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `
-            linear-gradient(45deg, rgba(148, 163, 184, 0.02) 25%, transparent 25%),
-            linear-gradient(-45deg, rgba(148, 163, 184, 0.02) 25%, transparent 25%),
-            linear-gradient(45deg, transparent 75%, rgba(148, 163, 184, 0.02) 75%),
-            linear-gradient(-45deg, transparent 75%, rgba(148, 163, 184, 0.02) 75%)
-          `,
-          backgroundSize: '60px 60px',
-          backgroundPosition: '0 0, 0 30px, 30px -30px, -30px 0px',
-          opacity: 0.3,
-          pointerEvents: 'none',
-        }
+        minHeight: "100vh",
+        background: colors.background,
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
       }}
     >
-      <Container sx={{ position: 'relative', zIndex: 1 }}>
-        <Grid 
-          container 
-          spacing={4} 
-          sx={{ 
-            pt: { xs: 14, md: 20 },
-            minHeight: 'calc(100vh - 120px)',
-            alignItems: 'center'
-          }} 
-          pb={12}
+      {/* Atmosphere */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background: `
+            radial-gradient(circle at 15% 30%, ${colors.primarySofter} 0%, transparent 45%),
+            radial-gradient(circle at 85% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%),
+            radial-gradient(circle at 60% 10%, oklch(76.8% 0.233 130.85 / 0.05) 0%, transparent 40%)
+          `,
+          pointerEvents: "none",
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(45deg, ${colors.border} 1px, transparent 1px),
+            linear-gradient(-45deg, ${colors.border} 1px, transparent 1px)
+          `,
+          backgroundSize: "56px 56px",
+          opacity: 0.25,
+          maskImage:
+            "radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <Container
+        sx={{ position: "relative", zIndex: 1, py: { xs: 10, md: 6 } }}
+      >
+        <Grid
+          container
+          spacing={4}
+          sx={{
+            alignItems: "center",
+            minHeight: "calc(100vh - 140px)",
+            pt: { xs: 6, md: 0 },
+          }}
         >
-          {/* Left Section */}
-          <Grid item xs={12} md={6} lg={7}>
+          {/* Left: content */}
+          <Grid item xs={12} md={7} lg={6}>
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              <Typography 
-                variant="body1"
-                sx={{
-                  color: COLORS.text.accent,
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 500,
-                  letterSpacing: '0.15em',
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  position: 'relative',
-                  paddingLeft: '40px',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '30px',
-                    height: '2px',
-                    background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary})`,
-                    borderRadius: '1px',
-                  }
-                }}
-              >
-                Welcome to my world
-              </Typography>
-              
-              <Typography
-                py={3}
-                variant="h3"
-                component="h1"
-                sx={{
-                  fontSize: { xs: '2rem', md: '3.5rem', lg: '4rem' },
-                  fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
-                  fontWeight: 800,
-                  lineHeight: 1.1,
-                  color: COLORS.text.primary,
-                  letterSpacing: '-0.02em',
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                }}
-              >
-                Hi, I&apos;m{" "}
-                <Box 
-                  component="span" 
-                  sx={{
-                    background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 50%, ${COLORS.tertiary} 100%)`,
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    position: 'relative',
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      bottom: '-8px',
-                      left: 0,
-                      right: 0,
-                      height: '4px',
-                      background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary}, ${COLORS.tertiary})`,
-                      borderRadius: '2px',
-                      opacity: 0.6,
-                    }
-                  }}
-                >
-                  Md. Sakib
-                </Box>{" "}
-                <br />
-                
-                {/* Dynamic Typing Effect */}
+              {/* Availability label */}
+              <motion.div variants={itemVariants}>
                 <Box
                   sx={{
-                    background: 'linear-gradient(135deg, #e2e8f0, #cbd5e1)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    minHeight: { xs: '3rem', md: '4rem' },
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 1,
+                    px: 2,
+                    py: 0.8,
+                    borderRadius: 999,
+                    border: `1px solid ${colors.border}`,
+                    background: colors.card,
+                    fontSize: { xs: "0.72rem", md: "0.8rem" },
+                    color: colors.textSecondary,
+                    fontWeight: 500,
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
                   }}
                 >
-                  <motion.span
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      bgcolor: colors.primary,
+                      boxShadow: `0 0 0 4px ${colors.primarySoft}`,
+                    }}
+                  />
+                  Available for new opportunities
+                </Box>
+              </motion.div>
+
+              {/* Heading */}
+              <motion.div variants={itemVariants}>
+                <Typography
+                  component="h1"
+                  sx={{
+                    fontSize: {
+                      xs: "1.8rem",
+                      sm: "2rem",
+                      md: "2.6rem",
+                      lg: "3.0rem",
+                      xl: "3.25rem",
+                    },
+                    fontFamily:
+                      '"Inter", "SF Pro Display", -apple-system, sans-serif',
+                    fontWeight: 800,
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.03em",
+                    color: colors.textPrimary,
+                    mt: 3,
+                  }}
+                >
+                  Hi, I&apos;m{" "}
+                  <Box component="span" sx={{ color: colors.primary }}>
+                    Md. Sakib
+                  </Box>
+                  <br />
+                  <Box
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      color: colors.textSecondary,
+                    }}
                   >
-                    A {typedText}
+                    <Box
+                      component="span"
+                      sx={{ color: colors.textMuted, mr: 1 }}
+                    >
+                      A
+                    </Box>
+                    {typedText}
                     <Box
                       component="span"
                       sx={{
-                        display: 'inline-block',
-                        width: '3px',
-                        height: { xs: '2rem', md: '3rem' },
-                        backgroundColor: COLORS.primary,
-                        marginLeft: '4px',
-                        animation: 'blink 1s infinite',
-                        '@keyframes blink': {
-                          '0%, 50%': { opacity: 1 },
-                          '51%, 100%': { opacity: 0 },
-                        },
+                        display: "inline-block",
+                        width: { xs: 2, md: 3 },
+                        height: { xs: "1.8rem", md: "2.6rem" },
+                        bgcolor: colors.primary,
+                        ml: 0.5,
+                        animation: "blink 1.1s infinite",
                       }}
                     />
-                  </motion.span>
-                </Box>
-              </Typography>
-              
-              <Typography
-                sx={{
-                  color: COLORS.text.secondary,
-                  fontSize: '1.1rem',
-                  lineHeight: 1.7,
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 400,
-                  maxWidth: '600px',
-                  background: COLORS.background.light,
-                  backdropFilter: 'blur(10px)',
-                  padding: '24px',
-                  borderRadius: '16px',
-                  border: `1px solid ${COLORS.border}`,
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                }}
-              >
-                I am a dedicated backend-focused developer with strong expertise in server-side architecture, 
-                RESTful API development, and database optimization. I specialize in building scalable, secure, 
-                and high-performance systems, ensuring seamless integration between services. Passionate 
-                about solving complex challenges, I continuously strive to deliver efficient, reliable, 
-                and maintainable solutions that drive real impact.
-              </Typography>
-            </motion.div>
+                  </Box>
+                </Typography>
+              </motion.div>
 
-            {/* Social Media Links */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              <Typography 
-                pt={6} 
-                pb={3}
-                sx={{
-                  color: 'rgba(148, 163, 184, 0.9)',
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Connect with me
-              </Typography>
-              
-              <Stack direction="row" spacing={2}>
-                {[
-                  {
-                    href: "https://www.linkedin.com/in/md-sakib79/",
-                    icon: <LinkedInIcon fontSize="large" />,
-                    color: '#0077b5',
-                  },
-                  {
-                    href: "https://www.facebook.com/profile.php?id=100011373134077",
-                    icon: <FacebookIcon fontSize="large" />,
-                    color: '#1877f2',
-                  },
-                  {
-                    href: "https://www.instagram.com/md_sakib75/",
-                    icon: <InstagramIcon fontSize="large" />,
-                    color: '#e4405f',
-                  },
-                  {
-                    href: "https://github.com/sakibmohammad79",
-                    icon: <GitHubIcon fontSize="large" />,
-                    color: '#f8f9fa',
-                  },
-                ].map((item, index) => (
-                  <Link key={index} href={item.href} target="_blank">
-                    <motion.div
-                      whileHover={{ 
-                        scale: 1.1,
-                        rotateY: 10,
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              {/* Description */}
+              <motion.div variants={itemVariants}>
+                <Typography
+                  sx={{
+                    color: colors.textMuted,
+                    fontSize: { xs: "0.95rem", sm: "0.8rem", md: "0.8rem" },
+                    lineHeight: 1.75,
+                    mt: 3,
+                    maxWidth: 580,
+                  }}
+                >
+                  I design and build complete web applications — from polished,
+                  responsive frontends to scalable backend services, RESTful
+                  APIs, and database architecture. I combine clean UI with
+                  robust system design to ship products that drive real impact.
+                </Typography>
+              </motion.div>
+
+              {/* CTA buttons */}
+              <motion.div variants={itemVariants}>
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={2}
+                  mt={4}
+                >
+                  <Button
+                    component="a"
+                    href="#contact"
+                    endIcon={<ArrowForwardIcon />}
+                    sx={{
+                      background: colors.primary,
+                      color: colors.background,
+                      fontWeight: 700,
+                      fontSize: { xs: "0.9rem", md: "1rem" },
+                      px: { xs: 3, md: 4 },
+                      py: { xs: 1.5, md: 1.75 },
+                      borderRadius: radii.md,
+                      transition: "all 0.25s ease",
+                      "&:hover": {
+                        background: colors.primaryLight,
+                        transform: "translateY(-2px)",
+                        boxShadow: `0 12px 30px ${colors.primaryGlow}`,
+                      },
+                    }}
+                  >
+                    Let&apos;s Talk
+                  </Button>
+                  <Box
+                    sx={{
+                      "& button, & a": {
+                        background: "transparent",
+                        color: colors.textPrimary,
+                        border: `1px solid ${colors.border}`,
+                        borderRadius: radii.md,
+                        px: { xs: 3, md: 4 },
+                        py: { xs: 1.5, md: 1.75 },
+                        fontSize: { xs: "0.9rem", md: "1rem" },
+                        fontWeight: 600,
+                        transition: "all 0.25s ease",
+                        "&:hover": {
+                          borderColor: colors.borderHover,
+                          background: colors.primarySoft,
+                          transform: "translateY(-2px)",
+                        },
+                        "& svg": { color: colors.primary },
+                      },
+                    }}
+                  >
+                    <DownloadResume />
+                  </Box>
+                </Stack>
+              </motion.div>
+
+              {/* Social links */}
+              <motion.div variants={itemVariants}>
+                <Typography
+                  sx={{
+                    color: colors.textMuted,
+                    fontSize: "0.78rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    mt: 5,
+                    mb: 2,
+                  }}
+                >
+                  Connect with me
+                </Typography>
+                <Stack direction="row" spacing={1.5}>
+                  {socialLinks.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={item.href}
+                      target="_blank"
+                      aria-label={item.label}
                     >
-                      <Box
-                        sx={{
-                          background: COLORS.background.dark,
-                          backdropFilter: 'blur(10px)',
-                          border: `1px solid ${COLORS.border}`,
-                          borderRadius: '16px',
-                          p: 2,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '60px',
-                          height: '60px',
-                          color: 'rgba(248, 250, 252, 0.8)',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                          position: 'relative',
-                          overflow: 'hidden',
-                          '&::before': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: '-100%',
-                            width: '100%',
-                            height: '100%',
-                            background: `linear-gradient(90deg, transparent, ${item.color}20, transparent)`,
-                            transition: 'left 0.5s ease',
-                          },
-                          '&:hover': { 
-                            color: item.color,
-                            borderColor: `${item.color}40`,
-                            boxShadow: `0 8px 25px ${item.color}20`,
-                            transform: 'translateY(-2px)',
-                          },
-                          '&:hover::before': {
-                            left: '100%',
-                          }
+                      <motion.div
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 18,
                         }}
                       >
-                        {item.icon}
-                      </Box>
-                    </motion.div>
-                  </Link>
-                ))}
-              </Stack>
-            </motion.div>
-
-            {/* Enhanced Resume Download Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            >
-              <Box 
-                mt={4}
-                sx={{
-                  // Style the DownloadResume button to match color scheme
-                  '& > *': {
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  },
-                  '& button, & a': {
-                    background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
-                    border: 'none',
-                    borderRadius: '16px',
-                    padding: { xs: '12px 24px', sm: '16px 32px' },
-                    fontSize: { xs: '0.9rem', sm: '1rem' },
-                    fontWeight: 600,
-                    color: 'white !important',
-                    fontFamily: '"Inter", sans-serif',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    textDecoration: 'none',
-                    boxShadow: `0 8px 24px ${COLORS.primary}40`,
-                    cursor: 'pointer',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    minWidth: '180px',
-                    justifyContent: 'center',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)`,
-                      transition: 'left 0.6s ease',
-                    },
-                    '&:hover': {
-                      background: `linear-gradient(135deg, ${COLORS.secondary} 0%, ${COLORS.tertiary} 100%)`,
-                      boxShadow: `0 12px 32px ${COLORS.secondary}50`,
-                      transform: 'translateY(-3px) scale(1.02)',
-                    },
-                    '&:hover::before': {
-                      left: '100%',
-                    },
-                    '&:active': {
-                      transform: 'translateY(-1px) scale(1.01)',
-                    },
-                    // Ensure SVG icons inside maintain good color
-                    '& svg': {
-                      color: 'white',
-                      fontSize: '1.2rem',
-                    }
-                  }
-                }}
-              >
-                <DownloadResume />
-              </Box>
+                        <Box
+                          sx={{
+                            width: { xs: 42, md: 46 },
+                            height: { xs: 42, md: 46 },
+                            borderRadius: radii.md,
+                            border: `1px solid ${colors.border}`,
+                            background: colors.card,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: colors.textSecondary,
+                            transition: "all 0.25s ease",
+                            "&:hover": {
+                              color: colors.primary,
+                              borderColor: colors.borderHover,
+                              background: colors.primarySofter,
+                            },
+                          }}
+                        >
+                          {item.icon}
+                        </Box>
+                      </motion.div>
+                    </Link>
+                  ))}
+                </Stack>
+              </motion.div>
             </motion.div>
           </Grid>
 
-          {/* Right Section (Image) */}
-          <Grid item xs={12} md={6} lg={5}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotateY: 15 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-            >
-              <Box
-                sx={{
-                  position: 'relative',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: '-20px',
-                    left: '-20px',
-                    right: '-20px',
-                    bottom: '-20px',
-                    background: `linear-gradient(135deg, ${COLORS.primary}20, ${COLORS.secondary}20, ${COLORS.tertiary}20)`,
-                    borderRadius: '32px',
-                    filter: 'blur(20px)',
-                    zIndex: -1,
-                  }
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    borderRadius: '24px',
-                    overflow: 'hidden',
-                    background: COLORS.background.dark,
-                    backdropFilter: 'blur(10px)',
-                    border: `1px solid ${COLORS.border}`,
-                    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.2)',
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: `linear-gradient(135deg, ${COLORS.primary}1A 0%, transparent 50%, ${COLORS.secondary}1A 100%)`,
-                      pointerEvents: 'none',
-                    }
-                  }}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  >
-                    <Image
-                      style={{ 
-                        borderRadius: "24px", 
-                        objectFit: "cover",
-                        filter: 'brightness(1.1) contrast(1.1)',
-                      }}
-                      height={500}
-                      width={600}
-                      src="https://i.postimg.cc/V6v625LY/sakib-s-image.png"
-                      alt="Md. Sakib - Backend Developer"
-                    />
-                  </motion.div>
-                </Box>
-              </Box>
-            </motion.div>
+          {/* Right: developer workspace visual */}
+          <Grid item xs={12} md={5} lg={6}>
+            <Box sx={{ pb: { xs: 6, sm: 8 }, pt: { xs: 4, md: 0 } }}>
+              <DevWorkspace />
+            </Box>
           </Grid>
         </Grid>
       </Container>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
+import { colors, radii } from "@/constant/design";
 
 const AuthButton = () => {
   const router = useRouter();
@@ -24,19 +25,28 @@ const AuthButton = () => {
     router.refresh();
   };
 
+  const btnSx = {
+    background: colors.primary,
+    color: colors.background,
+    fontWeight: 700,
+    fontSize: "0.8rem",
+    textTransform: "none",
+    px: 2,
+    py: 1,
+    borderRadius: radii.md,
+    transition: "all 0.25s ease",
+    "&:hover": {
+      background: colors.primaryLight,
+      boxShadow: `0 8px 22px ${colors.primaryGlow}`,
+      transform: "translateY(-1px)",
+    },
+  } as const;
+
   return (
     <div>
       {adminId ? (
         <Box>
-          <Button
-            sx={{
-              bgcolor: "white",
-              color: "primary.main",
-              fontWeight: 600,
-              fontSize: "14px",
-            }}
-            onClick={handleRemoveUser}
-          >
+          <Button sx={{ ...btnSx }} onClick={handleRemoveUser}>
             Logout
           </Button>
         </Box>
@@ -44,15 +54,20 @@ const AuthButton = () => {
         <Box>
           <Button
             sx={{
-              bgcolor: "white",
-              color: "primary.main",
-              fontWeight: 600,
-              fontSize: "14px",
+              ...btnSx,
+              background: "transparent",
+              color: colors.textPrimary,
+              border: `1px solid ${colors.border}`,
+              "&:hover": {
+                background: colors.primarySoft,
+                borderColor: colors.borderHover,
+                color: colors.primary,
+              },
             }}
             LinkComponent={Link}
             href="/login"
           >
-            Admin Login
+            ADMIN LOGIN
           </Button>
         </Box>
       )}

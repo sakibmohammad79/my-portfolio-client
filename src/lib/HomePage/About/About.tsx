@@ -1,327 +1,237 @@
 "use client";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography, Stack } from "@mui/material";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import aboutImage from "../../../../public/image/aboutPic.png";
+import { colors, radii } from "@/constant/design";
+import Section from "@/components/Shared/Section/Section";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+const profileImage = "https://i.postimg.cc/V6v625LY/sakib-s-image.png";
+
+const highlights = [
+  "Frontend & Backend Development",
+  "RESTful API Design",
+  "Database Architecture",
+  "Scalable Full-Stack Systems",
+];
 
 const About = () => {
   return (
-    <Box
-      id="about"
-      sx={{
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `
-            radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-            radial-gradient(circle at 60% 60%, rgba(244, 114, 182, 0.04) 0%, transparent 50%)
-          `,
-          pointerEvents: 'none',
-        },
-      }}
-    >
-      <Container sx={{ pb: 12, pt: 8, position: 'relative', zIndex: 1 }}>
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography 
-              sx={{
-                color: 'rgba(99, 102, 241, 0.9)',
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 600,
-                letterSpacing: '0.15em',
-                fontSize: '0.9rem',
-                textTransform: 'uppercase',
-                position: 'relative',
-                display: 'inline-block',
-                pb: 2,
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '60px',
-                  height: '2px',
-                  background: 'linear-gradient(90deg, #60a5fa, #a78bfa)',
-                  borderRadius: '1px',
-                }
-              }}
-            >
-              About Me
-            </Typography>
-            
-            <Typography
-              sx={{
-                fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.5rem', lg: '4rem' },
-                fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
-                fontWeight: 800,
-                color: 'rgba(248, 250, 252, 0.95)',
-                letterSpacing: '-0.02em',
-                mt: 3,
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                background: 'linear-gradient(135deg, #e2e8f0, #cbd5e1, #94a3b8)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Who I Am?
-            </Typography>
-          </Box>
-        </motion.div>
-
-        <Grid container spacing={6} justifyContent="center" alignItems="center">
-          {/* Image Section */}
-          <Grid
-            sx={{ display: { xs: "none", md: "block" } }}
-            item
-            xs={12}
-            sm={12}
-            md={6}
-            lg={5}
-            xl={5}
-          >
+    <Section id="about" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
+      <Container>
+        <Grid container spacing={{ xs: 6, md: 8 }} alignItems="center">
+          {/* Image */}
+          <Grid item xs={12} md={5} lg={5}>
             <motion.div
-              initial={{ opacity: 0, x: -60, rotateY: 15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
             >
               <Box
                 sx={{
-                  position: 'relative',
-                  '&::before': {
+                  position: "relative",
+                  maxWidth: 420,
+                  mx: "auto",
+                  "&::before": {
                     content: '""',
-                    position: 'absolute',
-                    top: '-30px',
-                    left: '-30px',
-                    right: '-30px',
-                    bottom: '-30px',
-                    background: 'linear-gradient(135deg, #60a5fa15, #a78bfa15, #f472b615)',
-                    borderRadius: '40px',
-                    filter: 'blur(30px)',
-                    zIndex: -1,
-                  }
+                    position: "absolute",
+                    inset: -14,
+                    background: `radial-gradient(ellipse at 50% 50%, ${colors.primaryGlow} 0%, transparent 70%)`,
+                    filter: "blur(32px)",
+                    opacity: 0.45,
+                    zIndex: 0,
+                  },
                 }}
               >
                 <Box
                   sx={{
-                    position: 'relative',
-                    borderRadius: '32px',
-                    overflow: 'hidden',
-                    background: 'rgba(15, 23, 42, 0.4)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(148, 163, 184, 0.2)',
-                    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-10px) scale(1.02)',
-                      boxShadow: '0 35px 70px rgba(0, 0, 0, 0.2)',
-                    },
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, transparent 50%, rgba(168, 85, 247, 0.05) 100%)',
-                      pointerEvents: 'none',
-                    }
+                    position: "relative",
+                    borderRadius: radii.xl,
+                    overflow: "hidden",
+                    border: `1px solid ${colors.borderHover}`,
+                    boxShadow: "0 30px 60px rgba(0,0,0,0.4)",
+                    background: colors.card,
+                    zIndex: 1,
                   }}
                 >
-                  <Image 
-                    height={500} 
-                    width={550} 
-                    src={aboutImage} 
-                    alt="profile"
-                    style={{ 
-                      borderRadius: "32px",
-                      filter: 'brightness(1.1) contrast(1.05)',
-                    }}
-                  />
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                  >
+                    <Image
+                      src={profileImage}
+                      alt="Md. Sakib - Full Stack Developer"
+                      width={600}
+                      height={700}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        objectFit: "cover",
+                        display: "block",
+                      }}
+                    />
+                  </motion.div>
                 </Box>
+
+                {/* Floating badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: 18,
+                      left: -8,
+                      zIndex: 2,
+                      background: colors.card,
+                      border: `1px solid ${colors.borderHover}`,
+                      borderRadius: radii.md,
+                      px: 2,
+                      py: 1.2,
+                      boxShadow: "0 16px 35px rgba(0,0,0,0.35)",
+                      display: { xs: "none", sm: "flex" },
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        bgcolor: colors.primary,
+                        boxShadow: `0 0 0 4px ${colors.primarySoft}`,
+                      }}
+                    />
+                    <Box>
+                      <Typography sx={{ color: colors.textPrimary, fontWeight: 700, fontSize: "0.85rem", lineHeight: 1.2 }}>
+                        Full Stack Developer
+                      </Typography>
+                      <Typography sx={{ color: colors.textMuted, fontSize: "0.7rem" }}>
+                        Frontend · Backend · Database
+                      </Typography>
+                    </Box>
+                  </Box>
+                </motion.div>
               </Box>
             </motion.div>
           </Grid>
 
-          {/* Content Section */}
-          <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
+          {/* Content */}
+          <Grid item xs={12} md={7} lg={7}>
             <motion.div
-              initial={{ opacity: 0, x: 60 }}
+              initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             >
-              {/* About Me Badge */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  px: 2,
+                  py: 0.8,
+                  borderRadius: 999,
+                  border: `1px solid ${colors.borderHover}`,
+                  background: colors.primarySofter,
+                  mb: 3,
+                }}
               >
-                <Button 
-                  variant="contained" 
+                <Box sx={{ width: 26, height: 2, bgcolor: colors.primary, borderRadius: 1 }} />
+                <Typography
                   sx={{
-                    background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                    border: 'none',
-                    borderRadius: '25px',
-                    px: 4,
-                    py: 1.5,
-                    fontFamily: '"Inter", sans-serif',
+                    color: colors.primary,
                     fontWeight: 600,
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    fontSize: '0.85rem',
-                    boxShadow: '0 8px 25px rgba(99, 102, 241, 0.3)',
-                    transition: 'all 0.3s ease',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
-                      transition: 'left 0.5s ease',
-                    },
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 12px 35px rgba(99, 102, 241, 0.4)',
-                    },
-                    '&:hover::before': {
-                      left: '100%',
-                    }
+                    letterSpacing: "0.18em",
+                    fontSize: "0.75rem",
+                    textTransform: "uppercase",
                   }}
                 >
                   About Me
-                </Button>
-              </motion.div>
-
-              {/* Main Heading */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3.2rem' },
-                    fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
-                    fontWeight: 800,
-                    lineHeight: 1.2,
-                    color: 'rgba(248, 250, 252, 0.95)',
-                    letterSpacing: '-0.02em',
-                    py: 3,
-                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                  }}
-                >
-                  I am available for hire as a <br />
-                  <Box 
-                    component="span" 
-                    sx={{
-                      background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%)',
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      position: 'relative',
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        bottom: '-4px',
-                        left: 0,
-                        right: 0,
-                        height: '3px',
-                        background: 'linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)',
-                        borderRadius: '2px',
-                        opacity: 0.7,
-                      }
-                    }}
-                  >
-                    Backend-Focused Developer
-                  </Box>{" "}
-              
                 </Typography>
-              </motion.div>
+              </Box>
 
-              {/* Description */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+              <Typography
+                component="h2"
+                sx={{
+                  fontSize: { xs: "1.7rem", sm: "2.1rem", md: "2.6rem", lg: "3rem" },
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.2,
+                  color: colors.textPrimary,
+                  mb: 2,
+                }}
               >
-                <Box
-                  sx={{
-                    background: 'rgba(15, 23, 42, 0.6)',
-                    backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(148, 163, 184, 0.1)',
-                    borderRadius: '20px',
-                    p: 4,
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                    position: 'relative',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(168, 85, 247, 0.02) 100%)',
-                      borderRadius: '20px',
-                      pointerEvents: 'none',
-                    }
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      color: 'rgba(203, 213, 225, 0.9)',
-                      fontSize: '1.1rem',
-                      lineHeight: 1.8,
-                      fontFamily: '"Inter", sans-serif',
-                      fontWeight: 400,
-                      position: 'relative',
-                      zIndex: 1,
-                      '& strong': {
-                        background: 'linear-gradient(135deg, #60a5fa, #a78bfa)',
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        fontWeight: 600,
-                      }
-                    }}
-                  >
-                    My name is Md. Sakib, and I am a dedicated and passionate Backend-Focused 
-                    Web Developer from Bangladesh, currently pursuing a bachelor’s degree in 
-                    Computer Science. I have been consistently learning and building expertise 
-                    in server-side architecture, API development, and database optimization.
-I enjoy exploring new technologies and believe in working hard, never giving up, and tackling 
-challenges with determination. My focus is on creating robust, scalable, and efficient 
-systems that deliver real impact. Now, I am seeking an opportunity to start my professional development 
-career and apply my backend expertise in a real-world environment.
-                  </Typography>
+                I am available for hire as a{" "}
+                <Box component="span" sx={{ color: colors.primary }}>
+                  Full Stack Developer
                 </Box>
-              </motion.div>
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: colors.textMuted,
+                  fontSize: { xs: "0.95rem", md: "1.05rem" },
+                  lineHeight: 1.8,
+                  mb: 5,
+                }}
+              >
+                My name is Md. Sakib, and I am a dedicated Full Stack Web Developer from
+                Bangladesh, currently pursuing a bachelor&apos;s degree in Computer Science.
+                I work across the entire stack — building responsive frontend interfaces with
+                React, Next.js, and TypeScript, and crafting scalable backend services with
+                Node.js, Express, and Prisma backed by MongoDB and PostgreSQL. I enjoy
+                exploring new technologies and believe in working hard, never giving up, and
+                tackling challenges with determination. My focus is on creating complete,
+                robust, and efficient web applications that deliver real impact. Now, I am
+                seeking an opportunity to start my professional development career and apply
+                my full-stack expertise in a real-world environment.
+              </Typography>
+
+              {/* Highlights */}
+              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+                {highlights.map((item, index) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.15 + index * 0.08 }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1.5,
+                        p: 1.6,
+                        borderRadius: radii.md,
+                        background: colors.card,
+                        border: `1px solid ${colors.border}`,
+                        transition: "all 0.25s ease",
+                        "&:hover": {
+                          borderColor: colors.borderHover,
+                          transform: "translateY(-2px)",
+                        },
+                      }}
+                    >
+                      <CheckCircleIcon sx={{ color: colors.primary, fontSize: "1.25rem", flexShrink: 0 }} />
+                      <Typography sx={{ color: colors.textSecondary, fontSize: "0.9rem", fontWeight: 500 }}>
+                        {item}
+                      </Typography>
+                    </Box>
+                  </motion.div>
+                ))}
+              </Box>
             </motion.div>
           </Grid>
         </Grid>
       </Container>
-    </Box>
+    </Section>
   );
 };
 

@@ -10,79 +10,19 @@ import Skills from "@/lib/HomePage/Skills/Skills";
 import Testimonials from "@/lib/HomePage/Testimonial/Testimonial";
 import FloatingWhatsApp from "@/lib/UI/WhatsAppIcon/WhatsAppIcon";
 
-import { useEffect } from "react";
-
 const HomePage = () => {
-  // Add smooth scroll behavior when component mounts
-  useEffect(() => {
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
-    return () => {
-      document.documentElement.style.scrollBehavior = 'auto';
-    };
-  }, []);
-
   return (
     <div>
       <Banner />
-      
-      {/* Add scroll-margin-top for smooth scrolling offset */}
-      <div 
-        id="about" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <About />
-      </div>
+      <About />
+      <Skills />
+      <Experience />
+      <Project />
+      <Education />
+      <Blog />
+      <Testimonials />
+      <Contact />
 
-      <div 
-        id="skill" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Skills />
-      </div>
-      
-      <div 
-        id="experience" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Experience />
-      </div>
-      
-      <div 
-        id="project" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Project />
-      </div>
-      
-      <div 
-        id="education" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Education />
-      </div>
-      
-      <div 
-        id="blog" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Blog />
-      </div>
-      
-      <div 
-        id="contact" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Contact />
-      </div>
-      <div 
-        id="contact" 
-        style={{ scrollMarginTop: '100px' }}
-      >
-        <Testimonials/>
-      </div>
-
-      {/* Floating WhatsApp Button */}
       <FloatingWhatsApp
         phoneNumber="+8801870584779"
         message="Hi Md. Sakib, I saw your portfolio and was very impressed with your work. we're hiring and I'd love to discuss an opportunity with you."

@@ -7,53 +7,32 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import Container from "@mui/material/Container";
-import { Stack, useScrollTrigger, useTheme, useMediaQuery } from "@mui/material";
+import { Stack } from "@mui/material";
+import { colors, radii } from "@/constant/design";
 
-// Color scheme constants for consistency
-const COLORS = {
-  primary: '#60a5fa', // Blue
-  secondary: '#a78bfa', // Purple
-  tertiary: '#f472b6', // Pink
-  background: {
-    light: 'rgba(15, 23, 42, 0.8)',
-    dark: 'rgba(15, 23, 42, 0.95)',
-  },
-  text: {
-    primary: 'rgba(248, 250, 252, 0.9)',
-    secondary: 'rgba(248, 250, 252, 0.7)',
-  },
-  accent: 'rgba(99, 102, 241, 0.1)',
-  border: 'rgba(148, 163, 184, 0.1)',
-} as const;
+const sectionIds = [
+  "about",
+  "skill",
+  "experience",
+  "project",
+  "education",
+  "blog",
+  "testimonials",
+  "contact",
+];
 
 const Navbar = () => {
-  
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
   const [userRole, setUserRole] = React.useState("");
-  
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const [activeSection, setActiveSection] = React.useState("");
 
   const AuthButton = dynamic(() => import("@/lib/UI/AuthButton/AuthButton"), {
     ssr: false,
-  });
-
-  // Scroll trigger for glassmorphism effect
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 100,
   });
 
   React.useEffect(() => {
@@ -63,341 +42,261 @@ const Navbar = () => {
     }
   }, []);
 
-  // Navigation items
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   const navItems = [
-    { label: 'ABOUT', href: '#about' },
-    { label: 'SKILL', href: '#skill' },
-    { label: 'EXPERIENCE', href: '#experience' },
-    { label: 'PROJECT', href: '#project' },
-    { label: 'EDUCATION', href: '#education' },
-    { label: 'BLOG', href: '#blog' },
-    { label: 'CONTACTS', href: '#contact' },
-    ...(userRole ? [{ label: 'DASHBOARD', href: '/dashboard' }] : [])
+    { label: "ABOUT", href: "#about" },
+    { label: "SKILLS", href: "#skill" },
+    { label: "EXPERIENCE", href: "#experience" },
+    { label: "PROJECTS", href: "#project" },
+    { label: "EDUCATION", href: "#education" },
+    { label: "BLOG", href: "#blog" },
+    { label: "TESTIMONIALS", href: "#testimonials" },
+    { label: "CONTACT", href: "#contact" },
+    ...(userRole ? [{ label: "Dashboard", href: "/dashboard" }] : []),
   ];
 
+  const navItemSx = (href: string) => {
+    const active =
+      href.startsWith("#") &&
+      activeSection === href.slice(1) &&
+      activeSection !== "";
+    return {
+      color: active ? colors.primary : colors.textSecondary,
+      fontFamily: '"Inter", sans-serif',
+      fontWeight: 500,
+      fontSize: { md: "0.78rem", lg: "0.82rem" },
+      letterSpacing: "0.03em",
+      textDecoration: "none",
+      padding: { md: "8px 10px", lg: "10px 13px" },
+      borderRadius: radii.md,
+      transition: "color 0.25s ease",
+      position: "relative",
+      whiteSpace: "nowrap",
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        left: "50%",
+        bottom: 2,
+        transform: active
+          ? "translateX(-50%) scaleX(1)"
+          : "translateX(-50%) scaleX(0)",
+        width: "60%",
+        height: 2,
+        borderRadius: 1,
+        background: colors.primary,
+        transition: "transform 0.3s ease",
+      },
+      "&:hover": {
+        color: colors.primary,
+        "&::after": {
+          transform: "translateX(-50%) scaleX(1)",
+        },
+      },
+    } as const;
+  };
+
   return (
-    <AppBar 
-      elevation={0}
-      sx={{ 
-        py: { xs: 0.5, sm: 1 },
-        background: trigger 
-          ? COLORS.background.dark
-          : COLORS.background.light,
-        backdropFilter: 'blur(20px)',
-        borderBottom: trigger 
-          ? `1px solid ${COLORS.border}` 
-          : 'none',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: `linear-gradient(135deg, ${COLORS.primary}0D 0%, ${COLORS.secondary}0D 100%)`,
-          pointerEvents: 'none',
-        }
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar 
-          disableGutters
-          sx={{
-            minHeight: { xs: '56px', sm: '64px' },
-            px: { xs: 1, sm: 2 },
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between', // Changed to space-between for better control
-            width: '100%'
-          }}
-        >
-          {/* Mobile Menu Button and Logo Container */}
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            flex: { xs: '1 1 auto', md: '0 0 auto' } // Flexible on mobile, fixed on desktop
-          }}>
-            {/* Mobile Menu Button */}
+    <>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          background: scrolled ? "oklch(10% 0.015 260 / 0.78)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          borderBottom: scrolled
+            ? `1px solid ${colors.border}`
+            : "1px solid transparent",
+          transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar
+            disableGutters
+            sx={{
+              minHeight: { xs: "62px", md: "72px" },
+              px: { xs: 1.5, sm: 2 },
+            }}
+          >
+            {/* Mobile menu button */}
             <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              aria-label="open navigation"
+              onClick={() => setMobileOpen(true)}
               sx={{
-                display: { xs: 'flex', md: 'none' },
-                color: COLORS.text.primary,
-                transition: 'all 0.2s ease',
-                mr: 1, // Add margin right
-                '&:hover': {
-                  backgroundColor: COLORS.accent,
-                  transform: 'scale(1.05)',
-                  color: COLORS.primary,
-                }
+                display: { xs: "flex", md: "none" },
+                color: colors.textPrimary,
+                mr: 1,
               }}
             >
               <MenuIcon />
             </IconButton>
 
-            {/* Logo - Desktop */}
+            {/* Logo */}
             <Typography
-              variant={isSmallMobile ? "h5" : "h4"}
               noWrap
               component={Link}
               href="/"
               sx={{
-                display: { xs: "none", md: "flex" },
-                fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
+                fontFamily: '"Inter", sans-serif',
                 fontWeight: 800,
+                fontSize: { xs: "1.15rem", md: "1.8rem" },
                 letterSpacing: "-0.02em",
-                background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 50%, ${COLORS.tertiary} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: colors.textPrimary,
                 textDecoration: "none",
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-1px)',
-                  filter: 'brightness(1.1)',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: -4,
-                  left: 0,
-                  width: '0%',
-                  height: '2px',
-                  background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.secondary})`,
-                  transition: 'width 0.3s ease',
-                },
-                '&:hover::after': {
-                  width: '100%',
-                }
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+                flex: { xs: "1 1 auto", md: "0 0 auto" },
               }}
             >
-              PORTFOLIO
+              sakib
+              <Box component="span" sx={{ color: colors.primary }}>
+                .
+              </Box>
+              dev
             </Typography>
 
-            {/* Logo - Mobile */}
-            <Typography
-              variant={isSmallMobile ? "h6" : "h5"}
-              noWrap
-              component={Link}
-              href="/"
-              sx={{
-                display: { xs: "flex", md: "none" },
-                fontFamily: '"Inter", "SF Pro Display", -apple-system, sans-serif',
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 50%, ${COLORS.tertiary} 100%)`,
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textDecoration: "none",
-              }}
-            >
-              PORTFOLIO
-            </Typography>
-          </Box>
-
-          {/* Desktop Navigation - Centered */}
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              position: 'absolute', // Position absolutely to center it
-              left: '50%',
-              // transform: 'translateX(-50%)', // Center horizontally
-              top: '50%',
-              transform: 'translate(-50%, -50%)', // Center both horizontally and vertically
-            }}
-          >
-            <Stack 
-              direction="row" 
-              alignItems="center" 
-              gap={{ md: 0.5, lg: 1 }}
-              flexWrap="nowrap" // Prevent wrapping on desktop
-            >
-              {navItems.map((item, index) => (
-                <Typography
-                  key={index}
-                  component={Link}
-                  href={item.href}
-                  sx={{
-                    color: COLORS.text.primary,
-                    fontFamily: '"Inter", sans-serif',
-                    fontWeight: 500,
-                    fontSize: { md: '0.85rem', lg: '0.9rem' },
-                    letterSpacing: '0.025em',
-                    textDecoration: 'none',
-                    padding: { md: '10px 12px', lg: '12px 16px' },
-                    borderRadius: '10px',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: `linear-gradient(90deg, transparent, ${COLORS.accent}, transparent)`,
-                      transition: 'left 0.5s ease',
-                    },
-                    '&:hover': {
-                      color: COLORS.primary,
-                      backgroundColor: COLORS.accent,
-                      transform: 'translateY(-2px)',
-                      boxShadow: `0 4px 8px ${COLORS.primary}33`,
-                    },
-                    '&:hover::before': {
-                      left: '100%',
-                    },
-                    '&:active': {
-                      transform: 'translateY(0px)',
-                    }
-                  }}
-                >
-                  {item.label}
-                </Typography>
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Auth Button Container - Always right aligned */}
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flex: '0 0 auto', // Don't grow or shrink
-            '& > *': {
-              transition: 'all 0.2s ease',
-              '&:hover': {
-                transform: 'scale(1.05)',
-              }
-            },
-            // Style the AuthButton to match color scheme
-            '& button': {
-              background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
-              border: 'none',
-              borderRadius: '10px',
-              padding: { xs: '8px 16px', sm: '10px 20px' },
-              fontSize: { xs: '0.85rem', sm: '0.9rem' },
-              fontWeight: 600,
-              color: 'white',
-              fontFamily: '"Inter", sans-serif',
-              textTransform: 'uppercase',
-              letterSpacing: '0.025em',
-              boxShadow: `0 4px 14px ${COLORS.primary}40`,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap', // Prevent button text wrapping
-              '&:hover': {
-                background: `linear-gradient(135deg, ${COLORS.secondary} 0%, ${COLORS.tertiary} 100%)`,
-                boxShadow: `0 6px 20px ${COLORS.secondary}50`,
-                transform: 'translateY(-2px) scale(1.05)',
-              },
-              '&:active': {
-                transform: 'translateY(0px) scale(1.02)',
-              }
-            },
-            // Alternative styling for links that might be in AuthButton
-            '& a': {
-              background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
-              border: 'none',
-              borderRadius: '10px',
-              padding: { xs: '8px 16px', sm: '10px 20px' },
-              fontSize: { xs: '0.85rem', sm: '0.9rem' },
-              fontWeight: 600,
-              color: 'white !important',
-              fontFamily: '"Inter", sans-serif',
-              textTransform: 'uppercase',
-              letterSpacing: '0.025em',
-              textDecoration: 'none',
-              boxShadow: `0 4px 14px ${COLORS.primary}40`,
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-              display: 'inline-block',
-              whiteSpace: 'nowrap',
-              '&:hover': {
-                background: `linear-gradient(135deg, ${COLORS.secondary} 0%, ${COLORS.tertiary} 100%)`,
-                boxShadow: `0 6px 20px ${COLORS.secondary}50`,
-                transform: 'translateY(-2px)',
-              }
-            }
-          }}>
-            <AuthButton />
-          </Box>
-
-          {/* Mobile Menu */}
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: "block", md: "none" },
-              '& .MuiPaper-root': {
-                background: COLORS.background.dark,
-                backdropFilter: 'blur(20px)',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '12px',
-                marginTop: '8px',
-                minWidth: { xs: '180px', sm: '200px' },
-                maxWidth: '90vw',
-                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-              }
-            }}
-          >
+            {/* Desktop nav */}
             <Stack
-              px={3}
-              py={2}
-              direction="column"
-              justifyContent="space-between"
-              gap={1.5}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              flex={1}
+              sx={{ display: { xs: "none", md: "flex" }, px: 2 }}
             >
               {navItems.map((item, index) => (
                 <Typography
                   key={index}
                   component={Link}
                   href={item.href}
-                  sx={{
-                    color: COLORS.text.primary,
-                    fontFamily: '"Inter", sans-serif',
-                    fontWeight: 500,
-                    fontSize: { xs: '0.9rem', sm: '0.95rem' },
-                    letterSpacing: '0.025em',
-                    textDecoration: 'none',
-                    padding: '10px 12px',
-                    borderRadius: '8px',
-                    transition: 'all 0.2s ease',
-                    position: 'relative',
-                    '&:hover': {
-                      color: COLORS.primary,
-                      backgroundColor: COLORS.accent,
-                      transform: 'translateX(4px)',
-                    }
-                  }}
-                  onClick={handleCloseNavMenu}
+                  sx={navItemSx(item.href)}
                 >
                   {item.label}
                 </Typography>
               ))}
             </Stack>
-          </Menu>
-        </Toolbar>
-      </Container>
-    </AppBar>
+
+            {/* Auth button */}
+            <Box sx={{ flex: "0 0 auto" }}>
+              <AuthButton />
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      {/* Mobile drawer */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            width: 280,
+            background: "oklch(10% 0.015 260 / 0.97)",
+            backdropFilter: "blur(16px)",
+            borderLeft: `1px solid ${colors.border}`,
+            px: 2,
+            py: 2,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 3,
+            px: 1,
+          }}
+        >
+          <Typography
+            component={Link}
+            href="/"
+            onClick={() => setMobileOpen(false)}
+            sx={{
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 800,
+              fontSize: "1.15rem",
+              color: colors.textPrimary,
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            sakib
+            <Box component="span" sx={{ color: colors.primary }}>
+              .
+            </Box>
+            dev
+          </Typography>
+          <IconButton
+            aria-label="close navigation"
+            onClick={() => setMobileOpen(false)}
+            sx={{ color: colors.textPrimary }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        <Stack spacing={0.5}>
+          {navItems.map((item, index) => {
+            const active =
+              item.href.startsWith("#") &&
+              activeSection === item.href.slice(1) &&
+              activeSection !== "";
+            return (
+              <Typography
+                key={index}
+                component={Link}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                sx={{
+                  color: active ? colors.primary : colors.textSecondary,
+                  fontFamily: '"Inter", sans-serif',
+                  fontWeight: 500,
+                  fontSize: "0.95rem",
+                  textDecoration: "none",
+                  px: 2,
+                  py: 1.4,
+                  borderRadius: radii.md,
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    color: colors.primary,
+                    background: colors.primarySoft,
+                  },
+                }}
+              >
+                {item.label}
+              </Typography>
+            );
+          })}
+        </Stack>
+      </Drawer>
+    </>
   );
 };
 
