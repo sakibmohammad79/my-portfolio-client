@@ -131,7 +131,7 @@ const Contact = () => {
   ];
 
   return (
-    <Section id="contact" className="py-16 sm:py-20 md:py-28">
+    <Section id="contact" variant="top-left" className="py-16 sm:py-20 md:py-28">
       <div className="container">
         {/* Strong final CTA */}
         <motion.div

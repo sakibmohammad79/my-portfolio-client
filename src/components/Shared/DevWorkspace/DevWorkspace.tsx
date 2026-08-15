@@ -307,14 +307,18 @@ export default function DevWorkspace() {
                 whileHover={{ scale: 1.08, y: -4 }}
               >
                 <div
-                  className={`hidden items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-[11px] transition-all duration-300 sm:flex ${
+                  className={`hidden items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-[11px] backdrop-blur-md transition-all duration-300 sm:flex ${
                     hovered
-                      ? "border-primary/45 text-primary shadow-[0_10px_25px_var(--primary-glow)]"
-                      : "border-border text-muted-foreground shadow-[0_10px_25px_rgba(0,0,0,0.35)]"
+                      ? "border-primary/50 text-primary shadow-[0_0_20px_oklch(var(--primary-glow)),0_8px_24px_rgba(0,0,0,0.4)]"
+                      : "border-primary/15 text-muted-foreground shadow-[0_8px_20px_rgba(0,0,0,0.35)]"
                   }`}
-                  style={{ background: hovered ? "var(--card-hover)" : "var(--card)" }}
+                  style={{
+                    background: hovered
+                      ? "oklch(var(--card-hover) / 0.9)"
+                      : "oklch(var(--background) / 0.75)",
+                  }}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  <span className={`h-1.5 w-1.5 rounded-full ${hovered ? "bg-primary shadow-[0_0_6px_oklch(var(--primary-glow))]" : "bg-primary/60"}`} />
                   {chip.label}
                 </div>
               </motion.div>
