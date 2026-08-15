@@ -1,23 +1,22 @@
 "use client";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
 import ProjectModal from "./components/ProjectModal";
 import { useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import DescriptionIcon from "@mui/icons-material/Description";
 import {
   useDeleteProjectMutation,
   useGetAllProjectQuery,
 } from "@/redux/api/projectApi";
+import { Input } from "@/components/ui/input";
+import { Loader2, FileText, Trash2, Plus } from "lucide-react";
 import Image from "next/image";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const Project = () => {
   const [deleteProject] = useDeleteProjectMutation();
@@ -34,114 +33,89 @@ const Project = () => {
     }
   };
 
-  const columns: GridColDef[] = [
-    { field: "title", headerName: "Title", flex: 1 },
-    {
-      field: "image",
-      headerName: "Image",
-      width: 200,
+  const rows = data || [];
 
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <Image
-              src={row?.image}
-              alt="skill image"
-              height={100}
-              width={100}
-            />
-          </Box>
-        );
-      },
-    },
-    {
-      field: "startDate",
-      headerName: "Start Date",
-      align: "center",
-      headerAlign: "center",
-      flex: 1,
-    },
-    {
-      field: "endDate",
-      headerName: "End Date",
-      align: "center",
-      headerAlign: "center",
-      flex: 1,
-    },
-    {
-      field: "Details",
-      headerName: "Details",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <Link href={`/project/${row?.id}`}>
-              <IconButton
-                sx={{
-                  color: "primary.main",
-                }}
-              >
-                <DescriptionIcon></DescriptionIcon>
-              </IconButton>
-            </Link>
-          </Box>
-        );
-      },
-    },
-    {
-      field: "Action",
-      headerName: "Action",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <IconButton
-              sx={{
-                color: "red",
-              }}
-              onClick={() => handleProjectDelete(row?.id)}
-              aria-label="delete"
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        );
-      },
-    },
-  ];
   return (
-    <Box>
-      <Stack direction="row" justifyContent="space-between">
-        <Button onClick={() => setIsModalOpen(true)}>Add New Project</Button>
-        <ProjectModal
-          open={isModalOpen}
-          setOpen={setIsModalOpen}
-        ></ProjectModal>
-        <TextField placeholder="Search Skill" />
-      </Stack>
+    <div>
+      <div className="flex items-center justify-between gap-3">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-[0_10px_25px_var(--primary-glow)] transition-all duration-300 hover:bg-primary-light"
+        >
+          <Plus className="h-4 w-4" />
+          Add New Project
+        </button>
+        <ProjectModal open={isModalOpen} setOpen={setIsModalOpen} />
+        <Input placeholder="Search Project" className="max-w-xs" />
+      </div>
 
-      <Box mt={5}>
+      <div className="mt-5">
         {isLoading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
         ) : (
-          <Box style={{ width: "100%" }}>
-            <DataGrid rows={data} columns={columns} hideFooter />
-          </Box>
+          <div className="w-full overflow-hidden rounded-lg border border-border bg-card">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Image</TableHead>
+                  <TableHead className="text-center">Start Date</TableHead>
+                  <TableHead className="text-center">End Date</TableHead>
+                  <TableHead className="text-center">Details</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.map((row: any) => (
+                  <TableRow key={row.id}>
+                    <TableCell className="max-w-[220px] truncate font-medium">
+                      {row.title}
+                    </TableCell>
+                    <TableCell>
+                      <div className="h-[60px] w-[60px] overflow-hidden rounded-md border border-border">
+                        <Image
+                          src={row?.image}
+                          alt="project image"
+                          height={60}
+                          width={60}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center text-muted-foreground">
+                      {row.startDate}
+                    </TableCell>
+                    <TableCell className="text-center text-muted-foreground">
+                      {row.endDate}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Link
+                        href={`/project/${row?.id}`}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-primary transition-colors hover:bg-primary/10"
+                        aria-label="details"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Link>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <button
+                        onClick={() => handleProjectDelete(row?.id)}
+                        aria-label="delete"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-destructive transition-colors hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

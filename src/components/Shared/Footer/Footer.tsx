@@ -1,12 +1,6 @@
 "use client";
-import { Box, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { colors } from "@/constant/design";
+import { Linkedin, Facebook, Instagram, Github, Heart } from "lucide-react";
 
 const navigationLinks = [
   { name: "About", href: "#about" },
@@ -18,146 +12,71 @@ const navigationLinks = [
 ];
 
 const socialLinks = [
-  { name: "LinkedIn", icon: LinkedInIcon, url: "https://www.linkedin.com/in/md-sakib79/" },
-  { name: "GitHub", icon: GitHubIcon, url: "https://github.com/sakibmohammad79" },
-  { name: "Facebook", icon: FacebookIcon, url: "https://www.facebook.com/profile.php?id=100011373134077" },
-  { name: "Instagram", icon: InstagramIcon, url: "https://www.instagram.com/md_sakib75/" },
+  { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/md-sakib79/" },
+  { name: "GitHub", icon: Github, url: "https://github.com/sakibmohammad79" },
+  { name: "Facebook", icon: Facebook, url: "https://www.facebook.com/profile.php?id=100011373134077" },
+  { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/md_sakib75/" },
 ];
 
 const Footer = () => {
   return (
-    <Box
-      component="footer"
-      sx={{
-        borderTop: `1px solid ${colors.border}`,
-        background: colors.background,
-        py: { xs: 6, md: 8 },
-      }}
-    >
-      <Container maxWidth="xl">
+    <footer className="border-t border-border bg-background py-12 sm:py-16 md:py-20">
+      <div className="container">
         {/* Brand + tagline */}
-        <Box textAlign="center" mb={6}>
-          <Typography
-            component={Link}
+        <div className="mb-8 text-center sm:mb-10">
+          <Link
             href="/"
-            sx={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 800,
-              fontSize: { xs: "1.6rem", md: "1.9rem" },
-              letterSpacing: "-0.02em",
-              color: colors.textPrimary,
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              mb: 2,
-            }}
+            className="mb-2 inline-flex items-center text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl"
           >
-            sakib
-            <Box component="span" sx={{ color: colors.primary }}>
-              .
-            </Box>
-            dev
-          </Typography>
-          <Typography
-            sx={{
-              color: colors.textMuted,
-              fontSize: "0.95rem",
-              maxWidth: 460,
-              mx: "auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Full Stack Web Developer passionate about creating secure, scalable digital experiences.
-          </Typography>
-        </Box>
+            sakib<span className="text-primary">.</span>dev
+          </Link>
+          <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
+            Full Stack Web Developer passionate about creating secure, scalable
+            digital experiences.
+          </p>
+        </div>
 
         {/* Nav links */}
-        <Stack direction="row" justifyContent="center" flexWrap="wrap" spacing={{ xs: 2, md: 4 }} mb={6}>
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-3 sm:mb-10 sm:gap-6 md:gap-8">
           {navigationLinks.map((link, index) => (
-            <Typography
+            <Link
               key={index}
-              component={Link}
               href={link.href}
-              sx={{
-                color: colors.textSecondary,
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 500,
-                fontSize: "0.82rem",
-                letterSpacing: "0.04em",
-                textDecoration: "none",
-                transition: "color 0.25s ease",
-                "&:hover": { color: colors.primary },
-              }}
+              className="text-xs font-medium tracking-wide text-muted-foreground transition-colors hover:text-primary sm:text-sm"
             >
               {link.name}
-            </Typography>
+            </Link>
           ))}
-        </Stack>
+        </div>
 
         {/* Socials */}
-        <Stack direction="row" justifyContent="center" spacing={1.5} mb={6}>
+        <div className="mb-8 flex items-center justify-center gap-2 sm:mb-10">
           {socialLinks.map((social, index) => (
-            <Box
+            <a
               key={index}
-              component="a"
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={social.name}
-              sx={{
-                width: 42,
-                height: 42,
-                borderRadius: "10px",
-                border: `1px solid ${colors.border}`,
-                background: colors.card,
-                color: colors.textSecondary,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.25s ease",
-                "&:hover": {
-                  color: colors.primary,
-                  borderColor: colors.borderHover,
-                  background: colors.primarySofter,
-                  transform: "translateY(-2px)",
-                },
-              }}
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/10 hover:text-primary sm:h-11 sm:w-11"
             >
-              <social.icon sx={{ fontSize: "1.15rem" }} />
-            </Box>
+              <social.icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
+            </a>
           ))}
-        </Stack>
+        </div>
 
-        <Box
-          sx={{
-            borderTop: `1px solid ${colors.border}`,
-            pt: 4,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row" },
-            gap: 1.5,
-          }}
-        >
-          <Typography sx={{ color: colors.textMuted, fontSize: "0.82rem" }}>
+        <div className="flex flex-col items-center justify-between gap-2.5 border-t border-border pt-6 sm:flex-row sm:pt-8">
+          <p className="text-xs text-muted-foreground sm:text-[13px]">
             © {new Date().getFullYear()} Md. Sakib. All Rights Reserved.
-          </Typography>
-          <Typography
-            sx={{
-              color: colors.textMuted,
-              fontSize: "0.82rem",
-              display: "flex",
-              alignItems: "center",
-              gap: 0.6,
-            }}
-          >
+          </p>
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground sm:text-[13px]">
             Made with
-            <FavoriteIcon sx={{ color: colors.primary, fontSize: "0.95rem" }} />
+            <Heart className="h-3.5 w-3.5 fill-primary text-primary" />
             by Md. Sakib
-          </Typography>
-        </Box>
-      </Container>
-    </Box>
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 };
 

@@ -1,21 +1,4 @@
 "use client";
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  TextField,
-  Typography,
-  IconButton,
-  InputAdornment,
-  Alert,
-  CircularProgress,
-} from "@mui/material";
-import KeyIcon from "@mui/icons-material/Key";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { adminLogin } from "@/services/actions/adminLogin";
 import { toast } from "sonner";
@@ -24,7 +7,10 @@ import { storeUserInfo } from "@/services/auth.services";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
+import { KeyRound, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 type Inputs = {
   email: string;
@@ -48,42 +34,6 @@ const staggerContainer = {
       staggerChildren: 0.15,
       delayChildren: 0.1,
     },
-  },
-};
-
-const inputSx = {
-  "& .MuiOutlinedInput-root": {
-    background: colors.backgroundSecondary,
-    backdropFilter: "blur(10px)",
-    borderRadius: radii.md,
-    "& fieldset": {
-      borderColor: colors.border,
-    },
-    "&:hover fieldset": {
-      borderColor: colors.borderHover,
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: colors.primary,
-      borderWidth: "1px",
-    },
-    "& input": {
-      color: colors.textPrimary,
-      fontFamily: '"Inter", sans-serif',
-    },
-  },
-  "& .MuiInputLabel-root": {
-    color: colors.textMuted,
-    fontFamily: '"Inter", sans-serif',
-    "&.Mui-focused": {
-      color: colors.primary,
-    },
-  },
-  "& .MuiFormHelperText-root": {
-    color: "oklch(72% 0.17 25)",
-    fontFamily: '"Inter", sans-serif',
-  },
-  "& .MuiInputAdornment-root .MuiSvgIcon-root": {
-    color: colors.textMuted,
   },
 };
 
@@ -125,224 +75,141 @@ const LoginPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        background: colors.background,
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          background: `
-            radial-gradient(circle at 25% 25%, ${colors.primarySofter} 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)
-          `,
-          pointerEvents: "none",
-        },
-      }}
-    >
-      <Container sx={{ position: "relative", zIndex: 1 }}>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 25% 25%, var(--primary-softer) 0%, transparent 50%), radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)",
+        }}
+      />
+
+      <div className="relative z-[1] w-full px-4">
         <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-          <Stack alignItems="center" justifyContent="center" minHeight="100vh">
-            <motion.div variants={fadeInUp}>
-              <Box
-                sx={{
-                  maxWidth: 460,
-                  width: "100%",
-                  background: colors.card,
-                  backdropFilter: "blur(20px)",
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: radii.xl,
-                  boxShadow: "0 25px 50px rgba(0, 0, 0, 0.4)",
-                  p: { xs: 4, sm: 6 },
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
+          <motion.div variants={fadeInUp} className="mx-auto w-full max-w-[460px]">
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-4 shadow-[0_25px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:p-6">
+              <motion.div variants={fadeInUp}>
+                <div className="mb-4 flex flex-col items-center">
+                  <div className="mb-3 flex items-center justify-center rounded-xl bg-primary p-2 shadow-[0_8px_25px_var(--primary-glow)]">
+                    <KeyRound className="h-10 w-10 text-primary-foreground" />
+                  </div>
+                  <h1 className="text-center text-[1.8rem] font-extrabold tracking-tight text-foreground">
+                    ADMIN <span className="text-primary">LOGIN</span>
+                  </h1>
+                  <p className="mt-1 text-center text-[15px] text-muted-foreground">
+                    Welcome back! Please enter your credentials
+                  </p>
+                </div>
+              </motion.div>
+
+              {error && (
                 <motion.div variants={fadeInUp}>
-                  <Stack alignItems="center" mb={4}>
-                    <Box
-                      sx={{
-                        background: colors.primary,
-                        borderRadius: radii.lg,
-                        p: 2,
-                        mb: 3,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: `0 8px 25px ${colors.primaryGlow}`,
-                      }}
-                    >
-                      <KeyIcon sx={{ fontSize: "40px", color: colors.background }} />
-                    </Box>
-                    <Typography
-                      sx={{
-                        fontSize: "1.8rem",
-                        fontFamily: '"Inter", sans-serif',
-                        fontWeight: 800,
-                        letterSpacing: "-0.02em",
-                        color: colors.textPrimary,
-                        textAlign: "center",
-                      }}
-                    >
-                      ADMIN <Box component="span" sx={{ color: colors.primary }}>LOGIN</Box>
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: colors.textMuted,
-                        fontFamily: '"Inter", sans-serif',
-                        fontSize: "0.95rem",
-                        textAlign: "center",
-                        mt: 1,
-                      }}
-                    >
-                      Welcome back! Please enter your credentials
-                    </Typography>
-                  </Stack>
+                  <Alert variant="destructive" className="mb-3">
+                    <AlertTitle>Login Failed</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
                 </motion.div>
+              )}
 
-                {error && (
-                  <motion.div variants={fadeInUp}>
-                    <Alert
-                      severity="error"
-                      sx={{
-                        mb: 3,
-                        background: "oklch(60% 0.17 25 / 0.12)",
-                        border: "1px solid oklch(60% 0.17 25 / 0.3)",
-                        borderRadius: radii.md,
-                        color: "oklch(72% 0.17 25)",
-                        "& .MuiAlert-icon": { color: "oklch(72% 0.17 25)" },
-                      }}
-                    >
-                      {error}
-                    </Alert>
-                  </motion.div>
-                )}
-
-                <motion.div variants={fadeInUp}>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <Stack spacing={3}>
-                      <TextField
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        {...register("email", {
-                          required: "Email is required",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
-                        error={!!errors.email}
-                        helperText={errors.email?.message}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <EmailIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                        sx={inputSx}
-                      />
-
-                      <TextField
-                        label="Password"
-                        type={showPassword ? "text" : "password"}
-                        fullWidth
-                        {...register("password", {
-                          required: "Password is required",
-                          minLength: {
-                            value: 6,
-                            message: "Password must be at least 6 characters",
-                          },
-                        })}
-                        error={!!errors.password}
-                        helperText={errors.password?.message}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <LockIcon />
-                            </InputAdornment>
-                          ),
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => setShowPassword(!showPassword)}
-                                edge="end"
-                                sx={{ color: colors.textMuted }}
-                              >
-                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                        sx={inputSx}
-                      />
-
-                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                        <Button
-                          type="submit"
-                          fullWidth
-                          disabled={isLoading}
-                          sx={{
-                            background: colors.primary,
-                            color: colors.background,
-                            borderRadius: radii.md,
-                            py: 1.9,
-                            fontWeight: 700,
-                            fontSize: "1.05rem",
-                            textTransform: "none",
-                            transition: "all 0.25s ease",
-                            "&:hover": {
-                              background: colors.primaryLight,
-                              boxShadow: `0 12px 35px ${colors.primaryGlow}`,
+              <motion.div variants={fadeInUp}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="email">Email Address</Label>
+                      <div className="relative">
+                        <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="you@example.com"
+                          className="pl-9"
+                          {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message: "Invalid email address",
                             },
-                            "&:disabled": {
-                              background: colors.primaryDark,
-                              color: "oklch(90% 0.02 260 / 0.7)",
-                              opacity: 0.8,
+                          })}
+                          aria-invalid={!!errors.email}
+                        />
+                      </div>
+                      {errors.email && (
+                        <p className="text-xs font-medium text-destructive">
+                          {errors.email.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="password">Password</Label>
+                      <div className="relative">
+                        <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          className="pl-9 pr-10"
+                          {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                              value: 6,
+                              message: "Password must be at least 6 characters",
                             },
-                          }}
+                          })}
+                          aria-invalid={!!errors.password}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-primary"
                         >
-                          {isLoading ? (
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <CircularProgress size={20} sx={{ color: colors.background }} />
-                              <Typography sx={{ color: colors.background, fontWeight: 600 }}>
-                                Signing In...
-                              </Typography>
-                            </Stack>
-                          ) : (
-                            "Sign In"
-                          )}
-                        </Button>
-                      </motion.div>
-                    </Stack>
-                  </form>
-                </motion.div>
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <p className="text-xs font-medium text-destructive">
+                          {errors.password.message}
+                        </p>
+                      )}
+                    </div>
 
-                <motion.div variants={fadeInUp}>
-                  <Box sx={{ mt: 4, textAlign: "center" }}>
-                    <Typography sx={{ color: colors.textMuted, fontSize: "0.9rem" }}>
-                      Not an admin?{" "}
-                      <Link href="/" style={{ textDecoration: "none" }}>
-                        <Box component="span" sx={{ color: colors.primary, fontWeight: 600, "&:hover": { color: colors.primaryLight } }}>
-                          Back to Home
-                        </Box>
-                      </Link>
-                    </Typography>
-                  </Box>
-                </motion.div>
-              </Box>
-            </motion.div>
-          </Stack>
+                    <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-[17px] font-bold text-primary-foreground shadow-[0_12px_35px_var(--primary-glow)] transition-all duration-300 hover:bg-primary-light disabled:cursor-not-allowed disabled:bg-primary-dark"
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin" />
+                            Signing In...
+                          </>
+                        ) : (
+                          "Sign In"
+                        )}
+                      </button>
+                    </motion.div>
+                  </div>
+                </form>
+              </motion.div>
+
+              <motion.div variants={fadeInUp}>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Not an admin?{" "}
+                    <Link href="/" className="font-semibold text-primary transition-colors hover:text-primary-light">
+                      Back to Home
+                    </Link>
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </motion.div>
-      </Container>
-    </Box>
+      </div>
+    </div>
   );
 };
 

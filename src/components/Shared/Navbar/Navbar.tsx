@@ -1,18 +1,18 @@
+"use client";
 import { getUserInfo } from "@/services/auth.services";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Drawer from "@mui/material/Drawer";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import Container from "@mui/material/Container";
-import { Stack } from "@mui/material";
-import { colors, radii } from "@/constant/design";
+import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const sectionIds = [
   "about",
@@ -25,15 +25,14 @@ const sectionIds = [
   "contact",
 ];
 
+const AuthButton = dynamic(() => import("@/lib/UI/AuthButton/AuthButton"), {
+  ssr: false,
+});
+
 const Navbar = () => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [userRole, setUserRole] = React.useState("");
   const [activeSection, setActiveSection] = React.useState("");
-
-  const AuthButton = dynamic(() => import("@/lib/UI/AuthButton/AuthButton"), {
-    ssr: false,
-  });
 
   React.useEffect(() => {
     const userInfo = getUserInfo();
@@ -58,7 +57,7 @@ const Navbar = () => {
           }
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" },
+      { rootMargin: "-40% 0px -55% 0px" }
     );
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
@@ -68,235 +67,105 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: "ABOUT", href: "#about" },
-    { label: "SKILLS", href: "#skill" },
-    { label: "EXPERIENCE", href: "#experience" },
-    { label: "PROJECTS", href: "#project" },
-    { label: "EDUCATION", href: "#education" },
-    { label: "BLOG", href: "#blog" },
-    { label: "TESTIMONIALS", href: "#testimonials" },
-    { label: "CONTACT", href: "#contact" },
+    { label: "About", href: "#about" },
+    { label: "Skills", href: "#skill" },
+    { label: "Experience", href: "#experience" },
+    { label: "Projects", href: "#project" },
+    { label: "Education", href: "#education" },
+    { label: "Blog", href: "#blog" },
+    { label: "Testimonials", href: "#testimonials" },
+    { label: "Contact", href: "#contact" },
     ...(userRole ? [{ label: "Dashboard", href: "/dashboard" }] : []),
   ];
 
-  const navItemSx = (href: string) => {
-    const active =
-      href.startsWith("#") &&
-      activeSection === href.slice(1) &&
-      activeSection !== "";
-    return {
-      color: active ? colors.primary : colors.textSecondary,
-      fontFamily: '"Inter", sans-serif',
-      fontWeight: 500,
-      fontSize: { md: "0.78rem", lg: "0.82rem" },
-      letterSpacing: "0.03em",
-      textDecoration: "none",
-      padding: { md: "8px 10px", lg: "10px 13px" },
-      borderRadius: radii.md,
-      transition: "color 0.25s ease",
-      position: "relative",
-      whiteSpace: "nowrap",
-      "&::after": {
-        content: '""',
-        position: "absolute",
-        left: "50%",
-        bottom: 2,
-        transform: active
-          ? "translateX(-50%) scaleX(1)"
-          : "translateX(-50%) scaleX(0)",
-        width: "60%",
-        height: 2,
-        borderRadius: 1,
-        background: colors.primary,
-        transition: "transform 0.3s ease",
-      },
-      "&:hover": {
-        color: colors.primary,
-        "&::after": {
-          transform: "translateX(-50%) scaleX(1)",
-        },
-      },
-    } as const;
-  };
+  const isActive = (href: string) =>
+    href.startsWith("#") &&
+    activeSection === href.slice(1) &&
+    activeSection !== "";
 
   return (
-    <>
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          background: scrolled ? "oklch(10% 0.015 260 / 0.78)" : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled
-            ? `1px solid ${colors.border}`
-            : "1px solid transparent",
-          transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-      >
-        <Container maxWidth="xl">
-          <Toolbar
-            disableGutters
-            sx={{
-              minHeight: { xs: "62px", md: "72px" },
-              px: { xs: 1.5, sm: 2 },
-            }}
-          >
-            {/* Mobile menu button */}
-            <IconButton
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "border-b border-border bg-background/75 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      )}
+    >
+      <div className="container flex h-16 items-center justify-between md:h-[72px]">
+        {/* Mobile menu button */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
               aria-label="open navigation"
-              onClick={() => setMobileOpen(true)}
-              sx={{
-                display: { xs: "flex", md: "none" },
-                color: colors.textPrimary,
-                mr: 1,
-              }}
+              className="mr-1 flex h-10 w-10 items-center justify-center rounded-md text-foreground hover:bg-primary/10 lg:hidden"
             >
-              <MenuIcon />
-            </IconButton>
-
-            {/* Logo */}
-            <Typography
-              noWrap
-              component={Link}
-              href="/"
-              sx={{
-                fontFamily: '"Inter", sans-serif',
-                fontWeight: 800,
-                fontSize: { xs: "1.15rem", md: "1.8rem" },
-                letterSpacing: "-0.02em",
-                color: colors.textPrimary,
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: 0.5,
-                flex: { xs: "1 1 auto", md: "0 0 auto" },
-              }}
-            >
-              sakib
-              <Box component="span" sx={{ color: colors.primary }}>
-                .
-              </Box>
-              dev
-            </Typography>
-
-            {/* Desktop nav */}
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              flex={1}
-              sx={{ display: { xs: "none", md: "flex" }, px: 2 }}
-            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-72 border-l border-border bg-background/95 px-4 py-5 backdrop-blur-md">
+            <SheetHeader className="mb-4 px-1 text-left">
+              <SheetTitle className="text-xl">
+                sakib<span className="text-primary">.</span>dev
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col gap-0.5">
               {navItems.map((item, index) => (
-                <Typography
-                  key={index}
-                  component={Link}
-                  href={item.href}
-                  sx={navItemSx(item.href)}
-                >
-                  {item.label}
-                </Typography>
+                <SheetClose asChild key={index}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "rounded-md px-4 py-2.5 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary",
+                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                </SheetClose>
               ))}
-            </Stack>
+              <div className="mt-4 px-4">
+                <AuthButton />
+              </div>
+            </nav>
+          </SheetContent>
+        </Sheet>
 
-            {/* Auth button */}
-            <Box sx={{ flex: "0 0 auto" }}>
-              <AuthButton />
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-
-      {/* Mobile drawer */}
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        sx={{
-          display: { xs: "block", md: "none" },
-          "& .MuiDrawer-paper": {
-            width: 280,
-            background: "oklch(10% 0.015 260 / 0.97)",
-            backdropFilter: "blur(16px)",
-            borderLeft: `1px solid ${colors.border}`,
-            px: 2,
-            py: 2,
-          },
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mb: 3,
-            px: 1,
-          }}
+        {/* Logo */}
+        <Link
+          href="/"
+          className="flex items-center text-xl font-extrabold tracking-tight text-foreground md:text-2xl"
         >
-          <Typography
-            component={Link}
-            href="/"
-            onClick={() => setMobileOpen(false)}
-            sx={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 800,
-              fontSize: "1.15rem",
-              color: colors.textPrimary,
-              textDecoration: "none",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            sakib
-            <Box component="span" sx={{ color: colors.primary }}>
-              .
-            </Box>
-            dev
-          </Typography>
-          <IconButton
-            aria-label="close navigation"
-            onClick={() => setMobileOpen(false)}
-            sx={{ color: colors.textPrimary }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
+          sakib<span className="text-primary">.</span>dev
+        </Link>
 
-        <Stack spacing={0.5}>
-          {navItems.map((item, index) => {
-            const active =
-              item.href.startsWith("#") &&
-              activeSection === item.href.slice(1) &&
-              activeSection !== "";
-            return (
-              <Typography
-                key={index}
-                component={Link}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                sx={{
-                  color: active ? colors.primary : colors.textSecondary,
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  textDecoration: "none",
-                  px: 2,
-                  py: 1.4,
-                  borderRadius: radii.md,
-                  transition: "all 0.2s ease",
-                  "&:hover": {
-                    color: colors.primary,
-                    background: colors.primarySoft,
-                  },
-                }}
-              >
-                {item.label}
-              </Typography>
-            );
-          })}
-        </Stack>
-      </Drawer>
-    </>
+        {/* Desktop nav */}
+        <nav className="hidden flex-1 items-center justify-center gap-0.5 lg:flex">
+          {navItems.map((item, index) => (
+            <Link
+              key={index}
+              href={item.href}
+              className={cn(
+                "relative whitespace-nowrap rounded-lg px-2.5 py-2 text-[13px] font-medium tracking-wide transition-colors hover:text-primary lg:px-3.5",
+                isActive(item.href) ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              {item.label}
+              <span
+                className={cn(
+                  "absolute bottom-1 left-1/2 h-0.5 w-3/5 -translate-x-1/2 rounded-full bg-primary transition-transform duration-300",
+                  isActive(item.href) ? "scale-x-100" : "scale-x-0"
+                )}
+              />
+            </Link>
+          ))}
+        </nav>
+
+        {/* Auth */}
+        <div className="flex items-center">
+          <AuthButton />
+        </div>
+      </div>
+    </header>
   );
 };
 

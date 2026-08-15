@@ -1,24 +1,21 @@
 "use client";
 import { useDeleteBlogMutation, useGetAllBlogQuery } from "@/redux/api/blogApi";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Stack,
-  TextField,
-} from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Input } from "@/components/ui/input";
+import { Loader2, FileText, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import DescriptionIcon from "@mui/icons-material/Description";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const Blog = () => {
   const { data, isLoading, error } = useGetAllBlogQuery({});
   const [deleteBlog] = useDeleteBlogMutation();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleBlogDelete = async (id: string) => {
     try {
@@ -30,88 +27,76 @@ const Blog = () => {
     }
   };
 
-  const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", flex: 1 },
-    {
-      field: "image",
-      headerName: "Image",
-      width: 300,
-      renderCell: ({ row }) => (
-        <Box>
-          <Image src={row?.image} alt="blog image" height={100} width={100} />
-        </Box>
-      ),
-    },
-    { field: "title", headerName: "Title", flex: 1 },
-    {
-      field: "Details",
-      headerName: "Details",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: ({ row }) => (
-        <Box>
-          <Link href={`/blog/${row?.id}`}>
-            <IconButton
-              sx={{
-                color: "primary.main",
-              }}
-            >
-              <DescriptionIcon />
-            </IconButton>
-          </Link>
-        </Box>
-      ),
-    },
-    {
-      field: "Action",
-      headerName: "Action",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-      renderCell: ({ row }) => (
-        <Box>
-          <IconButton
-            sx={{
-              color: "red",
-            }}
-            onClick={() => handleBlogDelete(row?.id)}
-            aria-label="delete"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      ),
-    },
-  ];
-
   const rows = data || [];
 
   return (
-    <Box>
-      <Stack direction="row" justifyContent="space-between">
-        <TextField placeholder="Search Blog" />
-      </Stack>
-      <Box mt={5}>
+    <div>
+      <div className="flex items-center justify-between gap-3">
+        <Input placeholder="Search Blog" className="max-w-xs" />
+      </div>
+      <div className="mt-5">
         {isLoading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress />
-          </Box>
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
         ) : error ? (
-          <Box>Error loading blogs. Please try again later.</Box>
+          <div className="rounded-lg border border-border bg-card p-6 text-center text-muted-foreground">
+            Error loading blogs. Please try again later.
+          </div>
         ) : (
-          <Box style={{ width: "100%" }}>
-            <DataGrid rows={rows} columns={columns} hideFooter />
-          </Box>
+          <div className="w-full overflow-hidden rounded-lg border border-border bg-card">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Image</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead className="text-center">Details</TableHead>
+                  <TableHead className="text-center">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rows.map((row: any) => (
+                  <TableRow key={row.id}>
+                    <TableCell className="font-medium">{row.name}</TableCell>
+                    <TableCell>
+                      <div className="h-[60px] w-[60px] overflow-hidden rounded-md border border-border">
+                        <Image
+                          src={row?.image}
+                          alt="blog image"
+                          height={60}
+                          width={60}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-[260px] truncate">{row.title}</TableCell>
+                    <TableCell className="text-center">
+                      <Link
+                        href={`/blog/${row?.id}`}
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-primary transition-colors hover:bg-primary/10"
+                        aria-label="details"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Link>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <button
+                        onClick={() => handleBlogDelete(row?.id)}
+                        aria-label="delete"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-md text-destructive transition-colors hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

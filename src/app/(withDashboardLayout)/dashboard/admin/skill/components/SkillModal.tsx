@@ -1,16 +1,10 @@
+"use client";
 import Modal from "@/components/Shared/Modal/Modal";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  TextField,
-  Slider,
-  Button,
-  Box,
-  Typography,
-  Grid,
-  FormControl,
-  Input,
-} from "@mui/material";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 import { getUserInfo } from "@/services/auth.services";
 import { useAddSkillMutation } from "@/redux/api/skillApi";
 import { toast } from "sonner";
@@ -26,7 +20,7 @@ type TProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SkillModal = ({ open, setOpen }: TProps) => {
-  const [addSkill] = useAddSkillMutation();
+  const [addSkill, { isLoading }] = useAddSkillMutation();
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
@@ -40,8 +34,12 @@ const SkillModal = ({ open, setOpen }: TProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<SkillFormData>();
+
+  const percentage = watch("parcentage") || 0;
 
   const onSubmit = async (data: SkillFormData) => {
     const parcentageValue = Number(data.parcentage);
@@ -69,7 +67,6 @@ const SkillModal = ({ open, setOpen }: TProps) => {
         ...data,
         image: imageUrl,
       };
-      //add skill using redux hooks
       try {
         if (imageUrl) {
           const res = await addSkill(skillData).unwrap();
@@ -90,60 +87,49 @@ const SkillModal = ({ open, setOpen }: TProps) => {
   const handleSkillImageChange = (event: any) => {
     const selectedImage = event.target.files[0];
     if (selectedImage) {
-      // Check if a file is actually selected
       setSelectedImage(selectedImage);
     }
   };
 
   return (
     <Modal open={open} setOpen={setOpen} title="Add New skill">
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="h6" component="h2">
-          Add Skill
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Skill Name"
-              {...register("name", { required: true })}
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
-          </Grid>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        <div className="space-y-1.5">
+          <Label htmlFor="name">Skill Name</Label>
+          <Input id="name" {...register("name", { required: true })} aria-invalid={!!errors.name} />
+        </div>
 
-          <Grid item xs={12}>
-            <Slider
-              {...register("parcentage", {
-                required: true,
-                min: 0,
-                max: 100,
-              })}
-              aria-labelledby="skill-percentage-slider"
-              valueLabelDisplay="auto"
-              marks
-              min={0}
-              max={100}
-              //error={!!errors.skillPercentage}
-              //helperText={errors.skillPercentage?.message}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <Input
-                type="file"
-                id="skill-image"
-                onChange={handleSkillImageChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained">
-              Add Skill
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="parcentage">Percentage</Label>
+            <span className="text-sm font-semibold text-primary">{percentage}%</span>
+          </div>
+          <input
+            id="parcentage"
+            type="range"
+            min={0}
+            max={100}
+            defaultValue={50}
+            className="w-full accent-primary"
+            {...register("parcentage", { required: true, min: 0, max: 100 })}
+            onChange={(e) => setValue("parcentage", Number(e.target.value))}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="skill-image">Image</Label>
+          <Input id="skill-image" type="file" onChange={handleSkillImageChange} />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_var(--primary-glow)] transition-all duration-300 hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+          Add Skill
+        </button>
+      </form>
     </Modal>
   );
 };

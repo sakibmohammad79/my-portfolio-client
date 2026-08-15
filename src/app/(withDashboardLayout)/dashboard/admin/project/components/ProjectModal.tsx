@@ -1,16 +1,11 @@
+"use client";
 import Modal from "@/components/Shared/Modal/Modal";
 import { useAddProjectMutation } from "@/redux/api/projectApi";
 import { getUserInfo } from "@/services/auth.services";
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  Input,
-  Slider,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -34,8 +29,7 @@ interface ProjectFormData {
   repoServerUrl: string;
 }
 const ProjectModal = ({ open, setOpen }: TProps) => {
-  const [addProject, { data }] = useAddProjectMutation();
-  console.log(data);
+  const [addProject, { isLoading }] = useAddProjectMutation();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const [userId, setUserId] = useState("");
@@ -77,12 +71,10 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
         ...data,
         image: imageUrl,
       };
-      console.log(projectData);
-      //add skill using redux hooks
+
       try {
         if (imageUrl) {
           const res = await addProject(projectData).unwrap();
-          console.log(res);
           if (res?.id) {
             toast.success("Added Project successfully!");
             setOpen(false);
@@ -100,120 +92,76 @@ const ProjectModal = ({ open, setOpen }: TProps) => {
   const handleProjectImageChange = (event: any) => {
     const selectedImage = event.target.files[0];
     if (selectedImage) {
-      // Check if a file is actually selected
       setSelectedImage(selectedImage);
     }
   };
   return (
     <Modal open={open} setOpen={setOpen} title="Add Project">
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="h6" component="h2">
-          Add Skill
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="Title"
-              {...register("title", { required: true })}
-              error={!!errors.title}
-              helperText={errors.title?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="Project URL"
-              {...register("url", { required: true })}
-              error={!!errors.url}
-              helperText={errors.url?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="technology"
-              {...register("technology", { required: true })}
-              error={!!errors.technology}
-              helperText={errors.technology?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="Start Date"
-              {...register("startDate", { required: true })}
-              error={!!errors.startDate}
-              helperText={errors.startDate?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="End Date"
-              {...register("endDate", { required: true })}
-              error={!!errors.endDate}
-              helperText={errors.endDate?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <FormControl fullWidth>
-              <Input
-                size="medium"
-                type="file"
-                id="project-image"
-                onChange={handleProjectImageChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="Client Repo"
-              {...register("repoClientUrl", { required: true })}
-              error={!!errors.repoClientUrl}
-              helperText={errors.repoClientUrl?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6}>
-            <TextField
-              fullWidth
-              label="Server Repo"
-              {...register("repoServerUrl", { required: true })}
-              error={!!errors.repoServerUrl}
-              helperText={errors.repoServerUrl?.message}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <TextField
-              label="Description"
-              multiline
-              rows={3}
-              {...register("description", { required: true })}
-              error={!!errors.technology}
-              helperText={errors.name?.message}
-              fullWidth={true}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <TextField
-              label="Details"
-              multiline
-              rows={5}
-              {...register("details", { required: true })}
-              error={!!errors.details}
-              helperText={errors.name?.message}
-              fullWidth={true}
-            />
-          </Grid>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" {...register("title", { required: true })} aria-invalid={!!errors.title} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="url">Project URL</Label>
+            <Input id="url" {...register("url", { required: true })} aria-invalid={!!errors.url} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="technology">Technology</Label>
+            <Input id="technology" {...register("technology", { required: true })} aria-invalid={!!errors.technology} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="startDate">Start Date</Label>
+            <Input id="startDate" {...register("startDate", { required: true })} aria-invalid={!!errors.startDate} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="endDate">End Date</Label>
+            <Input id="endDate" {...register("endDate", { required: true })} aria-invalid={!!errors.endDate} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="project-image">Image</Label>
+            <Input id="project-image" type="file" onChange={handleProjectImageChange} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="repoClientUrl">Client Repo</Label>
+            <Input id="repoClientUrl" {...register("repoClientUrl", { required: true })} aria-invalid={!!errors.repoClientUrl} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="repoServerUrl">Server Repo</Label>
+            <Input id="repoServerUrl" {...register("repoServerUrl", { required: true })} aria-invalid={!!errors.repoServerUrl} />
+          </div>
+        </div>
 
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained">
-              Add Project
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
+        <div className="space-y-1.5">
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            rows={3}
+            {...register("description", { required: true })}
+            aria-invalid={!!errors.description}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="details">Details</Label>
+          <Textarea
+            id="details"
+            rows={5}
+            {...register("details", { required: true })}
+            aria-invalid={!!errors.details}
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_10px_25px_var(--primary-glow)] transition-all duration-300 hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+          Add Project
+        </button>
+      </form>
     </Modal>
   );
 };

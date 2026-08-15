@@ -1,41 +1,25 @@
 "use client";
-import { Box, SxProps, Theme } from "@mui/material";
 import { ReactNode } from "react";
-import { colors, sectionBg } from "@/constant/design";
+import { cn } from "@/lib/utils";
 
 interface SectionProps {
   id?: string;
   children: ReactNode;
-  sx?: SxProps<Theme>;
-  background?: string;
+  className?: string;
 }
 
-export default function Section({
-  id,
-  children,
-  sx,
-  background,
-}: SectionProps) {
+export default function Section({ id, children, className }: SectionProps) {
   return (
-    <Box
-      id={id}
-      className="section-anchor"
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-        background: background || colors.background,
-        ...sx,
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          inset: 0,
-          background: sectionBg,
-          pointerEvents: "none",
+    <section id={id} className={cn("section-anchor relative overflow-hidden", className)}>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 85% 15%, var(--primary-softer) 0%, transparent 45%), radial-gradient(circle at 15% 85%, oklch(28% 0.05 290 / 0.18) 0%, transparent 50%)",
         }}
       />
-      <Box sx={{ position: "relative", zIndex: 1 }}>{children}</Box>
-    </Box>
+      <div className="relative z-10">{children}</div>
+    </section>
   );
 }

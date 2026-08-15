@@ -1,7 +1,5 @@
 "use client";
-import { Box, Container, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
 import Section from "@/components/Shared/Section/Section";
 import SectionHeader from "@/components/Shared/SectionHeader/SectionHeader";
 import { Quote, Star, Linkedin } from "lucide-react";
@@ -20,13 +18,13 @@ const testimonial = {
 
 const Testimonials = () => {
   return (
-    <Section id="testimonials" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
-      <Container maxWidth="lg">
+    <Section id="testimonials" className="py-16 sm:py-20 md:py-28">
+      <div className="container">
         <SectionHeader
           eyebrow="Testimonials"
           title={
             <>
-              What Clients <Box component="span" sx={{ color: colors.primary }}>Say</Box>
+              What Clients <span className="text-primary">Say</span>
             </>
           }
           subtitle="Real feedback from amazing clients I've had the pleasure to work with."
@@ -36,62 +34,24 @@ const Testimonials = () => {
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
         >
-          <Box
-            sx={{
-              position: "relative",
-              maxWidth: 800,
-              mx: "auto",
-              background: colors.card,
-              border: `1px solid ${colors.border}`,
-              borderRadius: radii.xl,
-              p: { xs: 4, sm: 6, md: 8 },
-              overflow: "hidden",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                borderColor: colors.borderHover,
-                transform: "translateY(-4px)",
-                boxShadow: `0 30px 60px ${colors.primaryGlow}`,
-              },
-            }}
-          >
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-primary/45 hover:shadow-[0_24px_50px_var(--primary-glow)] sm:rounded-3xl sm:p-8 md:p-10">
             {/* Decorative quote */}
-            <Box
-              sx={{
-                position: "absolute",
-                top: -20,
-                right: -10,
-                fontSize: { xs: "9rem", md: "12rem" },
-                fontFamily: "Georgia, serif",
-                color: colors.primarySofter,
-                lineHeight: 1,
-                userSelect: "none",
-                pointerEvents: "none",
-              }}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -top-6 right-2 select-none font-serif text-[8rem] leading-none text-primary/10 sm:text-[10rem] md:text-[12rem]"
             >
               &rdquo;
-            </Box>
+            </span>
 
             {/* Quote icon */}
-            <Box
-              sx={{
-                width: 56,
-                height: 56,
-                borderRadius: radii.md,
-                background: colors.primary,
-                color: colors.background,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                mb: 4,
-              }}
-            >
-              <Quote size={26} strokeWidth={2.4} />
-            </Box>
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground sm:h-14 sm:w-14">
+              <Quote className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.4} />
+            </div>
 
             {/* Stars */}
-            <Box sx={{ display: "flex", gap: 0.75, mb: 4 }}>
+            <div className="mb-4 flex gap-1">
               {Array.from({ length: testimonial.rating }).map((_, i) => (
                 <motion.div
                   key={i}
@@ -100,87 +60,46 @@ const Testimonials = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: i * 0.08 }}
                 >
-                  <Star size={22} fill={colors.primary} color={colors.primary} />
+                  <Star className="h-4 w-4 fill-primary text-primary sm:h-5 sm:w-5" />
                 </motion.div>
               ))}
-            </Box>
+            </div>
 
             {/* Review */}
-            <Typography
-              sx={{
-                color: colors.textPrimary,
-                fontSize: { xs: "1.05rem", sm: "1.2rem", md: "1.35rem" },
-                lineHeight: 1.75,
-                fontWeight: 400,
-                mb: 6,
-              }}
-            >
+            <p className="mb-6 text-sm font-normal leading-relaxed text-foreground sm:text-base md:text-lg">
               &ldquo;{testimonial.review}&rdquo;
-            </Typography>
+            </p>
 
             {/* Author */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2.5,
-                flexWrap: "wrap",
-              }}
-            >
-              <Box
-                component="img"
-                src={testimonial.avatar}
-                alt={testimonial.name}
-                sx={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: `2px solid ${colors.borderHover}`,
-                  background: colors.backgroundSecondary,
-                }}
-              />
-              <Box sx={{ flex: 1, minWidth: 180 }}>
-                <Typography sx={{ color: colors.textPrimary, fontWeight: 700, fontSize: "1.1rem" }}>
-                  {testimonial.name}
-                </Typography>
-                <Typography sx={{ color: colors.primary, fontWeight: 600, fontSize: "0.9rem" }}>
-                  {testimonial.position}
-                </Typography>
-                <Typography sx={{ color: colors.textMuted, fontSize: "0.8rem", fontWeight: 500 }}>
-                  {testimonial.connection}
-                </Typography>
-              </Box>
-              <Box
-                component="a"
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-4 sm:pt-5">
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  className="h-12 w-12 rounded-full border-2 border-primary/40 bg-background-secondary object-cover sm:h-14 sm:w-14"
+                />
+                <div>
+                  <p className="text-sm font-bold text-foreground sm:text-base">{testimonial.name}</p>
+                  <p className="text-xs font-semibold text-primary sm:text-sm">{testimonial.position}</p>
+                  <p className="text-[11px] font-medium text-muted-foreground sm:text-xs">
+                    {testimonial.connection}
+                  </p>
+                </div>
+              </div>
+              <a
                 href={testimonial.linkedIn}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${testimonial.name} on LinkedIn`}
-                sx={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: radii.md,
-                  border: `1px solid ${colors.border}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: colors.textSecondary,
-                  transition: "all 0.25s ease",
-                  "&:hover": {
-                    color: colors.primary,
-                    borderColor: colors.borderHover,
-                    background: colors.primarySofter,
-                    transform: "translateY(-2px)",
-                  },
-                }}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/10 hover:text-primary sm:h-11 sm:w-11"
               >
-                <Linkedin size={20} />
-              </Box>
-            </Box>
-          </Box>
+                <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" />
+              </a>
+            </div>
+          </div>
         </motion.div>
-      </Container>
+      </div>
     </Section>
   );
 };

@@ -1,12 +1,8 @@
 "use client";
-import { Box, Container, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
 import Section from "@/components/Shared/Section/Section";
 import SectionHeader from "@/components/Shared/SectionHeader/SectionHeader";
-import SchoolIcon from "@mui/icons-material/School";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import StarIcon from "@mui/icons-material/Star";
+import { Star, BookOpen, School } from "lucide-react";
 
 const educationData = [
   {
@@ -18,12 +14,7 @@ const educationData = [
     level: "Bachelor's Degree",
     description:
       "Currently pursuing my Bachelor's degree in Computer Science, gaining comprehensive knowledge in programming, databases, software development, algorithms, and modern web technologies.",
-    subjects: [
-      "Programming",
-      "Databases",
-      "Software Development",
-      "Algorithms",
-    ],
+    subjects: ["Programming", "Databases", "Software Development", "Algorithms"],
     current: false,
     icon: "bachelor",
   },
@@ -56,205 +47,90 @@ const educationData = [
 ];
 
 const getIcon = (iconType: string) => {
-  const sx = { color: colors.primary, fontSize: "1.35rem" };
+  const className = "h-7 w-7 text-primary";
   switch (iconType) {
     case "bachelor":
-      return <StarIcon sx={sx} />;
+      return <Star className={className} />;
     case "college":
-      return <MenuBookIcon sx={sx} />;
+      return <BookOpen className={className} />;
     default:
-      return <SchoolIcon sx={sx} />;
+      return <School className={className} />;
   }
 };
 
 const Education = () => {
   return (
-    <Section id="education" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
-      <Container maxWidth="lg">
+    <Section id="education" className="py-16 sm:py-20 md:py-28">
+      <div className="container">
         <SectionHeader
           eyebrow="Education"
           title={
             <>
-              Academic{" "}
-              <Box component="span" sx={{ color: colors.primary }}>
-                Journey
-              </Box>
+              Academic <span className="text-primary">Journey</span>
             </>
           }
           subtitle="The foundation that shaped my problem-solving mindset and technical knowledge."
         />
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 3,
-            maxWidth: 760,
-            mx: "auto",
-          }}
-        >
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 sm:gap-6">
           {educationData.map((edu, index) => (
             <motion.div
               key={edu.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.55,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
+              transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: { xs: 2.5, md: 3.5 },
-                  background: colors.card,
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: radii.lg,
-                  p: { xs: 2.5, md: 3.5 },
-                  transition: "all 0.25s ease",
-                  "&:hover": {
-                    borderColor: colors.borderHover,
-                    transform: "translateY(-3px)",
-                  },
-                }}
-              >
+              <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-[0_20px_45px_var(--primary-glow)] sm:flex-row sm:items-start sm:gap-5 sm:p-5 md:p-6">
                 {/* Icon */}
-                <Box
-                  sx={{
-                    flexShrink: 0,
-                    width: 52,
-                    height: 52,
-                    borderRadius: radii.md,
-                    background: colors.primarySofter,
-                    border: `1px solid ${colors.borderHover}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/10 sm:h-14 sm:w-14">
                   {getIcon(edu.icon)}
-                </Box>
+                </div>
 
                 {/* Content */}
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap",
-                      gap: 1,
-                      mb: 0.75,
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: colors.textPrimary,
-                        fontWeight: 700,
-                        fontSize: { xs: "1.05rem", md: "1.2rem" },
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                    <h3 className="text-base font-bold tracking-tight text-foreground sm:text-lg md:text-xl">
                       {edu.title}
-                    </Typography>
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Box
-                        sx={{
-                          px: 1.4,
-                          py: 0.4,
-                          borderRadius: 999,
-                          background: colors.primarySoft,
-                          color: colors.primary,
-                          fontSize: "0.72rem",
-                          fontWeight: 600,
-                        }}
-                      >
+                    </h3>
+                    <div className="flex items-center gap-1.5">
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
                         {edu.score}
-                      </Box>
+                      </span>
                       {edu.current && (
-                        <Box
-                          sx={{
-                            px: 1.4,
-                            py: 0.4,
-                            borderRadius: 999,
-                            background: colors.primarySofter,
-                            border: `1px solid ${colors.borderHover}`,
-                            color: colors.primary,
-                            fontSize: "0.68rem",
-                            fontWeight: 700,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.06em",
-                          }}
-                        >
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-[0.06em] text-primary">
                           Current
-                        </Box>
+                        </span>
                       )}
-                    </Box>
-                  </Box>
+                    </div>
+                  </div>
 
-                  <Typography
-                    sx={{
-                      color: colors.primary,
-                      fontWeight: 600,
-                      fontSize: "0.92rem",
-                      mb: 0.5,
-                    }}
-                  >
+                  <p className="mb-0.5 text-sm font-semibold text-primary sm:text-base">
                     {edu.institute}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: colors.textMuted,
-                      fontSize: "0.78rem",
-                      fontWeight: 500,
-                      mb: 1.5,
-                    }}
-                  >
+                  </p>
+                  <p className="mb-2 text-xs font-medium text-muted-foreground sm:text-sm">
                     {edu.duration} · {edu.level}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: colors.textSecondary,
-                      fontSize: { xs: "0.88rem", md: "0.93rem" },
-                      lineHeight: 1.7,
-                      mb: 2,
-                    }}
-                  >
+                  </p>
+                  <p className="mb-3.5 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                     {edu.description}
-                  </Typography>
+                  </p>
 
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
+                  <div className="flex flex-wrap gap-1.5">
                     {edu.subjects.map((subject, i) => (
-                      <Box
+                      <span
                         key={i}
-                        sx={{
-                          px: 1.2,
-                          py: 0.5,
-                          borderRadius: 999,
-                          background: colors.backgroundSecondary,
-                          border: `1px solid ${colors.border}`,
-                          color: colors.textSecondary,
-                          fontSize: "0.72rem",
-                          fontWeight: 500,
-                          transition: "all 0.2s ease",
-                          "&:hover": {
-                            color: colors.primary,
-                            borderColor: colors.borderHover,
-                          },
-                        }}
+                        className="rounded-full border border-border bg-background-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground transition-all duration-200 hover:border-primary/45 hover:text-primary"
                       >
                         {subject}
-                      </Box>
+                      </span>
                     ))}
-                  </Box>
-                </Box>
-              </Box>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
-        </Box>
-      </Container>
+        </div>
+      </div>
     </Section>
   );
 };

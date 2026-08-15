@@ -1,15 +1,9 @@
 "use client";
 import { useGetSingleBlogQuery } from "@/redux/api/blogApi";
-import { Box, Card, CardContent, Container, Typography, Chip, Button, Divider } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArticleIcon from "@mui/icons-material/Article";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PersonIcon from "@mui/icons-material/Person";
-import ShareIcon from "@mui/icons-material/Share";
-import { colors, radii } from "@/constant/design";
+import { ArrowLeft, FileText, Calendar, User, Share2 } from "lucide-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 50 },
@@ -83,398 +77,136 @@ const Page = ({ params }: any) => {
     return `${readTime} min read`;
   };
 
-  const ghostButtonSx = {
-    background: colors.card,
-    backdropFilter: "blur(20px)",
-    border: `1px solid ${colors.border}`,
-    borderRadius: radii.md,
-    color: colors.textSecondary,
-    px: { xs: 2, sm: 3 },
-    py: { xs: 1, sm: 1.5 },
-    fontWeight: 600,
-    textTransform: "none",
-    fontSize: { xs: "0.85rem", sm: "0.95rem" },
-    transition: "all 0.3s ease",
-    "&:hover": {
-      borderColor: colors.borderHover,
-      color: colors.primary,
-    },
-  } as const;
+  const ghostButtonClass =
+    "inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-2 py-1.5 text-sm font-semibold text-muted-foreground backdrop-blur-md transition-all duration-300 hover:border-primary/45 hover:text-primary sm:px-3 sm:py-2 sm:text-[15px]";
 
   return (
-    <>
-      <style jsx global>{`
-        body {
-          margin: 0 !important;
-          padding: 0 !important;
-          background: ${colors.background} !important;
-        }
-        #__next {
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-
-      <Box
-        sx={{
-          background: colors.background,
-          minHeight: "100vh",
-          position: "relative",
-          overflow: "hidden",
-          width: "100%",
-          margin: 0,
-          padding: 0,
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            background: `
-              radial-gradient(circle at 25% 25%, ${colors.primarySofter} 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)
-            `,
-            pointerEvents: "none",
-          },
+    <div className="relative min-h-screen w-full overflow-hidden bg-background">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 25% 25%, var(--primary-softer) 0%, transparent 50%), radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)",
         }}
-      >
-        <Container
-          sx={{
-            position: "relative",
-            zIndex: 1,
-            py: { xs: 10, md: 16 },
-            px: { xs: 2, sm: 3, md: 4 },
-            margin: 0,
-            maxWidth: "none !important",
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              maxWidth: 800,
-              width: "100%",
-              mx: "auto",
-              px: { xs: 1, sm: 2 },
-            }}
-          >
-            <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
-              <Box
-                mb={3}
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                gap={2}
-                flexWrap="wrap"
-              >
-                <Button onClick={() => router.back()} startIcon={<ArrowBackIcon />} sx={ghostButtonSx}>
-                  Back to Blog
-                </Button>
-                <Button onClick={handleShare} startIcon={<ShareIcon />} sx={ghostButtonSx}>
-                  Share
-                </Button>
-              </Box>
-            </motion.div>
+      />
 
-            <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-              <motion.div variants={slideInLeft}>
-                <Card
-                  sx={{
-                    background: colors.card,
-                    backdropFilter: "blur(20px)",
-                    border: `1px solid ${colors.border}`,
-                    borderRadius: radii.xl,
-                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-                    overflow: "hidden",
-                    position: "relative",
-                    margin: 0,
-                  }}
-                >
-                  <motion.div variants={slideInLeft}>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: { xs: 250, sm: 300, md: 400 },
-                        position: "relative",
-                        overflow: "hidden",
-                        "&::after": {
-                          content: '""',
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: "120px",
-                          background: `linear-gradient(180deg, transparent 0%, ${colors.card} 100%)`,
-                          pointerEvents: "none",
-                        },
+      <div className="relative z-[1] mx-auto w-full max-w-none px-2 py-10 sm:px-3 md:px-4 md:py-16">
+        <div className="mx-auto w-full max-w-[800px] px-1 sm:px-2">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <button onClick={() => router.back()} className={ghostButtonClass}>
+                <ArrowLeft className="h-4 w-4" />
+                Back to Blog
+              </button>
+              <button onClick={handleShare} className={ghostButtonClass}>
+                <Share2 className="h-4 w-4" />
+                Share
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible">
+            <motion.div variants={slideInLeft}>
+              <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[0_20px_40px_rgba(0,0,0,0.3)] backdrop-blur-xl">
+                <motion.div variants={slideInLeft}>
+                  <div className="relative h-[250px] w-full overflow-hidden sm:h-[300px] md:h-[400px]">
+                    <Image
+                      src={data?.image || "/placeholder-blog.jpg"}
+                      alt={data?.title || "Blog Image"}
+                      fill
+                      className="object-cover"
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-[120px]"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent 0%, var(--card) 100%)",
                       }}
-                    >
-                      <Image
-                        src={data?.image || "/placeholder-blog.jpg"}
-                        alt={data?.title || "Blog Image"}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
+                    />
 
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: { xs: 16, sm: 24 },
-                          left: { xs: 16, sm: 24 },
-                          zIndex: 2,
-                        }}
-                      >
-                        <Chip
-                          icon={<ArticleIcon sx={{ fontSize: "16px !important" }} />}
-                          label={data?.name || "Article"}
-                          size="medium"
-                          sx={{
-                            background: "oklch(10% 0.015 260 / 0.85)",
-                            backdropFilter: "blur(10px)",
-                            color: colors.primary,
-                            border: `1px solid ${colors.borderHover}`,
-                            fontWeight: 600,
-                            fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                            px: 1,
-                            "& .MuiChip-icon": { color: colors.primary },
-                          }}
-                        />
-                      </Box>
-                    </Box>
+                    <div className="absolute left-4 top-4 z-[2] sm:left-6 sm:top-6">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/45 bg-background/85 px-3 py-1 text-sm font-semibold text-primary backdrop-blur-md">
+                        <FileText className="h-4 w-4" />
+                        {data?.name || "Article"}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <div className="relative z-[2] p-3 sm:p-4 md:p-6">
+                  <motion.div variants={slideInRight}>
+                    <h1 className="mb-2 text-[1.75rem] font-extrabold leading-tight tracking-tight text-foreground sm:mb-3 sm:text-[2.2rem] md:text-[2.8rem]">
+                      {data?.title}
+                    </h1>
                   </motion.div>
 
-                  <CardContent
-                    sx={{
-                      p: { xs: 3, sm: 4, md: 6 },
-                      position: "relative",
-                      zIndex: 2,
-                      margin: 0,
-                    }}
-                  >
-                    <motion.div variants={slideInRight}>
-                      <Typography
-                        component="h1"
-                        sx={{
-                          fontSize: { xs: "1.75rem", sm: "2.2rem", md: "2.8rem" },
-                          fontWeight: 800,
-                          color: colors.textPrimary,
-                          mb: { xs: 2, sm: 3 },
-                          letterSpacing: "-0.02em",
-                          lineHeight: 1.2,
-                          margin: "0 0 16px 0",
-                        }}
-                      >
-                        {data?.title}
-                      </Typography>
-                    </motion.div>
+                  <motion.div variants={fadeInUp}>
+                    <div className="mb-3 flex flex-wrap gap-2 border-b border-border pb-2 sm:mb-4 sm:gap-3 sm:pb-3">
+                      <div className="flex items-center gap-1">
+                        <User className="h-5 w-5 text-primary" />
+                        <span className="text-[13px] font-medium text-muted-foreground sm:text-sm">
+                          Md. Sakib
+                        </span>
+                      </div>
 
-                    <motion.div variants={fadeInUp}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: { xs: 2, sm: 3 },
-                          mb: { xs: 3, sm: 4 },
-                          pb: { xs: 2, sm: 3 },
-                          borderBottom: `1px solid ${colors.border}`,
-                        }}
-                      >
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                          <PersonIcon sx={{ color: colors.primary, fontSize: "1.2rem" }} />
-                          <Typography
-                            sx={{
-                              color: colors.textSecondary,
-                              fontSize: { xs: "0.8rem", sm: "0.9rem" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            Md. Sakib
-                          </Typography>
-                        </Box>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-5 w-5 text-primary" />
+                        <span className="text-[13px] font-medium text-muted-foreground sm:text-sm">
+                          {formatDate(data?.publishedAt || data?.createdAt)}
+                        </span>
+                      </div>
 
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                          <CalendarTodayIcon sx={{ color: colors.primary, fontSize: "1.2rem" }} />
-                          <Typography
-                            sx={{
-                              color: colors.textSecondary,
-                              fontSize: { xs: "0.8rem", sm: "0.9rem" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            {formatDate(data?.publishedAt || data?.createdAt)}
-                          </Typography>
-                        </Box>
+                      <div className="flex items-center gap-1">
+                        <span className="text-[13px] font-medium text-muted-foreground sm:text-sm">
+                          {calculateReadTime(data?.content || "")}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
 
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                          <Typography
-                            sx={{
-                              color: colors.textMuted,
-                              fontSize: { xs: "0.8rem", sm: "0.9rem" },
-                              fontWeight: 500,
-                            }}
-                          >
-                            {calculateReadTime(data?.content || "")}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </motion.div>
-
-                    <motion.div variants={fadeInUp}>
-                      <Box
-                        sx={{
-                          color: colors.textSecondary,
-                          fontSize: { xs: "1rem", sm: "1.1rem" },
-                          lineHeight: 1.8,
-                          "& > *": {
-                            margin: "0 0 1.5rem 0 !important",
-                          },
-                          "& h1, & h2, & h3, & h4, & h5, & h6": {
-                            color: colors.textPrimary,
-                            fontFamily: '"Inter", sans-serif',
-                            fontWeight: 700,
-                            margin: "2rem 0 1rem 0 !important",
-                          },
-                          "& h1": { fontSize: { xs: "1.8rem", sm: "2.2rem" } },
-                          "& h2": { fontSize: { xs: "1.5rem", sm: "1.9rem" } },
-                          "& h3": { fontSize: { xs: "1.3rem", sm: "1.6rem" } },
-                          "& h4": { fontSize: { xs: "1.2rem", sm: "1.4rem" } },
-                          "& p": {
-                            margin: "0 0 1.5rem 0 !important",
-                            color: colors.textSecondary,
-                          },
-                          "& a": {
-                            color: colors.primary,
-                            textDecoration: "none",
-                            borderBottom: `1px solid ${colors.borderHover}`,
-                            transition: "all 0.3s ease",
-                            "&:hover": {
-                              color: colors.primaryLight,
-                              borderBottomColor: colors.primaryLight,
-                            },
-                          },
-                          "& ul, & ol": {
-                            paddingLeft: { xs: "1.5rem", sm: "2rem" },
-                            margin: "0 0 1.5rem 0 !important",
-                          },
-                          "& li": {
-                            marginBottom: "0.5rem",
-                            color: colors.textSecondary,
-                          },
-                          "& blockquote": {
-                            background: colors.primarySofter,
-                            border: `1px solid ${colors.borderHover}`,
-                            borderLeft: `4px solid ${colors.primary}`,
-                            borderRadius: radii.sm,
-                            padding: { xs: "1.5rem", sm: "2rem" },
-                            margin: "1.5rem 0 !important",
-                            fontStyle: "italic",
-                            color: colors.textSecondary,
-                          },
-                          "& code": {
-                            background: colors.background,
-                            border: `1px solid ${colors.border}`,
-                            borderRadius: "6px",
-                            padding: "0.25rem 0.75rem",
-                            fontSize: "0.9em",
-                            color: colors.primary,
-                            fontFamily: '"Fira Code", monospace',
-                          },
-                          "& pre": {
-                            background: colors.background,
-                            border: `1px solid ${colors.border}`,
-                            borderRadius: radii.md,
-                            padding: { xs: "1.5rem", sm: "2rem" },
-                            margin: "1.5rem 0 !important",
-                            overflow: "auto",
-                            "& code": {
-                              background: "none",
-                              border: "none",
-                              padding: 0,
-                              color: colors.textSecondary,
-                            },
-                          },
-                          "& img": {
-                            maxWidth: "100%",
-                            height: "auto",
-                            borderRadius: radii.md,
-                            margin: "1.5rem 0 !important",
-                            boxShadow: "0 8px 25px rgba(0, 0, 0, 0.3)",
-                            display: "block",
-                          },
-                        }}
-                      >
-                        {data?.content ? (
-                          <Box dangerouslySetInnerHTML={{ __html: data.content }} />
-                        ) : (
-                          <Typography
-                            sx={{
-                              color: colors.textMuted,
-                              fontSize: { xs: "1rem", sm: "1.1rem" },
-                              fontStyle: "italic",
-                              textAlign: "center",
-                              py: { xs: 4, sm: 6 },
-                            }}
-                          >
-                            Blog content is loading...
-                          </Typography>
-                        )}
-                      </Box>
-                    </motion.div>
-
-                    <motion.div variants={fadeInUp}>
-                      <Divider
-                        sx={{
-                          my: { xs: 4, sm: 6 },
-                          background: `linear-gradient(90deg, transparent, ${colors.border}, transparent)`,
-                        }}
+                  <motion.div variants={fadeInUp}>
+                    {data?.content ? (
+                      <div
+                        className="prose-dark"
+                        dangerouslySetInnerHTML={{ __html: data.content }}
                       />
+                    ) : (
+                      <p className="py-4 text-center text-base italic text-muted-foreground sm:py-6 sm:text-lg">
+                        Blog content is loading...
+                      </p>
+                    )}
+                  </motion.div>
 
-                      <Box sx={{ textAlign: "center", margin: 0 }}>
-                        <Typography
-                          sx={{
-                            color: colors.textMuted,
-                            fontSize: { xs: "0.85rem", sm: "0.95rem" },
-                            mb: { xs: 2, sm: 3 },
-                          }}
+                  <motion.div variants={fadeInUp}>
+                    <div className="my-4 sm:my-6" style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }}>
+                      <div className="h-px w-full" />
+                    </div>
+
+                    <div className="text-center">
+                      <p className="mb-2 text-sm text-muted-foreground sm:mb-3 sm:text-[15px]">
+                        Thank you for reading! Share this article if you found it helpful.
+                      </p>
+
+                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <button
+                          onClick={handleShare}
+                          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-bold text-primary-foreground shadow-[0_12px_35px_var(--primary-glow)] transition-all duration-300 hover:bg-primary-light sm:px-4 sm:py-2.5 sm:text-base"
                         >
-                          Thank you for reading! Share this article if you found it helpful.
-                        </Typography>
-
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button
-                            onClick={handleShare}
-                            startIcon={<ShareIcon />}
-                            sx={{
-                              background: colors.primary,
-                              color: colors.background,
-                              borderRadius: radii.md,
-                              px: { xs: 3, sm: 4 },
-                              py: { xs: 1.5, sm: 2 },
-                              fontWeight: 700,
-                              textTransform: "none",
-                              fontSize: { xs: "0.9rem", sm: "1rem" },
-                              transition: "all 0.25s ease",
-                              margin: 0,
-                              "&:hover": {
-                                background: colors.primaryLight,
-                                boxShadow: `0 12px 35px ${colors.primaryGlow}`,
-                                transform: "translateY(-2px)",
-                              },
-                            }}
-                          >
-                            Share Article
-                          </Button>
-                        </motion.div>
-                      </Box>
-                    </motion.div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                          <Share2 className="h-4 w-4" />
+                          Share Article
+                        </button>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
-          </Box>
-        </Container>
-      </Box>
-    </>
+          </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 

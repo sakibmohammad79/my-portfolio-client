@@ -1,11 +1,9 @@
-import { SvgIconTypeMap } from "@mui/material";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
+import type { LucideIcon } from "lucide-react";
 
 export interface drawerItem {
   title: string;
   path: string;
-  icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
+  icon?: LucideIcon;
   parentPath?: string;
   child?: drawerItem[];
 }
-

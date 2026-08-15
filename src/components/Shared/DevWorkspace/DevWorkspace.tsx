@@ -1,5 +1,4 @@
 "use client";
-import { Box, Typography } from "@mui/material";
 import {
   motion,
   useMotionValue,
@@ -8,48 +7,54 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { colors, radii } from "@/constant/design";
-
-const LIME = colors.primary;
-const TEXT = colors.textPrimary;
-const MUTED = colors.textMuted;
-const STRING = "oklch(76% 0.12 220)";
-const FN = "oklch(74% 0.1 90)";
 
 type Segment = { t: string; c?: string };
 
 const codeLines: Segment[][] = [
-  [{ t: "// api/routes/user.ts", c: MUTED }],
+  [{ t: "// api/routes/user.ts", c: "text-muted-foreground" }],
   [
-    { t: "import", c: LIME },
-    { t: " { Router } ", c: TEXT },
-    { t: "from", c: LIME },
-    { t: ' "express"', c: STRING },
-  ],
-  [{ t: "const", c: LIME }, { t: " router = Router();", c: TEXT }],
-  [
-    { t: "router.get", c: FN },
-    { t: '("/api/users", ', c: STRING },
-    { t: "async", c: LIME },
-    { t: " (req, res) => {", c: TEXT },
+    { t: "import", c: "text-primary" },
+    { t: " { Router } ", c: "text-foreground" },
+    { t: "from", c: "text-primary" },
+    { t: ' "express"', c: "text-sky-300" },
   ],
   [
-    { t: "  const", c: LIME },
-    { t: " users = ", c: TEXT },
-    { t: "await", c: LIME },
-    { t: " db.user.findMany();", c: TEXT },
+    { t: "const", c: "text-primary" },
+    { t: " router = Router();", c: "text-foreground" },
   ],
-  [{ t: "  res.json(", c: TEXT }, { t: "{ data: users }", c: STRING }, { t: ");", c: TEXT }],
-  [{ t: "});", c: TEXT }],
-  [{ t: "", c: TEXT }],
-  [{ t: "export", c: LIME }, { t: " default router;", c: TEXT }],
+  [
+    { t: "router.get", c: "text-lime-200" },
+    { t: '("/api/users", ', c: "text-sky-300" },
+    { t: "async", c: "text-primary" },
+    { t: " (req, res) => {", c: "text-foreground" },
+  ],
+  [
+    { t: "  const", c: "text-primary" },
+    { t: " users = ", c: "text-foreground" },
+    { t: "await", c: "text-primary" },
+    { t: " db.user.findMany();", c: "text-foreground" },
+  ],
+  [
+    { t: "  res.json(", c: "text-foreground" },
+    { t: "{ data: users }", c: "text-sky-300" },
+    { t: ");", c: "text-foreground" },
+  ],
+  [{ t: "});", c: "text-foreground" }],
+  [{ t: "", c: "text-foreground" }],
+  [
+    { t: "export", c: "text-primary" },
+    { t: " default router;", c: "text-foreground" },
+  ],
 ];
 
 const terminalLines: Segment[][] = [
-  [{ t: "$", c: LIME }, { t: " npm run dev", c: TEXT }],
-  [{ t: "> portfolio@0.1.0 dev", c: MUTED }],
-  [{ t: "✓ Ready on ", c: "oklch(82% 0.18 140)" }, { t: "http://localhost:3000", c: STRING }],
-  [{ t: "  Next.js 14 — Full Stack", c: MUTED }],
+  [{ t: "$", c: "text-primary" }, { t: " npm run dev", c: "text-foreground" }],
+  [{ t: "> portfolio@0.1.0 dev", c: "text-muted-foreground" }],
+  [
+    { t: "✓ Ready on ", c: "text-lime-300" },
+    { t: "http://localhost:3000", c: "text-sky-300" },
+  ],
+  [{ t: "  Next.js 14 — Full Stack", c: "text-muted-foreground" }],
 ];
 
 const chips = [
@@ -60,28 +65,28 @@ const chips = [
   { label: "REST API", x: -28, y: -26, delay: 0.8, dur: 6.5 },
 ];
 
-function CodeLine({ segs, size }: { segs: Segment[]; size: Record<string, string> | string }) {
+function CodeLine({
+  segs,
+  size,
+}: {
+  segs: Segment[];
+  size: string;
+}) {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "nowrap",
-        whiteSpace: "nowrap",
-        fontFamily: "'SF Mono', 'Fira Code', Consolas, monospace",
-        fontSize: size,
-        lineHeight: { xs: 1.65, md: 1.8 },
-      }}
+    <div
+      className="flex flex-nowrap whitespace-nowrap font-mono"
+      style={{ fontSize: size, lineHeight: 1.75 }}
     >
       {segs.length === 0 ? (
-        <Box sx={{ height: "1em" }} />
+        <span className="inline-block h-[1em]" />
       ) : (
         segs.map((seg, i) => (
-          <Box key={i} component="span" sx={{ color: seg.c || TEXT }}>
+          <span key={i} className={seg.c || "text-foreground"}>
             {seg.t}
-          </Box>
+          </span>
         ))
       )}
-    </Box>
+    </div>
   );
 }
 
@@ -91,7 +96,6 @@ export default function DevWorkspace() {
   const [finePointer, setFinePointer] = useState(false);
   const [hoveredChip, setHoveredChip] = useState<string | null>(null);
 
-  // Normalized cursor position (-1 .. 1), spring-smoothed.
   const mvX = useMotionValue(0);
   const mvY = useMotionValue(0);
   const springX = useSpring(mvX, { stiffness: 140, damping: 18, mass: 0.4 });
@@ -145,21 +149,19 @@ export default function DevWorkspace() {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
     >
-      <Box
+      <div
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        sx={{ position: "relative", width: "100%", maxWidth: 520, mx: "auto" }}
+        className="relative mx-auto w-full max-w-[520px]"
       >
         {/* Ambient glow */}
-        <Box
-          sx={{
-            position: "absolute",
-            inset: "-10%",
-            background: `radial-gradient(ellipse at 50% 45%, ${colors.primaryGlow} 0%, transparent 65%)`,
-            filter: "blur(40px)",
-            opacity: 0.5,
-            pointerEvents: "none",
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-[10%] opacity-50 blur-[40px]"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 45%, var(--primary-glow) 0%, transparent 65%)",
           }}
         />
 
@@ -179,14 +181,11 @@ export default function DevWorkspace() {
             pointerEvents: "none",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "50%",
-              background: `radial-gradient(circle, ${colors.primaryGlow} 0%, transparent 65%)`,
-              filter: "blur(20px)",
-              opacity: 0.5,
+          <div
+            className="h-full w-full rounded-full opacity-50 blur-[20px]"
+            style={{
+              background:
+                "radial-gradient(circle, var(--primary-glow) 0%, transparent 65%)",
             }}
           />
         </motion.div>
@@ -202,109 +201,46 @@ export default function DevWorkspace() {
           }}
         >
           <motion.div animate={monitorFloat} transition={monitorFloatTransition}>
-            <Box
-              sx={{
-                position: "relative",
-                background: colors.card,
-                border: `1px solid ${colors.border}`,
-                borderRadius: radii.xl,
-                boxShadow: "0 30px 60px rgba(0,0,0,0.45)",
-                overflow: "hidden",
-              }}
+            <div
+              className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[0_30px_60px_rgba(0,0,0,0.45)]"
             >
               {/* Screen */}
-              <Box sx={{ background: colors.background, borderRadius: 18, m: { xs: 1, md: 1.5 }, overflow: "hidden" }}>
+              <div className="m-1.5 overflow-hidden rounded-[18px] bg-background md:m-3">
                 {/* Title bar */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    px: { xs: 2, md: 2.5 },
-                    py: { xs: 1.25, md: 1.5 },
-                    borderBottom: `1px solid ${colors.border}`,
-                    background: colors.backgroundSecondary,
-                  }}
-                >
-                  <Box sx={{ display: "flex", gap: 0.7 }}>
-                    <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "oklch(65% 0.15 25)" }} />
-                    <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "oklch(82% 0.15 80)" }} />
-                    <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: "oklch(72% 0.16 145)" }} />
-                  </Box>
-                  <Box
-                    sx={{
-                      ml: 1,
-                      px: { xs: 1, md: 1.5 },
-                      py: 0.3,
-                      borderRadius: 1,
-                      background: colors.card,
-                      border: `1px solid ${colors.border}`,
-                      fontFamily: "'SF Mono', Consolas, monospace",
-                      fontSize: { xs: "0.6rem", md: "0.7rem" },
-                      color: colors.textSecondary,
-                    }}
-                  >
+                <div className="flex items-center gap-2 border-b border-border bg-background-secondary px-3 py-2 md:px-4 md:py-3">
+                  <div className="flex gap-1">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[oklch(65%_0.15_25)]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[oklch(82%_0.15_80)]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[oklch(72%_0.16_145)]" />
+                  </div>
+                  <span className="ml-1 rounded border border-border bg-card px-2 py-0.5 font-mono text-[11px] text-muted-foreground md:text-xs">
                     user.routes.ts
-                  </Box>
-                </Box>
+                  </span>
+                </div>
 
                 {/* Code area */}
-                <Box
-                  sx={{
-                    px: { xs: 2, md: 3 },
-                    py: { xs: 1.5, md: 2 },
-                    overflow: "hidden",
-                  }}
-                >
-                  <Box sx={{ display: "flex", gap: { xs: 1.5, md: 2 } }}>
+                <div className="overflow-hidden px-4 py-3 md:px-6 md:py-4">
+                  <div className="flex gap-3 md:gap-4">
                     {/* Line numbers */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        fontFamily: "'SF Mono', Consolas, monospace",
-                        fontSize: { xs: "0.6rem", md: "0.7rem" },
-                        lineHeight: { xs: 1.65, md: 1.8 },
-                        color: "oklch(32% 0.02 260)",
-                        userSelect: "none",
-                      }}
-                    >
+                    <div className="flex select-none flex-col font-mono text-[10px] text-[oklch(32%_0.02_260)] md:text-xs" style={{ lineHeight: 1.75 }}>
                       {codeLines.map((_, i) => (
-                        <Box key={i}>{i + 1}</Box>
+                        <span key={i}>{i + 1}</span>
                       ))}
-                    </Box>
-                    <Box sx={{ flex: 1, overflow: "hidden" }}>
+                    </div>
+                    <div className="flex-1 overflow-hidden">
                       {codeLines.map((segs, i) => (
-                        <CodeLine key={i} segs={segs} size={{ xs: "0.6rem", md: "0.7rem" }} />
+                        <CodeLine key={i} segs={segs} size="clamp(0.6rem, 1.4vw, 0.7rem)" />
                       ))}
                       {/* Blinking caret */}
-                      <Box
-                        sx={{
-                          display: "inline-block",
-                          width: 7,
-                          height: { xs: 11, md: 13 },
-                          bgcolor: LIME,
-                          animation: "blink 1.2s infinite",
-                          mt: 0.2,
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
+                      <span className="mt-0.5 inline-block h-3 w-[7px] animate-blink bg-primary md:h-[13px]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {/* Monitor stand */}
-              <Box
-                sx={{
-                  width: { xs: 80, md: 110 },
-                  height: 8,
-                  background: colors.card,
-                  borderBottom: `1px solid ${colors.border}`,
-                  mx: "auto",
-                  borderRadius: "0 0 6px 6px",
-                }}
-              />
-            </Box>
+              <div className="mx-auto h-2 w-24 rounded-b-md border-b border-border bg-card md:w-[110px]" />
+            </div>
           </motion.div>
         </motion.div>
 
@@ -312,52 +248,29 @@ export default function DevWorkspace() {
         <motion.div
           style={{
             position: "absolute",
-            bottom: -22,
-            right: -8,
+            bottom: -16,
+            right: 0,
             zIndex: 2,
             x: prefersReducedMotion ? 0 : terminalShiftX,
             y: prefersReducedMotion ? 0 : terminalShiftY,
           }}
+          className="sm:-right-3 md:-right-6"
         >
           <motion.div animate={termFloat} transition={termFloatTransition}>
-            <Box
-              sx={{
-                width: { xs: 210, sm: 250, md: 280 },
-                background: "oklch(8% 0.012 260)",
-                border: `1px solid ${colors.borderHover}`,
-                borderRadius: radii.md,
-                boxShadow: "0 20px 45px rgba(0,0,0,0.5)",
-                overflow: "hidden",
-              }}
+            <div
+              className="w-[190px] overflow-hidden rounded-md border border-primary/45 shadow-[0_20px_45px_rgba(0,0,0,0.5)] min-[380px]:w-[220px] sm:w-[250px] md:w-[280px]"
+              style={{ background: "oklch(8% 0.012 260)" }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderBottom: `1px solid ${colors.border}`,
-                  background: colors.backgroundSecondary,
-                }}
-              >
-                <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "oklch(65% 0.15 25)" }} />
-                <Typography
-                  sx={{
-                    fontFamily: "'SF Mono', Consolas, monospace",
-                    fontSize: "0.6rem",
-                    color: colors.textMuted,
-                  }}
-                >
-                  bash
-                </Typography>
-              </Box>
-              <Box sx={{ px: 2, py: 1.25 }}>
+              <div className="flex items-center gap-2 border-b border-border bg-background-secondary px-3 py-2">
+                <span className="h-2 w-2 rounded-full bg-[oklch(65%_0.15_25)]" />
+                <span className="font-mono text-[10px] text-muted-foreground">bash</span>
+              </div>
+              <div className="px-3 py-2">
                 {terminalLines.map((segs, i) => (
-                  <CodeLine key={i} segs={segs} size={{ xs: "0.55rem", md: "0.62rem" }} />
+                  <CodeLine key={i} segs={segs} size="clamp(0.55rem, 1.2vw, 0.62rem)" />
                 ))}
-              </Box>
-            </Box>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -388,55 +301,35 @@ export default function DevWorkspace() {
                   repeat: Infinity,
                   delay: chip.delay,
                 }}
-                style={{ position: "absolute", left: chip.x, top: `${chip.y + 18}%`, pointerEvents: "auto" }}
+                style={{ position: "absolute", left: `${Math.max(-8, Math.min(85, 20 + chip.x * 1.5))}%`, top: `${chip.y + 18}%`, pointerEvents: "auto" }}
                 onHoverStart={() => setHoveredChip(chip.label)}
                 onHoverEnd={() => setHoveredChip(null)}
                 whileHover={{ scale: 1.08, y: -4 }}
               >
-                <Box
-                  sx={{
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
-                    gap: 0.75,
-                    px: 1.4,
-                    py: 0.6,
-                    borderRadius: 999,
-                    background: hovered ? colors.cardHover : colors.card,
-                    border: `1px solid ${hovered ? colors.borderHover : colors.border}`,
-                    boxShadow: hovered
-                      ? `0 10px 25px ${colors.primaryGlow}`
-                      : "0 10px 25px rgba(0,0,0,0.35)",
-                    fontFamily: "'SF Mono', Consolas, monospace",
-                    fontSize: "0.68rem",
-                    color: hovered ? colors.primary : colors.textSecondary,
-                    transition: "all 0.25s ease",
-                  }}
+                <div
+                  className={`hidden items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-[11px] transition-all duration-300 sm:flex ${
+                    hovered
+                      ? "border-primary/45 text-primary shadow-[0_10px_25px_var(--primary-glow)]"
+                      : "border-border text-muted-foreground shadow-[0_10px_25px_rgba(0,0,0,0.35)]"
+                  }`}
+                  style={{ background: hovered ? "var(--card-hover)" : "var(--card)" }}
                 >
-                  <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: LIME }} />
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                   {chip.label}
-                </Box>
+                </div>
               </motion.div>
             );
           })}
         </motion.div>
 
         {/* Decorative bracket */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: "6%",
-            right: -6,
-            color: LIME,
-            opacity: 0.35,
-            fontFamily: "'SF Mono', Consolas, monospace",
-            fontSize: "1.4rem",
-            fontWeight: 700,
-            zIndex: 1,
-          }}
+        <span
+          aria-hidden
+          className="absolute right-0 top-[6%] z-[1] font-mono text-2xl font-bold text-primary opacity-35"
         >
           {"{ }"}
-        </Box>
-      </Box>
+        </span>
+      </div>
     </motion.div>
   );
 }

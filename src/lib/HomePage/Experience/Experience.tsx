@@ -1,10 +1,8 @@
 "use client";
-import { Box, Container, Typography } from "@mui/material";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
 import Section from "@/components/Shared/Section/Section";
 import SectionHeader from "@/components/Shared/SectionHeader/SectionHeader";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import { Briefcase } from "lucide-react";
 
 const experiences = [
   {
@@ -21,193 +19,92 @@ const experiences = [
 
 const Experience = () => {
   return (
-    <Section id="experience" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
-      <Container maxWidth="lg">
+    <Section id="experience" className="py-16 sm:py-20 md:py-28">
+      <div className="container">
         <SectionHeader
           eyebrow="Experience"
           title={
             <>
-              Work <Box component="span" sx={{ color: colors.primary }}>Experience</Box>
+              Work <span className="text-primary">Experience</span>
             </>
           }
           subtitle="Where I've applied my skills to build real-world products and grow as an engineer."
         />
 
-        <Box sx={{ position: "relative", pl: { xs: 0, md: 0 }, maxWidth: 760, mx: "auto" }}>
-          <Box
-            sx={{
-              position: "absolute",
-              left: { xs: 18, md: 20 },
-              top: 8,
-              bottom: 8,
-              width: 2,
-              background: `linear-gradient(180deg, ${colors.primary}, ${colors.border})`,
-              opacity: 0.7,
+        <div className="relative mx-auto max-w-3xl">
+          <span
+            aria-hidden
+            className="absolute left-[19px] sm:left-[21px] top-3 bottom-3 w-[2px] opacity-70"
+            style={{
+              background: "linear-gradient(180deg, var(--primary), var(--border))",
             }}
           />
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <div className="flex flex-col gap-6 sm:gap-8">
             {experiences.map((exp, index) => (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
+                transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
               >
-                <Box sx={{ display: "flex", gap: { xs: 3, md: 4 } }}>
+                <div className="flex gap-3 sm:gap-4 md:gap-5">
                   {/* Node */}
-                  <Box
-                    sx={{
-                      position: "relative",
-                      flexShrink: 0,
-                      width: 38,
-                      height: 38,
-                      mt: 1,
-                      borderRadius: "50%",
-                      border: `2px solid ${colors.primary}`,
-                      background: colors.background,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 1,
-                      boxShadow: `0 0 0 5px ${colors.primarySofter}`,
-                    }}
+                  <div
+                    className="relative z-[1] mt-1 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-background shadow-[0_0_0_4px_var(--primary-soft)]"
                   >
                     {exp.current ? (
-                      <Box
-                        sx={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: "50%",
-                          bgcolor: colors.primary,
-                          animation: "blink 2s infinite",
-                        }}
+                      <span
+                        className="h-2.5 w-2.5 rounded-full bg-primary"
+                        style={{ animation: "blink 2s infinite" }}
                       />
                     ) : (
-                      <BusinessCenterIcon sx={{ color: colors.primary, fontSize: "1rem" }} />
+                      <Briefcase className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
                     )}
-                  </Box>
+                  </div>
 
                   {/* Card */}
-                  <Box
-                    sx={{
-                      flex: 1,
-                      background: colors.card,
-                      border: `1px solid ${colors.border}`,
-                      borderRadius: radii.lg,
-                      p: { xs: 3, md: 4 },
-                      transition: "all 0.25s ease",
-                      "&:hover": {
-                        borderColor: colors.borderHover,
-                        transform: "translateY(-4px)",
-                        boxShadow: `0 20px 45px ${colors.primaryGlow}`,
-                      },
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        flexWrap: "wrap",
-                        gap: 1,
-                        mb: 1.5,
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          color: colors.textPrimary,
-                          fontWeight: 700,
-                          fontSize: { xs: "1.15rem", md: "1.35rem" },
-                          letterSpacing: "-0.01em",
-                        }}
-                      >
+                  <div className="flex-1 rounded-2xl border border-border bg-card p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-[0_20px_45px_var(--primary-glow)] sm:p-5 md:p-6">
+                    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-base font-bold tracking-tight text-foreground sm:text-lg md:text-xl">
                         {exp.position}
-                      </Typography>
+                      </h3>
                       {exp.current && (
-                        <Box
-                          sx={{
-                            px: 1.5,
-                            py: 0.4,
-                            borderRadius: 999,
-                            background: colors.primarySoft,
-                            border: `1px solid ${colors.borderHover}`,
-                            color: colors.primary,
-                            fontSize: "0.68rem",
-                            fontWeight: 700,
-                            letterSpacing: "0.08em",
-                            textTransform: "uppercase",
-                          }}
-                        >
+                        <span className="rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-[0.06em] text-primary">
                           Current
-                        </Box>
+                        </span>
                       )}
-                    </Box>
+                    </div>
 
-                    <Typography
-                      sx={{
-                        color: colors.primary,
-                        fontWeight: 600,
-                        fontSize: { xs: "0.95rem", md: "1.05rem" },
-                        mb: 0.75,
-                      }}
-                    >
+                    <p className="mb-1 text-sm font-semibold text-primary sm:text-base">
                       {exp.company}
-                    </Typography>
+                    </p>
 
-                    <Typography
-                      sx={{
-                        color: colors.textMuted,
-                        fontSize: "0.8rem",
-                        fontWeight: 500,
-                        mb: 2.5,
-                      }}
-                    >
+                    <p className="mb-3 text-xs font-medium text-muted-foreground sm:text-sm">
                       {exp.duration}
-                    </Typography>
+                    </p>
 
-                    <Typography
-                      sx={{
-                        color: colors.textSecondary,
-                        fontSize: { xs: "0.92rem", md: "0.98rem" },
-                        lineHeight: 1.75,
-                        mb: 3,
-                      }}
-                    >
+                    <p className="mb-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                       {exp.description}
-                    </Typography>
+                    </p>
 
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                    <div className="flex flex-wrap gap-1.5">
                       {exp.technologies.map((tech, i) => (
-                        <Box
+                        <span
                           key={i}
-                          sx={{
-                            px: 1.5,
-                            py: 0.6,
-                            borderRadius: 999,
-                            background: colors.backgroundSecondary,
-                            border: `1px solid ${colors.border}`,
-                            color: colors.textSecondary,
-                            fontSize: "0.75rem",
-                            fontWeight: 500,
-                            transition: "all 0.2s ease",
-                            "&:hover": {
-                              color: colors.primary,
-                              borderColor: colors.borderHover,
-                            },
-                          }}
+                          className="rounded-full border border-border bg-background-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground transition-all duration-200 hover:border-primary/45 hover:text-primary"
                         >
                           {tech}
-                        </Box>
+                        </span>
                       ))}
-                    </Box>
-                  </Box>
-                </Box>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
-          </Box>
-        </Box>
-      </Container>
+          </div>
+        </div>
+      </div>
     </Section>
   );
 };

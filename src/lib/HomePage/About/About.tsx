@@ -1,10 +1,8 @@
 "use client";
-import { Box, Container, Grid, Typography, Stack } from "@mui/material";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
 import Section from "@/components/Shared/Section/Section";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { CheckCircle2 } from "lucide-react";
 
 const profileImage = "https://i.postimg.cc/V6v625LY/sakib-s-image.png";
 
@@ -17,46 +15,29 @@ const highlights = [
 
 const About = () => {
   return (
-    <Section id="about" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
-      <Container>
-        <Grid container spacing={{ xs: 6, md: 8 }} alignItems="center">
+    <Section id="about" className="py-16 sm:py-20 md:py-28">
+      <div className="container">
+        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-12 lg:gap-16">
           {/* Image */}
-          <Grid item xs={12} md={5} lg={5}>
+          <div className="md:col-span-5 lg:col-span-5">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <Box
-                sx={{
-                  position: "relative",
-                  maxWidth: 420,
-                  mx: "auto",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    inset: -14,
-                    background: `radial-gradient(ellipse at 50% 50%, ${colors.primaryGlow} 0%, transparent 70%)`,
-                    filter: "blur(32px)",
-                    opacity: 0.45,
-                    zIndex: 0,
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    position: "relative",
-                    borderRadius: radii.xl,
-                    overflow: "hidden",
-                    border: `1px solid ${colors.borderHover}`,
-                    boxShadow: "0 30px 60px rgba(0,0,0,0.4)",
-                    background: colors.card,
-                    zIndex: 1,
+              <div className="relative mx-auto max-w-[360px] sm:max-w-[400px] md:max-w-none">
+                <div
+                  aria-hidden
+                  className="absolute -inset-3 z-0 opacity-40 blur-[30px]"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 50% 50%, var(--primary-glow) 0%, transparent 70%)",
                   }}
-                >
+                />
+                <div className="relative z-10 overflow-hidden rounded-2xl border border-primary/40 bg-card shadow-[0_24px_50px_rgba(0,0,0,0.35)]">
                   <motion.div
-                    whileHover={{ scale: 1.03 }}
+                    whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
                     <Image
@@ -64,15 +45,11 @@ const About = () => {
                       alt="Md. Sakib - Full Stack Developer"
                       width={600}
                       height={700}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
+                      priority
+                      className="block h-auto w-full object-cover"
                     />
                   </motion.div>
-                </Box>
+                </div>
 
                 {/* Floating badge */}
                 <motion.div
@@ -80,121 +57,61 @@ const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.4 }}
+                  className="absolute bottom-3 left-2 sm:-left-3 z-20 hidden items-center gap-2.5 rounded-xl border border-primary/40 bg-card/95 px-3.5 py-2.5 shadow-[0_16px_35px_rgba(0,0,0,0.35)] backdrop-blur-md sm:flex"
                 >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      bottom: 18,
-                      left: -8,
-                      zIndex: 2,
-                      background: colors.card,
-                      border: `1px solid ${colors.borderHover}`,
-                      borderRadius: radii.md,
-                      px: 2,
-                      py: 1.2,
-                      boxShadow: "0 16px 35px rgba(0,0,0,0.35)",
-                      display: { xs: "none", sm: "flex" },
-                      alignItems: "center",
-                      gap: 1,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: 10,
-                        height: 10,
-                        borderRadius: "50%",
-                        bgcolor: colors.primary,
-                        boxShadow: `0 0 0 4px ${colors.primarySoft}`,
-                      }}
-                    />
-                    <Box>
-                      <Typography sx={{ color: colors.textPrimary, fontWeight: 700, fontSize: "0.85rem", lineHeight: 1.2 }}>
-                        Full Stack Developer
-                      </Typography>
-                      <Typography sx={{ color: colors.textMuted, fontSize: "0.7rem" }}>
-                        Frontend · Backend · Database
-                      </Typography>
-                    </Box>
-                  </Box>
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" style={{ boxShadow: "0 0 0 4px var(--primary-soft)" }} />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
+                  </span>
+                  <span>
+                    <span className="block text-xs font-bold leading-tight text-foreground sm:text-[13px]">
+                      Full Stack Developer
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground sm:text-[11px]">
+                      Frontend · Backend · Database
+                    </span>
+                  </span>
                 </motion.div>
-              </Box>
+              </div>
             </motion.div>
-          </Grid>
+          </div>
 
           {/* Content */}
-          <Grid item xs={12} md={7} lg={7}>
+          <div className="md:col-span-7 lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             >
-              <Box
-                sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  px: 2,
-                  py: 0.8,
-                  borderRadius: 999,
-                  border: `1px solid ${colors.borderHover}`,
-                  background: colors.primarySofter,
-                  mb: 3,
-                }}
-              >
-                <Box sx={{ width: 26, height: 2, bgcolor: colors.primary, borderRadius: 1 }} />
-                <Typography
-                  sx={{
-                    color: colors.primary,
-                    fontWeight: 600,
-                    letterSpacing: "0.18em",
-                    fontSize: "0.75rem",
-                    textTransform: "uppercase",
-                  }}
-                >
+              <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-primary/40 bg-primary/10 px-3.5 py-1.5 sm:px-4 sm:py-2">
+                <span className="h-0.5 w-6 rounded bg-primary sm:w-7" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary sm:text-xs">
                   About Me
-                </Typography>
-              </Box>
+                </span>
+              </div>
 
-              <Typography
-                component="h2"
-                sx={{
-                  fontSize: { xs: "1.7rem", sm: "2.1rem", md: "2.6rem", lg: "3rem" },
-                  fontWeight: 800,
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.2,
-                  color: colors.textPrimary,
-                  mb: 2,
-                }}
-              >
+              <h2 className="mb-4 text-2xl font-extrabold leading-tight tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
                 I am available for hire as a{" "}
-                <Box component="span" sx={{ color: colors.primary }}>
-                  Full Stack Developer
-                </Box>
-              </Typography>
+                <span className="text-primary">Full Stack Developer</span>
+              </h2>
 
-              <Typography
-                sx={{
-                  color: colors.textMuted,
-                  fontSize: { xs: "0.95rem", md: "1.05rem" },
-                  lineHeight: 1.8,
-                  mb: 5,
-                }}
-              >
-                My name is Md. Sakib, and I am a dedicated Full Stack Web Developer from
-                Bangladesh, currently pursuing a bachelor&apos;s degree in Computer Science.
-                I work across the entire stack — building responsive frontend interfaces with
-                React, Next.js, and TypeScript, and crafting scalable backend services with
-                Node.js, Express, and Prisma backed by MongoDB and PostgreSQL. I enjoy
-                exploring new technologies and believe in working hard, never giving up, and
-                tackling challenges with determination. My focus is on creating complete,
-                robust, and efficient web applications that deliver real impact. Now, I am
-                seeking an opportunity to start my professional development career and apply
-                my full-stack expertise in a real-world environment.
-              </Typography>
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground sm:mb-8 sm:text-base">
+                My name is Md. Sakib, and I am a dedicated Full Stack Web Developer
+                from Bangladesh, currently pursuing a bachelor&apos;s degree in Computer
+                Science. I work across the entire stack — building responsive
+                frontend interfaces with React, Next.js, and TypeScript, and crafting
+                scalable backend services with Node.js, Express, and Prisma backed by
+                MongoDB and PostgreSQL. I enjoy exploring new technologies and believe
+                in working hard, never giving up, and tackling challenges with
+                determination. My focus is on creating complete, robust, and efficient
+                web applications that deliver real impact. Now, I am seeking an
+                opportunity to start my professional development career and apply my
+                full-stack expertise in a real-world environment.
+              </p>
 
               {/* Highlights */}
-              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2 }}>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                 {highlights.map((item, index) => (
                   <motion.div
                     key={item}
@@ -203,34 +120,19 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.15 + index * 0.08 }}
                   >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1.5,
-                        p: 1.6,
-                        borderRadius: radii.md,
-                        background: colors.card,
-                        border: `1px solid ${colors.border}`,
-                        transition: "all 0.25s ease",
-                        "&:hover": {
-                          borderColor: colors.borderHover,
-                          transform: "translateY(-2px)",
-                        },
-                      }}
-                    >
-                      <CheckCircleIcon sx={{ color: colors.primary, fontSize: "1.25rem", flexShrink: 0 }} />
-                      <Typography sx={{ color: colors.textSecondary, fontSize: "0.9rem", fontWeight: 500 }}>
+                    <div className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/45 sm:p-4">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-primary sm:h-5 sm:w-5" />
+                      <span className="text-xs font-medium text-foreground sm:text-sm">
                         {item}
-                      </Typography>
-                    </Box>
+                      </span>
+                    </div>
                   </motion.div>
                 ))}
-              </Box>
+              </div>
             </motion.div>
-          </Grid>
-        </Grid>
-      </Container>
+          </div>
+        </div>
+      </div>
     </Section>
   );
 };

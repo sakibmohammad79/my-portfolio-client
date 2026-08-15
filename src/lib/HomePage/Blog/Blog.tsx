@@ -1,191 +1,114 @@
 "use client";
 import { useGetAllBlogQuery } from "@/redux/api/blogApi";
-import { Box, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { colors, radii } from "@/constant/design";
 import Section from "@/components/Shared/Section/Section";
 import SectionHeader from "@/components/Shared/SectionHeader/SectionHeader";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArticleIcon from "@mui/icons-material/Article";
+import { ArrowRight, FileText } from "lucide-react";
+
+const defaultBlogs = [
+  {
+    id: "1",
+    title: "Mastering Full-Stack TypeScript with Next.js 14 & Prisma",
+    name: "Full Stack",
+    publishedAt: "2025-01-15T00:00:00.000Z",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "2",
+    title: "Designing Scalable REST APIs: Architecture & Security Patterns",
+    name: "Backend",
+    publishedAt: "2025-01-28T00:00:00.000Z",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: "3",
+    title: "Optimizing PostgreSQL Database Queries in Production Node.js",
+    name: "Database",
+    publishedAt: "2025-02-10T00:00:00.000Z",
+    image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1000&auto=format&fit=crop",
+  },
+];
 
 const Blog = () => {
   const { data } = useGetAllBlogQuery({});
+  const blogList = data && data.length > 0 ? data : defaultBlogs;
 
   return (
-    <Section id="blog" sx={{ py: { xs: 7, sm: 9, md: 12 } }}>
-      <Container>
+    <Section id="blog" className="py-16 sm:py-20 md:py-28">
+      <div className="container">
         <SectionHeader
           eyebrow="Blog"
           title={
             <>
-              My <Box component="span" sx={{ color: colors.primary }}>Writings</Box>
+              My <span className="text-primary">Writings</span>
             </>
           }
           subtitle="Insights, tutorials, and thoughts on modern web development."
         />
 
-        {!data || data.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <Box
-              sx={{
-                textAlign: "center",
-                py: 10,
-                background: colors.card,
-                border: `1px solid ${colors.border}`,
-                borderRadius: radii.xl,
-              }}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {blogList.map((blog: any, index: number) => (
+            <motion.div
+              key={blog.id}
+              className="h-full"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.4) }}
+              whileHover={{ y: -4 }}
             >
-              <ArticleIcon sx={{ fontSize: "3rem", color: colors.primary, mb: 2 }} />
-              <Typography sx={{ color: colors.textPrimary, fontWeight: 700, fontSize: "1.4rem", mb: 1 }}>
-                Coming Soon
-              </Typography>
-              <Typography sx={{ color: colors.textMuted, fontSize: "0.95rem" }}>
-                I&apos;m working on some amazing blog posts. Stay tuned!
-              </Typography>
-            </Box>
-          </motion.div>
-        ) : (
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" },
-              gap: 3,
-            }}
-          >
-            {data?.map((blog: any, index: number) => (
-              <motion.div
-                key={blog.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: Math.min(index * 0.08, 0.4) }}
-                whileHover={{ y: -4 }}
+              <Link
+                href={`/blog/${blog.id}`}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-primary/45 hover:shadow-[0_20px_45px_var(--primary-glow)]"
               >
-                <Link href={`/blog/${blog.id}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
-                  <Box
-                    sx={{
-                      height: "100%",
-                      background: colors.card,
-                      border: `1px solid ${colors.border}`,
-                      borderRadius: radii.lg,
-                      overflow: "hidden",
-                      display: "flex",
-                      flexDirection: "column",
-                      transition: "all 0.25s ease",
-                      "&:hover": {
-                        borderColor: colors.borderHover,
-                        boxShadow: `0 20px 45px ${colors.primaryGlow}`,
-                      },
-                    }}
+                {/* Image */}
+                <div className="relative h-[210px] w-full overflow-hidden">
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 250, damping: 26 }}
+                    className="relative h-full w-full"
                   >
-                    {/* Image */}
-                    <Box sx={{ position: "relative", height: 200, overflow: "hidden" }}>
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 250, damping: 26 }}
-                        style={{ width: "100%", height: "100%" }}
-                      >
-                        <Image
-                          src={blog?.image}
-                          alt={blog?.title || "Blog post"}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          style={{ objectFit: "cover", display: "block" }}
-                        />
-                      </motion.div>
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: 12,
-                          left: 12,
-                          zIndex: 2,
-                          px: 1.4,
-                          py: 0.5,
-                          borderRadius: 999,
-                          background: "oklch(10% 0.015 260 / 0.85)",
-                          border: `1px solid ${colors.borderHover}`,
-                          color: colors.primary,
-                          fontSize: "0.7rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          backdropFilter: "blur(8px)",
-                        }}
-                      >
-                        {blog?.name || "Technology"}
-                      </Box>
-                    </Box>
+                    <Image
+                      src={blog?.image}
+                      alt={blog?.title || "Blog post"}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="block object-cover"
+                    />
+                  </motion.div>
+                  <span className="absolute left-3 top-3 z-[2] rounded-full border border-primary/40 bg-background/85 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-[0.06em] text-primary backdrop-blur-md">
+                    {blog?.name || "Technology"}
+                  </span>
+                </div>
 
-                    {/* Content */}
-                    <Box sx={{ p: 3, flex: 1, display: "flex", flexDirection: "column" }}>
-                      <Typography
-                        component="h3"
-                        sx={{
-                          color: colors.textPrimary,
-                          fontWeight: 700,
-                          fontSize: { xs: "1.05rem", md: "1.15rem" },
-                          lineHeight: 1.4,
-                          mb: 2,
-                          flexGrow: 1,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          transition: "color 0.25s ease",
-                          ".MuiBox-root:hover &": { color: colors.primary },
-                        }}
-                      >
-                        {blog?.title}
-                      </Typography>
+                {/* Content */}
+                <div className="flex flex-1 flex-col p-4 sm:p-5">
+                  <h3 className="mb-3 flex-1 text-base font-bold leading-snug text-foreground transition-colors duration-300 group-hover:text-primary sm:text-[17px] md:text-lg">
+                    {blog?.title}
+                  </h3>
 
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          mt: "auto",
-                          pt: 1.5,
-                        }}
-                      >
-                        <Typography sx={{ color: colors.textMuted, fontSize: "0.78rem" }}>
-                          {blog?.publishedAt
-                            ? new Date(blog.publishedAt).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
-                            : "Recent"}
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 0.5,
-                            color: colors.primary,
-                            fontWeight: 600,
-                            fontSize: "0.82rem",
-                            transition: "all 0.25s ease",
-                            "&:hover": { gap: 1 },
-                          }}
-                        >
-                          Read More <ArrowForwardIcon sx={{ fontSize: "0.95rem" }} />
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Link>
-              </motion.div>
-            ))}
-          </Box>
-        )}
-      </Container>
+                  <div className="mt-auto flex items-center justify-between border-t border-border/60 pt-3">
+                    <span className="text-xs text-muted-foreground sm:text-[13px]">
+                      {blog?.publishedAt
+                        ? new Date(blog.publishedAt).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : "Recent"}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-primary transition-all duration-300 group-hover:gap-1.5 sm:text-sm">
+                      Read More <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </Section>
   );
 };

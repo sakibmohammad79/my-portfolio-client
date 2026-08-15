@@ -1,11 +1,9 @@
 "use client";
 import { getUserInfo, removeUser } from "@/services/auth.services";
-import { Box, Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
-import { colors, radii } from "@/constant/design";
+import { cn } from "@/lib/utils";
 
 const AuthButton = () => {
   const router = useRouter();
@@ -25,51 +23,31 @@ const AuthButton = () => {
     router.refresh();
   };
 
-  const btnSx = {
-    background: colors.primary,
-    color: colors.background,
-    fontWeight: 700,
-    fontSize: "0.8rem",
-    textTransform: "none",
-    px: 2,
-    py: 1,
-    borderRadius: radii.md,
-    transition: "all 0.25s ease",
-    "&:hover": {
-      background: colors.primaryLight,
-      boxShadow: `0 8px 22px ${colors.primaryGlow}`,
-      transform: "translateY(-1px)",
-    },
-  } as const;
+  const base =
+    "inline-flex items-center justify-center rounded-lg px-3.5 py-2 text-xs sm:text-[13px] font-bold transition-all duration-300";
 
   return (
     <div>
       {adminId ? (
-        <Box>
-          <Button sx={{ ...btnSx }} onClick={handleRemoveUser}>
-            Logout
-          </Button>
-        </Box>
+        <button
+          onClick={handleRemoveUser}
+          className={cn(
+            base,
+            "bg-primary text-primary-foreground shadow-[0_8px_22px_var(--primary-glow)] hover:-translate-y-0.5 hover:bg-primary-light"
+          )}
+        >
+          Logout
+        </button>
       ) : (
-        <Box>
-          <Button
-            sx={{
-              ...btnSx,
-              background: "transparent",
-              color: colors.textPrimary,
-              border: `1px solid ${colors.border}`,
-              "&:hover": {
-                background: colors.primarySoft,
-                borderColor: colors.borderHover,
-                color: colors.primary,
-              },
-            }}
-            LinkComponent={Link}
-            href="/login"
-          >
-            ADMIN LOGIN
-          </Button>
-        </Box>
+        <Link
+          href="/login"
+          className={cn(
+            base,
+            "border border-border bg-transparent text-foreground hover:border-primary/45 hover:bg-primary/10 hover:text-primary"
+          )}
+        >
+          Admin Login
+        </Link>
       )}
     </div>
   );

@@ -1,29 +1,18 @@
 "use client";
 import { useGetSingleProjectQuery } from "@/redux/api/projectApi";
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Stack,
-  Typography,
-  Button,
-  Chip,
-  Divider,
-} from "@mui/material";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import LaunchIcon from "@mui/icons-material/Launch";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import CodeIcon from "@mui/icons-material/Code";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import DescriptionIcon from "@mui/icons-material/Description";
-import BuildIcon from "@mui/icons-material/Build";
-import InfoIcon from "@mui/icons-material/Info";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
-import { colors, radii } from "@/constant/design";
+import {
+  ExternalLink,
+  Github,
+  Code,
+  Calendar,
+  FileText,
+  Wrench,
+  Info,
+  ArrowLeft,
+} from "lucide-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 50 },
@@ -72,479 +61,203 @@ const Page = ({ params }: any) => {
     {
       label: "Live Demo",
       url: data?.url,
-      icon: LaunchIcon,
-      color: colors.primary,
-      background: colors.primary,
+      icon: ExternalLink,
+      primary: true,
     },
     {
       label: "Client Repo",
       url: data?.repoClientUrl,
-      icon: GitHubIcon,
-      color: colors.primaryDark,
-      background: "transparent",
+      icon: Github,
+      primary: false,
     },
     {
       label: "Server Repo",
       url: data?.repoServerUrl,
-      icon: CodeIcon,
-      color: colors.textSecondary,
-      background: "transparent",
+      icon: Code,
+      primary: false,
     },
   ];
 
   const infoSections = [
     {
-      icon: DescriptionIcon,
+      icon: FileText,
       label: "Description",
       content: data?.description,
-      color: colors.primary,
     },
     {
-      icon: InfoIcon,
+      icon: Info,
       label: "Details",
       content: data?.details,
-      color: colors.primaryDark,
     },
     {
-      icon: BuildIcon,
+      icon: Wrench,
       label: "Technology Stack",
       content: data?.technology,
-      color: colors.textSecondary,
     },
   ];
 
-  const backButtonSx = {
-    background: colors.card,
-    backdropFilter: "blur(20px)",
-    border: `1px solid ${colors.border}`,
-    borderRadius: radii.md,
-    color: colors.textSecondary,
-    px: { xs: 2, sm: 3 },
-    py: { xs: 1, sm: 1.5 },
-    fontWeight: 600,
-    textTransform: "none",
-    fontSize: { xs: "0.85rem", sm: "0.95rem" },
-    transition: "all 0.3s ease",
-    "&:hover": {
-      borderColor: colors.borderHover,
-      color: colors.primary,
-      transform: "translateX(-4px)",
-    },
-  } as const;
+  const backButtonClass =
+    "inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-2 py-1.5 text-sm font-semibold text-muted-foreground backdrop-blur-md transition-all duration-300 hover:-translate-x-1 hover:border-primary/45 hover:text-primary sm:px-3 sm:py-2 sm:text-[15px]";
 
   return (
-    <>
-      <style jsx global>{`
-        body {
-          margin: 0 !important;
-          padding: 0 !important;
-          background: ${colors.background} !important;
-        }
-        #__next {
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-
-      <Box
-        sx={{
-          background: colors.background,
-          minHeight: "100vh",
-          position: "relative",
-          overflow: "hidden",
-          width: "100%",
-          margin: 0,
-          padding: 0,
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            background: `
-              radial-gradient(circle at 25% 25%, ${colors.primarySofter} 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)
-            `,
-            pointerEvents: "none",
-          },
+    <div className="relative min-h-screen w-full overflow-hidden bg-background">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 25% 25%, var(--primary-softer) 0%, transparent 50%), radial-gradient(circle at 75% 75%, oklch(28% 0.05 290 / 0.16) 0%, transparent 50%)",
         }}
-      >
-        <Container
-          sx={{
-            position: "relative",
-            zIndex: 1,
-            py: { xs: 8, sm: 8, md: 12 },
-            px: { xs: 2, sm: 3, md: 4 },
-            margin: 0,
-            maxWidth: "none !important",
-            width: "100%",
-          }}
-        >
-          <Box
-            sx={{
-              maxWidth: { xs: "100%", sm: 800, md: 900 },
-              width: "100%",
-              mx: "auto",
-              px: { xs: 0, sm: 2 },
-            }}
-          >
-            <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
-              <Box mb={{ xs: 3, sm: 4 }}>
-                <Button onClick={() => router.back()} startIcon={<ArrowBackIcon />} sx={backButtonSx}>
-                  Back to Projects
-                </Button>
-              </Box>
-            </motion.div>
+      />
 
-            <motion.div variants={staggerContainer} initial="hidden" animate="visible">
-              <motion.div variants={slideInLeft}>
-                <Card
-                  sx={{
-                    background: colors.card,
-                    backdropFilter: "blur(20px)",
-                    border: `1px solid ${colors.border}`,
-                    borderRadius: { xs: radii.lg, md: radii.xl },
-                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)",
-                    overflow: "hidden",
-                    position: "relative",
-                    margin: 0,
-                  }}
-                >
-                  <motion.div variants={slideInLeft}>
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: { xs: 200, sm: 300, md: 400, lg: 500 },
-                        position: "relative",
-                        overflow: "hidden",
-                        "&::after": {
-                          content: '""',
-                          position: "absolute",
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: { xs: "60px", sm: "80px", md: "100px" },
-                          background: `linear-gradient(180deg, transparent 0%, ${colors.card} 100%)`,
-                          pointerEvents: "none",
-                        },
+      <div className="relative z-[1] mx-auto w-full max-w-none px-2 py-8 sm:px-3 sm:py-8 md:px-4 md:py-12">
+        <div className="mx-auto w-full max-w-[800px] px-0 md:max-w-[900px] sm:px-2">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+            <div className="mb-3 sm:mb-4">
+              <button onClick={() => router.back()} className={backButtonClass}>
+                <ArrowLeft className="h-4 w-4" />
+                Back to Projects
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible">
+            <motion.div variants={slideInLeft}>
+              <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[0_20px_40px_rgba(0,0,0,0.3)] backdrop-blur-xl md:rounded-[24px]">
+                <motion.div variants={slideInLeft}>
+                  <div className="relative h-[200px] w-full overflow-hidden sm:h-[300px] md:h-[400px] lg:h-[500px]">
+                    <Image
+                      src={data?.image || "/placeholder-project.jpg"}
+                      alt={data?.title || "Project Image"}
+                      fill
+                      className="object-cover"
+                    />
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-[60px] sm:h-[80px] md:h-[100px]"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent 0%, var(--card) 100%)",
                       }}
-                    >
-                      <Image
-                        src={data?.image || "/placeholder-project.jpg"}
-                        alt={data?.title || "Project Image"}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
-                    </Box>
+                    />
+                  </div>
+                </motion.div>
+
+                <div className="relative z-[2] p-3 sm:p-4 md:p-5 lg:p-6">
+                  <motion.div variants={slideInRight}>
+                    <h1 className="mb-6 text-[1.75rem] font-extrabold leading-tight tracking-tight text-foreground sm:text-[2.2rem] md:text-[2.5rem] lg:text-[2.8rem]">
+                      {data?.title}
+                    </h1>
                   </motion.div>
 
-                  <CardContent
-                    sx={{
-                      p: { xs: 3, sm: 4, md: 5, lg: 6 },
-                      position: "relative",
-                      zIndex: 2,
-                      margin: 0,
-                    }}
-                  >
-                    <motion.div variants={slideInRight}>
-                      <Typography
-                        component="h1"
-                        sx={{
-                          fontSize: { xs: "1.75rem", sm: "2.2rem", md: "2.5rem", lg: "2.8rem" },
-                          fontWeight: 800,
-                          color: colors.textPrimary,
-                          mb: { xs: 3, sm: 4 },
-                          letterSpacing: "-0.02em",
-                          lineHeight: 1.2,
-                          margin: "0 0 24px 0",
-                          "& span": { color: colors.primary },
-                        }}
-                      >
-                        {data?.title}
-                      </Typography>
-                    </motion.div>
+                  {infoSections.map(
+                    (section, index) =>
+                      section.content && (
+                        <motion.div key={index} variants={fadeInUp}>
+                          <div className="relative mb-2.5 overflow-hidden rounded-xl border border-border bg-background-secondary p-3 sm:mb-3 sm:p-3.5 md:p-4">
+                            <span
+                              aria-hidden
+                              className="absolute inset-y-0 left-0 w-1 bg-primary"
+                            />
+                            <div className="mb-1.5 flex flex-wrap items-center gap-1 sm:mb-2">
+                              <div className="mr-1 flex shrink-0 items-center justify-center rounded-lg bg-primary/10 p-0.5 sm:mr-2 sm:p-1">
+                                <section.icon className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
+                              </div>
+                              <p className="flex-1 text-base font-bold tracking-wide text-primary sm:text-lg md:text-xl">
+                                {section.label}
+                              </p>
+                            </div>
+                            <p className="whitespace-pre-wrap pl-4 text-sm leading-[1.7] text-muted-foreground sm:pl-5 sm:text-[15px] md:pl-6 md:text-base">
+                              {section.content}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )
+                  )}
 
-                    {infoSections.map(
-                      (section, index) =>
-                        section.content && (
-                          <motion.div key={index} variants={fadeInUp}>
-                            <Box
-                              sx={{
-                                background: colors.backgroundSecondary,
-                                border: `1px solid ${colors.border}`,
-                                borderRadius: radii.lg,
-                                p: { xs: 3, sm: 3.5, md: 4 },
-                                mb: { xs: 2.5, sm: 3 },
-                                position: "relative",
-                                overflow: "hidden",
-                                "&::before": {
-                                  content: '""',
-                                  position: "absolute",
-                                  top: 0,
-                                  left: 0,
-                                  width: "4px",
-                                  height: "100%",
-                                  background: section.color,
-                                },
-                              }}
-                            >
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  mb: { xs: 1.5, sm: 2 },
-                                  flexWrap: "wrap",
-                                  gap: 1,
-                                }}
-                              >
-                                <Box
-                                  sx={{
-                                    background: colors.primarySofter,
-                                    borderRadius: radii.sm,
-                                    p: { xs: 0.75, sm: 1 },
-                                    mr: { xs: 1, sm: 2 },
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flexShrink: 0,
-                                  }}
-                                >
-                                  <section.icon
-                                    sx={{ color: section.color, fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
-                                  />
-                                </Box>
-                                <Typography
-                                  sx={{
-                                    color: section.color,
-                                    fontWeight: 700,
-                                    fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
-                                    letterSpacing: "0.02em",
-                                    flex: 1,
-                                  }}
-                                >
-                                  {section.label}
-                                </Typography>
-                              </Box>
-                              <Typography
-                                sx={{
-                                  color: colors.textSecondary,
-                                  fontSize: { xs: "0.9rem", sm: "0.95rem", md: "1rem" },
-                                  lineHeight: 1.7,
-                                  pl: { xs: 4, sm: 5, md: 6 },
-                                  whiteSpace: "pre-wrap",
-                                }}
-                              >
-                                {section.content}
-                              </Typography>
-                            </Box>
-                          </motion.div>
-                        )
-                    )}
-
-                    {(data?.startDate || data?.endDate) && (
-                      <motion.div variants={fadeInUp}>
-                        <Box
-                          sx={{
-                            background: colors.backgroundSecondary,
-                            border: `1px solid ${colors.border}`,
-                            borderRadius: radii.lg,
-                            p: { xs: 3, sm: 3.5, md: 4 },
-                            mb: { xs: 3, sm: 4 },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              mb: { xs: 2, sm: 3 },
-                              flexWrap: "wrap",
-                              gap: 1,
-                            }}
-                          >
-                            <Box
-                              sx={{
-                                background: colors.primarySofter,
-                                borderRadius: radii.sm,
-                                p: { xs: 0.75, sm: 1 },
-                                mr: { xs: 1, sm: 2 },
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexShrink: 0,
-                              }}
-                            >
-                              <CalendarTodayIcon
-                                sx={{ color: colors.primary, fontSize: { xs: "1.25rem", sm: "1.5rem" } }}
-                              />
-                            </Box>
-                            <Typography
-                              sx={{
-                                color: colors.primary,
-                                fontWeight: 700,
-                                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
-                                flex: 1,
-                              }}
-                            >
-                              Project Timeline
-                            </Typography>
-                          </Box>
-
-                          <Stack
-                            direction={{ xs: "column", sm: "row" }}
-                            spacing={{ xs: 2, sm: 3, md: 4 }}
-                            sx={{ pl: { xs: 4, sm: 5, md: 6 } }}
-                          >
-                            {data?.startDate && (
-                              <Box sx={{ flex: 1 }}>
-                                <Typography
-                                  sx={{
-                                    color: colors.textMuted,
-                                    fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
-                                    fontWeight: 600,
-                                    mb: { xs: 0.5, sm: 1 },
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.05em",
-                                  }}
-                                >
-                                  Start Date
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    color: colors.textSecondary,
-                                    fontSize: { xs: "0.95rem", sm: "1rem", md: "1.1rem" },
-                                    fontWeight: 600,
-                                    wordBreak: "break-word",
-                                  }}
-                                >
-                                  {data.startDate}
-                                </Typography>
-                              </Box>
-                            )}
-
-                            {data?.endDate && (
-                              <Box sx={{ flex: 1 }}>
-                                <Typography
-                                  sx={{
-                                    color: colors.textMuted,
-                                    fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
-                                    fontWeight: 600,
-                                    mb: { xs: 0.5, sm: 1 },
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.05em",
-                                  }}
-                                >
-                                  End Date
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    color: colors.textSecondary,
-                                    fontSize: { xs: "0.95rem", sm: "1rem", md: "1.1rem" },
-                                    fontWeight: 600,
-                                    wordBreak: "break-word",
-                                  }}
-                                >
-                                  {data.endDate}
-                                </Typography>
-                              </Box>
-                            )}
-                          </Stack>
-                        </Box>
-                      </motion.div>
-                    )}
-
+                  {(data?.startDate || data?.endDate) && (
                     <motion.div variants={fadeInUp}>
-                      <Divider
-                        sx={{
-                          my: { xs: 3, sm: 4 },
-                          background: `linear-gradient(90deg, transparent, ${colors.border}, transparent)`,
-                        }}
-                      />
+                      <div className="mb-3 rounded-xl border border-border bg-background-secondary p-3 sm:mb-4 sm:p-3.5 md:p-4">
+                        <div className="mb-2 flex flex-wrap items-center gap-1 sm:mb-3">
+                          <div className="mr-1 flex shrink-0 items-center justify-center rounded-lg bg-primary/10 p-0.5 sm:mr-2 sm:p-1">
+                            <Calendar className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
+                          </div>
+                          <p className="flex-1 text-base font-bold text-primary sm:text-lg md:text-xl">
+                            Project Timeline
+                          </p>
+                        </div>
 
-                      <Typography
-                        sx={{
-                          color: colors.textMuted,
-                          fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
-                          fontWeight: 600,
-                          mb: { xs: 2.5, sm: 3 },
-                          textAlign: "center",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.1em",
-                        }}
-                      >
-                        Project Links
-                      </Typography>
+                        <div className="flex flex-col gap-2 pl-4 sm:flex-row sm:gap-3 sm:pl-5 md:gap-4 md:pl-6">
+                          {data?.startDate && (
+                            <div className="flex-1">
+                              <p className="mb-0.5 text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:mb-1 sm:text-sm">
+                                Start Date
+                              </p>
+                              <p className="text-[15px] font-semibold break-words text-muted-foreground sm:text-base md:text-lg">
+                                {data.startDate}
+                              </p>
+                            </div>
+                          )}
 
-                      <Stack
-                        direction={{ xs: "column", sm: "row" }}
-                        spacing={{ xs: 2, sm: 2.5, md: 3 }}
-                        justifyContent="center"
-                        alignItems="center"
-                        sx={{
-                          "& > *": {
-                            width: { xs: "100%", sm: "auto" },
-                            minWidth: { sm: "160px", md: "180px" },
-                          },
-                        }}
-                      >
-                        {projectLinks.map(
-                          (link, index) =>
-                            link.url && (
-                              <motion.div
-                                key={index}
-                                whileHover={{ y: -3 }}
-                                whileTap={{ scale: 0.98 }}
-                                style={{ width: "100%" }}
-                              >
-                                <Button
-                                  component="a"
-                                  href={link.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  startIcon={<link.icon />}
-                                  sx={{
-                                    background: link.background,
-                                    color: link.background === colors.primary ? colors.background : link.color,
-                                    border: link.background === colors.primary ? "none" : `1px solid ${colors.border}`,
-                                    borderRadius: radii.md,
-                                    px: { xs: 3, sm: 3.5, md: 4 },
-                                    py: { xs: 1.5, sm: 1.75, md: 2 },
-                                    fontWeight: 600,
-                                    textTransform: "none",
-                                    fontSize: { xs: "0.9rem", sm: "0.95rem", md: "1rem" },
-                                    width: "100%",
-                                    transition: "all 0.25s ease",
-                                    "&:hover": {
-                                      background:
-                                        link.background === colors.primary
-                                          ? colors.primaryLight
-                                          : colors.primarySoft,
-                                      borderColor: colors.borderHover,
-                                      color:
-                                        link.background === colors.primary
-                                          ? colors.background
-                                          : colors.primary,
-                                    },
-                                    "& .MuiButton-startIcon": {
-                                      marginRight: { xs: 1, sm: 1.5 },
-                                    },
-                                  }}
-                                >
-                                  {link.label}
-                                </Button>
-                              </motion.div>
-                            )
-                        )}
-                      </Stack>
+                          {data?.endDate && (
+                            <div className="flex-1">
+                              <p className="mb-0.5 text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground sm:mb-1 sm:text-sm">
+                                End Date
+                              </p>
+                              <p className="text-[15px] font-semibold break-words text-muted-foreground sm:text-base md:text-lg">
+                                {data.endDate}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </motion.div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                  )}
+
+                  <motion.div variants={fadeInUp}>
+                    <div className="my-3 sm:my-4" style={{ background: "linear-gradient(90deg, transparent, var(--border), transparent)" }}>
+                      <div className="h-px w-full" />
+                    </div>
+
+                    <p className="mb-2.5 text-center text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:mb-3 sm:text-sm">
+                      Project Links
+                    </p>
+
+                    <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-2.5 md:gap-3">
+                      {projectLinks.map(
+                        (link, index) =>
+                          link.url && (
+                            <motion.div
+                              key={index}
+                              whileHover={{ y: -3 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full sm:w-auto"
+                            >
+                              <a
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`inline-flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-300 sm:min-w-[160px] sm:px-3.5 sm:py-2.5 md:min-w-[180px] md:px-4 md:py-3 md:text-base ${
+                                  link.primary
+                                    ? "bg-primary text-primary-foreground shadow-[0_10px_25px_var(--primary-glow)] hover:bg-primary-light"
+                                    : "border border-border text-muted-foreground hover:border-primary/45 hover:bg-primary/10 hover:text-primary"
+                                }`}
+                              >
+                                <link.icon className="h-4 w-4" />
+                                {link.label}
+                              </a>
+                            </motion.div>
+                          )
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
-          </Box>
-        </Container>
-      </Box>
-    </>
+          </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
 "use client";
-import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
-import { colors } from "@/constant/design";
+import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
   eyebrow?: string;
@@ -25,66 +24,35 @@ export default function SectionHeader({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
+      className={cn("mb-12 md:mb-16", isCenter ? "text-center" : "text-left")}
     >
-      <Box textAlign={align} mb={{ xs: 6, md: 9 }}>
-        {eyebrow && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1.5,
-              justifyContent: isCenter ? "center" : "flex-start",
-              mb: 2.5,
-            }}
-          >
-            <Box
-              sx={{ width: 26, height: 2, bgcolor: colors.primary, borderRadius: 1 }}
-            />
-            <Typography
-              sx={{
-                color: colors.primary,
-                fontWeight: 600,
-                letterSpacing: "0.22em",
-                fontSize: { xs: "0.7rem", md: "0.8rem" },
-                textTransform: "uppercase",
-              }}
-            >
-              {eyebrow}
-            </Typography>
-            {isCenter && (
-              <Box
-                sx={{ width: 26, height: 2, bgcolor: colors.primary, borderRadius: 1 }}
-              />
-            )}
-          </Box>
-        )}
-        <Typography
-          component="h2"
-          sx={{
-            fontSize: { xs: "1.9rem", sm: "2.4rem", md: "3rem", lg: "3.25rem" },
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
-            lineHeight: 1.15,
-            color: colors.textPrimary,
-          }}
+      {eyebrow && (
+        <div
+          className={cn(
+            "mb-3 flex items-center gap-2.5",
+            isCenter ? "justify-center" : "justify-start"
+          )}
         >
-          {title}
-        </Typography>
-        {subtitle && (
-          <Typography
-            sx={{
-              color: colors.textMuted,
-              fontSize: { xs: "0.95rem", md: "1.05rem" },
-              mt: 2.5,
-              maxWidth: 640,
-              mx: isCenter ? "auto" : 0,
-              lineHeight: 1.7,
-            }}
-          >
-            {subtitle}
-          </Typography>
-        )}
-      </Box>
+          <span className="h-0.5 w-7 rounded bg-primary" />
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-primary md:text-sm">
+            {eyebrow}
+          </span>
+          {isCenter && <span className="h-0.5 w-7 rounded bg-primary" />}
+        </div>
+      )}
+      <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
+        {title}
+      </h2>
+      {subtitle && (
+        <p
+          className={cn(
+            "mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base",
+            isCenter && "mx-auto"
+          )}
+        >
+          {subtitle}
+        </p>
+      )}
     </motion.div>
   );
 }

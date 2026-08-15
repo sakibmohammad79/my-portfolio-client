@@ -1,8 +1,7 @@
 "use client";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import React from "react";
+import { Download } from "lucide-react";
 import * as FileSaver from "file-saver";
-import { Button } from "@mui/material";
+import { cn } from "@/lib/utils";
 
 const DownloadResume = () => {
   const handleDownload = () => {
@@ -12,9 +11,16 @@ const DownloadResume = () => {
   };
 
   return (
-    <Button onClick={handleDownload}>
-      Resume <FileDownloadOutlinedIcon></FileDownloadOutlinedIcon>
-    </Button>
+    <button
+      onClick={handleDownload}
+      className={cn(
+        "inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-all duration-300 sm:px-7 sm:py-3.5 sm:text-base",
+        "hover:-translate-y-0.5 hover:border-primary/45 hover:bg-primary/10"
+      )}
+    >
+      Resume
+      <Download className="h-4 w-4 text-primary" />
+    </button>
   );
 };
 
